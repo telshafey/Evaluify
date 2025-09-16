@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { generateQuestionsWithAI } from '../services/mockApi';
 import { Question, QuestionType } from '../types';
-import { SparklesIcon, SpinnerIcon } from './icons';
+import { SparklesIcon } from './icons';
 import { useLanguage } from '../App';
 
 interface AIQuestionGeneratorModalProps {
@@ -174,5 +174,3 @@ export const AIQuestionGeneratorModal: React.FC<AIQuestionGeneratorModalProps> =
     </div>
   );
 };
-
-export default AIQuestionGeneratorModal;

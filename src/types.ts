@@ -1,4 +1,3 @@
-
 export enum UserRole {
   Teacher = 'teacher',
   Corporate = 'corporate',
