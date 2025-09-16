@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
 import { useLanguage, useTheme } from '../App';

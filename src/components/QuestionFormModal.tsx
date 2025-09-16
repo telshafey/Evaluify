@@ -1,7 +1,7 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
+// Fix: Added imports for types and mockApi
 import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types';
-import { XCircleIcon, Wand2Icon } from './icons';
+import { XCircleIcon, Wand2Icon, SpinnerIcon } from './icons';
 import { getAIQuestionSuggestions, getCategories } from '../services/mockApi';
 import { useLanguage } from '../App';
 
@@ -38,6 +38,7 @@ const translations = {
         modelAnswerHelp: "Provide the model answer or grading criteria here...",
         cancel: "Cancel",
         save: "Save Question",
+        // FIX: Added missing questionTypes translations.
         questionTypes: {
             [QuestionType.MultipleChoice]: 'Multiple Choice',
             [QuestionType.MultipleSelect]: 'Multiple Select',
@@ -47,7 +48,7 @@ const translations = {
             [QuestionType.Essay]: 'Essay',
             [QuestionType.Ordering]: 'Ordering',
             [QuestionType.Matching]: 'Matching',
-        },
+        }
     },
     ar: {
         editTitle: "تعديل السؤال",
@@ -69,21 +70,22 @@ const translations = {
         prompts: "البنود",
         options: "الخيارات",
         correctMatches: "المطابقات الصحيحة",
-        selectMatch: "اختر المطابق",
+        selectMatch: "اختر مطابقة",
         modelJustification: "التعليل النموذجي",
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
         cancel: "إلغاء",
         save: "حفظ السؤال",
+        // FIX: Added missing questionTypes translations.
         questionTypes: {
             [QuestionType.MultipleChoice]: 'اختيار من متعدد',
             [QuestionType.MultipleSelect]: 'تحديد متعدد',
             [QuestionType.TrueFalse]: 'صح / خطأ',
             [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تعليل',
             [QuestionType.ShortAnswer]: 'إجابة قصيرة',
-            [QuestionType.Essay]: 'سؤال مقالي',
-            [QuestionType.Ordering]: 'سؤال ترتيب',
-            [QuestionType.Matching]: 'سؤال مطابقة',
-        },
+            [QuestionType.Essay]: 'مقالي',
+            [QuestionType.Ordering]: 'ترتيب',
+            [QuestionType.Matching]: 'مطابقة',
+        }
     }
 }
 
@@ -257,8 +259,9 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                 <div>
                     <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">{t.questionType}</label>
                     <select value={q.type} onChange={e => handleTypeChange(e.target.value as QuestionType)} className="p-2 bg-slate-100 dark:bg-slate-700 rounded-md w-full">
-                        {Object.entries(t.questionTypes).map(([key, value]) => (
-                          <option key={key} value={key}>{value}</option>
+                        {/* FIX: Use translations for question types. */}
+                        {Object.values(QuestionType).map(type => (
+                          <option key={type} value={type}>{t.questionTypes[type]}</option>
                         ))}
                     </select>
                 </div>
@@ -275,7 +278,7 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                         {q.options?.map((opt, oIndex) => (
                             <div key={oIndex} className="flex items-center gap-2">
                                 <input type="radio" name={`correct-answer`} value={opt} checked={q.correctAnswer === opt} onChange={e => handleChange('correctAnswer', e.target.value)} />
-                                <input type="text" placeholder={`${t.options} ${oIndex + 1}`} value={opt} onChange={e => handleOptionChange(oIndex, e.target.value)} className="p-2 bg-white dark:bg-slate-600 rounded-md w-full" required/>
+                                <input type="text" placeholder={`Option ${oIndex + 1}`} value={opt} onChange={e => handleOptionChange(oIndex, e.target.value)} className="p-2 bg-white dark:bg-slate-600 rounded-md w-full" required/>
                                 <button type="button" onClick={() => removeListItem(oIndex)} className="text-red-500 hover:text-red-600 disabled:opacity-50" disabled={q.options && q.options.length <= 2}><XCircleIcon className="w-5 h-5" /></button>
                             </div>
                         ))}
@@ -293,7 +296,7 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                                         const newAnswers = e.target.checked ? [...currentAnswers, opt] : currentAnswers.filter(a => a !== opt);
                                         handleChange('correctAnswer', newAnswers);
                                     }} />
-                                <input type="text" placeholder={`${t.options} ${oIndex + 1}`} value={opt} onChange={e => handleOptionChange(oIndex, e.target.value)} className="p-2 bg-white dark:bg-slate-600 rounded-md w-full" required/>
+                                <input type="text" placeholder={`Option ${oIndex + 1}`} value={opt} onChange={e => handleOptionChange(oIndex, e.target.value)} className="p-2 bg-white dark:bg-slate-600 rounded-md w-full" required/>
                                 <button type="button" onClick={() => removeListItem(oIndex)} className="text-red-500 hover:text-red-600 disabled:opacity-50" disabled={q.options && q.options.length <= 2}>
                                     <XCircleIcon className="w-5 h-5" />
                                 </button>

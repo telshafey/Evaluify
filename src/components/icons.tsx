@@ -51,5 +51,6 @@ export const WrenchIcon = createIcon('WrenchIcon', "M10.965 6.03a.75.75 0 01.27 
 export const UploadIcon = createIcon('UploadIcon', "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12");
 export const PaperAirplaneIcon = createIcon('PaperAirplaneIcon', 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8');
 export const CalendarIcon = createIcon('CalendarIcon', "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z");
+export const MenuIcon = createIcon('MenuIcon', "M4 6h16M4 12h16M4 18h16");
 
 export default createIcon;

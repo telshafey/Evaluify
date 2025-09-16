@@ -1,6 +1,7 @@
-import React, { ReactNode } from 'react';
+
+import React, { ReactNode, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { SunIcon, MoonIcon } from './icons';
+import { LogOutIcon, SunIcon, MoonIcon, MenuIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage, useTheme } from '../App';
 import { useDarkMode } from '../contexts/DarkModeContext';
@@ -28,6 +29,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ navLinks, pageTitle, 
   const { lang, toggleLang } = useLanguage();
   const { theme } = useTheme();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const langSwitchText = lang === 'en' ? 'العربية' : 'English';
   const langSwitchCode = lang === 'en' ? 'AR' : 'EN';
@@ -35,8 +37,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ navLinks, pageTitle, 
   
   return (
     <div className="flex h-screen bg-slate-100 dark:bg-slate-950">
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+          aria-hidden="true"
+        ></div>
+      )}
       {/* Sidebar */}
-      <aside className="sidebar w-64 text-white p-6 flex flex-col flex-shrink-0" aria-label="Primary Navigation">
+      <aside 
+          className={`sidebar fixed lg:relative inset-y-0 left-0 rtl:left-auto rtl:right-0 z-50 w-64 text-white p-6 flex flex-col flex-shrink-0 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0 rtl:-translate-x-0' : '-translate-x-full rtl:translate-x-full'} lg:translate-x-0 rtl:lg:-translate-x-0`}
+          aria-label="Primary Navigation"
+      >
           <div className="flex items-center space-x-3 rtl:space-x-reverse mb-8">
               <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
                   <span className="text-2xl">🧠</span>
@@ -69,7 +82,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ navLinks, pageTitle, 
                           {linkContent}
                         </button>
                       ) : (
-                        <Link to={link.path} className={linkClasses} {...linkAttributes}>
+                        <Link to={link.path} className={linkClasses} {...linkAttributes} onClick={() => setIsSidebarOpen(false)}>
                           {linkContent}
                         </Link>
                       )}
@@ -94,25 +107,34 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ navLinks, pageTitle, 
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 p-6">
+        <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 p-4 lg:p-6">
             <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100">{pageTitle}</h2>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">Welcome back to your dashboard!</p>
+                <div className="flex items-center">
+                     <button 
+                      className="text-slate-500 dark:text-slate-400 lg:hidden mx-2"
+                      onClick={() => setIsSidebarOpen(true)}
+                      aria-label="Open sidebar"
+                    >
+                      <MenuIcon className="w-6 h-6" />
+                    </button>
+                    <div>
+                        <h2 className="text-xl lg:text-3xl font-bold text-slate-800 dark:text-slate-100">{pageTitle}</h2>
+                        <p className="hidden sm:block text-sm lg:text-base text-slate-600 dark:text-slate-400 mt-1">Welcome back to your dashboard!</p>
+                    </div>
                 </div>
-                <div className="flex items-center space-x-4 rtl:space-x-reverse">
+                <div className="flex items-center space-x-2 lg:space-x-4 rtl:space-x-reverse">
                     {headerActions}
                     <button onClick={toggleDarkMode} title="Toggle Dark Mode" aria-label="Toggle Dark Mode" className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full">
-                        {isDarkMode ? <SunIcon className="w-6 h-6"/> : <MoonIcon className="w-6 h-6"/>}
+                        {isDarkMode ? <SunIcon className="w-5 h-5 lg:w-6 lg:h-6"/> : <MoonIcon className="w-5 h-5 lg:w-6 lg:h-6"/>}
                     </button>
-                     <button onClick={toggleLang} title={langSwitchText} aria-label="Toggle language" className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full font-bold">
+                     <button onClick={toggleLang} title={langSwitchText} aria-label="Toggle language" className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full font-bold text-sm lg:text-base">
                         {langSwitchCode}
                     </button>
                 </div>
             </div>
         </header>
         
-        <main className="flex-1 overflow-y-auto p-8 relative">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative">
             {children}
             <AIAssistant />
         </main>

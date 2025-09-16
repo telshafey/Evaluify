@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getExamDetails, submitExam } from '../services/mockApi';
@@ -239,9 +240,9 @@ const ExamTaker: React.FC = () => {
                 const tfAnswer = (userAnswer as TrueFalseJustificationAnswer) || { selection: '', justification: '' };
                 return (
                      <div>
-                        <div className="flex space-x-4 mb-4">
+                        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mb-4">
                             {['True', 'False'].map(option => (
-                                 <label key={option} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700">
+                                 <label key={option} className="flex-1 flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700">
                                     <input
                                         type="radio" name={`${q.id}-selection`} value={option}
                                         checked={tfAnswer.selection === option}
@@ -274,30 +275,30 @@ const ExamTaker: React.FC = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
-            <header className="bg-white dark:bg-slate-800 shadow-md p-4 flex justify-between items-center">
-                <h1 className="text-xl font-bold">{exam.title}</h1>
+            <header className="bg-white dark:bg-slate-800 shadow-md p-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+                <h1 className="text-lg sm:text-xl font-bold text-center sm:text-left">{exam.title}</h1>
                 <div className="flex items-center bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-bold px-4 py-2 rounded-full">
-                    <ClockIcon className="w-6 h-6 mx-2" />
+                    <ClockIcon className="w-5 h-5 sm:w-6 sm:h-6 mx-2" />
                     <span>{`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</span>
                 </div>
             </header>
 
-            <main className="flex-1 container mx-auto p-4 md:p-8 flex flex-col">
-                 <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg flex-1 flex flex-col">
+            <main className="flex-1 container mx-auto p-4 md:p-6 flex flex-col">
+                 <div className="bg-white dark:bg-slate-800 p-4 sm:p-6 lg:p-8 rounded-2xl shadow-lg flex-1 flex flex-col">
                     <div className="mb-4">
                         <h2 className="text-lg font-semibold text-slate-600 dark:text-slate-400">{t.question} {currentQuestionIndex + 1} {t.of} {exam.questions.length}</h2>
-                        <p className="text-2xl font-bold mt-2">{currentQuestion.text}</p>
+                        <p className="text-xl md:text-2xl font-bold mt-2">{currentQuestion.text}</p>
                     </div>
 
                     <div className="flex-1 mt-6">
                         {renderQuestion(currentQuestion)}
                     </div>
                     
-                    <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                    <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-center gap-4">
                         <button
                             onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
                             disabled={currentQuestionIndex === 0}
-                            className="px-6 py-2 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50"
+                            className="w-full sm:w-auto px-6 py-3 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 disabled:opacity-50"
                         >
                             {t.previous}
                         </button>
@@ -305,7 +306,7 @@ const ExamTaker: React.FC = () => {
                         {currentQuestionIndex === exam.questions.length - 1 ? (
                              <button
                                 onClick={handleSubmitClick}
-                                className="px-8 py-3 rounded-lg bg-green-500 hover:bg-green-600 text-white font-bold"
+                                className="w-full sm:w-auto px-8 py-3 rounded-lg bg-green-500 hover:bg-green-600 text-white font-bold"
                             >
                                 {t.submit}
                             </button>
@@ -313,7 +314,7 @@ const ExamTaker: React.FC = () => {
                              <button
                                 onClick={() => setCurrentQuestionIndex(prev => Math.min(exam.questions.length - 1, prev + 1))}
                                 disabled={currentQuestionIndex === exam.questions.length - 1}
-                                className="px-8 py-3 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-bold disabled:opacity-50"
+                                className="w-full sm:w-auto px-8 py-3 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-bold disabled:opacity-50"
                             >
                                 {t.next}
                             </button>

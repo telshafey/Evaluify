@@ -30,10 +30,14 @@ const translations = {
         descriptionPlaceholder: "Provide a brief description of the test...",
         points: "Points",
         questionTypes: {
-            mcq: "MCQ",
-            short: "Short Answer",
-            essay: "Essay",
-            tf: "T/F"
+            [QuestionType.MultipleChoice]: 'MCQ',
+            [QuestionType.ShortAnswer]: 'Short Answer',
+            [QuestionType.Essay]: 'Essay',
+            [QuestionType.TrueFalse]: 'T/F',
+            [QuestionType.MultipleSelect]: 'Multiple Select',
+            [QuestionType.TrueFalseWithJustification]: 'T/F + Justification',
+            [QuestionType.Ordering]: 'Ordering',
+            [QuestionType.Matching]: 'Matching',
         }
     },
     ar: {
@@ -56,10 +60,14 @@ const translations = {
         descriptionPlaceholder: "أدخل وصفاً موجزاً للاختبار...",
         points: "النقاط",
         questionTypes: {
-            mcq: "اختيار من متعدد",
-            short: "إجابة قصيرة",
-            essay: "مقالي",
-            tf: "صح/خطأ"
+            [QuestionType.MultipleChoice]: 'اختيار من متعدد',
+            [QuestionType.ShortAnswer]: 'إجابة قصيرة',
+            [QuestionType.Essay]: 'مقالي',
+            [QuestionType.TrueFalse]: 'صح/خطأ',
+            [QuestionType.MultipleSelect]: 'تحديد متعدد',
+            [QuestionType.TrueFalseWithJustification]: 'صح/خطأ مع تعليل',
+            [QuestionType.Ordering]: 'ترتيب',
+            [QuestionType.Matching]: 'مطابقة',
         }
     }
 };
@@ -87,7 +95,7 @@ const QuestionEditor: React.FC<{
             </div>
             {/* Minimal controls for demo */}
             <div className="flex items-center justify-between">
-                <span className="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded-full">{question.type}</span>
+                <span className="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded-full">{t.questionTypes[question.type]}</span>
                 <div className="flex items-center">
                     <label className="text-sm mr-2">{t.points}:</label>
                     <input 
@@ -249,10 +257,10 @@ const TestBuilderPage: React.FC = () => {
                      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
                         <h3 className="text-xl font-bold mb-4">{t.addQuestion}</h3>
                         <div className="grid grid-cols-2 gap-2">
-                             <button onClick={() => addQuestion(QuestionType.MultipleChoice)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.mcq}</button>
-                             <button onClick={() => addQuestion(QuestionType.ShortAnswer)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.short}</button>
-                             <button onClick={() => addQuestion(QuestionType.Essay)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.essay}</button>
-                             <button onClick={() => addQuestion(QuestionType.TrueFalse)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.tf}</button>
+                             <button onClick={() => addQuestion(QuestionType.MultipleChoice)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes[QuestionType.MultipleChoice]}</button>
+                             <button onClick={() => addQuestion(QuestionType.ShortAnswer)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes[QuestionType.ShortAnswer]}</button>
+                             <button onClick={() => addQuestion(QuestionType.Essay)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes[QuestionType.Essay]}</button>
+                             <button onClick={() => addQuestion(QuestionType.TrueFalse)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes[QuestionType.TrueFalse]}</button>
                         </div>
                         <button onClick={() => setIsAiModalOpen(true)} className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
                             <SparklesIcon className="w-5 h-5 mr-2" />

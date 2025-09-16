@@ -204,7 +204,7 @@ const AdminUserManagementPage: React.FC = () => {
                                                         </span>
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-4">{new Date(user.registeredAt).toLocaleDateString()}</td>
+                                                <td className="px-6 py-4">{new Date(user.registeredAt).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US')}</td>
                                                 <td className="px-6 py-4 flex items-center gap-2">
                                                     {editingUserId === user.id ? (
                                                         <>
