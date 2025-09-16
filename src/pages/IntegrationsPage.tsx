@@ -1,4 +1,4 @@
-import React from 'react';
+
 import SitePageLayout from '../components/SitePageLayout';
 import { useLanguage } from '../App';
 

@@ -408,7 +408,7 @@ export const generateFullExamWithAI = async (params: { topic: string, difficulty
     };
 };
 
-export const analyzeCvWithAI = async (cvText: string, jobDescription: string): Promise<CvAnalysisResult> => {
+export const analyzeCvWithAI = async (_cvText: string, _jobDescription: string): Promise<CvAnalysisResult> => {
     await delay(2500);
     // Simulate some basic analysis
     const score = Math.floor(60 + Math.random() * 40);
@@ -425,7 +425,7 @@ export const analyzeCvWithAI = async (cvText: string, jobDescription: string): P
     };
 };
 
-export const generateSmartReportWithAI = async (ownerId: string): Promise<SmartReport> => {
+export const generateSmartReportWithAI = async (_ownerId: string): Promise<SmartReport> => {
     await delay(2500);
     // This simulates analyzing all data for a given owner (e.g., teacher-1)
     // In a real app, this would be a complex backend process feeding data to Gemini

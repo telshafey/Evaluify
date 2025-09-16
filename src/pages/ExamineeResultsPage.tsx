@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+
 import { Link } from "react-router-dom";
 import { getExamineeResults } from '../services/mockApi';
 import { ExamResult } from '../types';
@@ -7,6 +7,7 @@ import { useLanguage } from '../App';
 import DashboardLayout from '../components/DashboardLayout';
 import useNavLinks from '../hooks/useNavLinks';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useState, useEffect } from 'react';
 
 const translations = {
     en: {

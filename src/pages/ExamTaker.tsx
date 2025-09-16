@@ -17,17 +17,19 @@ const translations = {
         next: "Next",
         previous: "Previous",
         submit: "Submit Exam",
+        justifyPlaceholder: "Justify your answer...",
     },
     ar: {
         loading: "جاري تحميل الاختبار...",
         notFound: "الاختبار غير موجود.",
-        submitConfirm: "هل أنت متأكد من رغبتك في تسليم الاختبار؟",
-        timeUp: "انتهى الوقت! سيتم تسليم اختبارك تلقائيًا.",
+        submitConfirm: "هل أنت متأكد من رغبتك في إرسال الاختبار؟",
+        timeUp: "انتهى الوقت! سيتم إرسال اختبارك تلقائيًا.",
         question: "سؤال",
         of: "من",
         next: "التالي",
         previous: "السابق",
-        submit: "تسليم الاختبار",
+        submit: "إرسال الاختبار",
+        justifyPlaceholder: "برر إجابتك...",
     }
 };
 
@@ -253,7 +255,7 @@ const ExamTaker: React.FC = () => {
                          <textarea
                             value={tfAnswer.justification}
                             onChange={(e) => handleAnswerChange(q.id, { ...tfAnswer, justification: e.target.value })}
-                            placeholder="برر إجابتك..."
+                            placeholder={t.justifyPlaceholder}
                             rows={4}
                             className="w-full p-3 bg-slate-50 dark:bg-slate-700 border rounded-lg"
                         />
