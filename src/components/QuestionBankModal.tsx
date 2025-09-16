@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-// Fix: Added imports for types and mockApi
 import { getQuestionBank } from '../services/mockApi';
 import { Question, QuestionStatus, QuestionType } from '../types';
 import { useLanguage } from '../App';
@@ -174,7 +173,7 @@ const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, onClose, 
         </div>
 
         <div className="flex justify-end gap-4 mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
-            <button onClick={onClose} className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover-bg-slate-500 text-slate-800 dark:text-slate-200 font-bold py-2 px-6 rounded-lg">{t.cancel}</button>
+            <button onClick={onClose} className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-800 dark:text-slate-200 font-bold py-2 px-6 rounded-lg">{t.cancel}</button>
             <button onClick={handleAddSelected} disabled={selectedQuestionIds.size === 0} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg disabled:opacity-50">
                 {t.add} {selectedQuestionIds.size > 0 ? `(${selectedQuestionIds.size})` : ''} {selectedQuestionIds.size > 0 ? t.questions : ''}
             </button>

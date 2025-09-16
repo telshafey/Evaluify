@@ -1,5 +1,4 @@
 import React from 'react';
-// Fix: Added import for UserRole.
 import { UserRole } from '../types';
 import { BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon } from './icons';
 import { useTheme, useLanguage } from '../App';

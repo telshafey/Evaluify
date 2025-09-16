@@ -1,7 +1,5 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// Fix: Corrected import path for App component. The original error was due to App.tsx being a placeholder.
 import AppWrapper from './App';
 
 const rootElement = document.getElementById('root');

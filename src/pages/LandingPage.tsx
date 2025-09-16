@@ -1,5 +1,5 @@
 import React from 'react';
-import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, InboxIcon, EyeIcon, TagIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
+import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
 import { useLanguage, useTheme } from '../App';
 import SitePageLayout from '../components/SitePageLayout';
 
@@ -195,7 +195,7 @@ const LandingPage: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
-                            <p className="text-slate-700 dark:text-slate-300 italic">"{t.testimonial1}"</p>
+                            <p className="text-slate-700 dark:text-slate-300 italic">{t.testimonial1}</p>
                             <div className="mt-4 font-semibold">{t.testimonial1Name}</div>
                             <div className="text-sm text-slate-500">{t.testimonial1Role}</div>
                         </div>

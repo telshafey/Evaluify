@@ -1,9 +1,9 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-// Fix: Added imports for types and mockApi
 import { Exam, Question, QuestionType, ExamDifficulty } from '../types';
 import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, SpinnerIcon } from './icons';
 import QuestionBankModal from './QuestionBankModal';
-import AIQuestionGeneratorModal from './AIQuestionGeneratorModal';
+// Fix: Changed to a named import to resolve the module error.
+import { AIQuestionGeneratorModal } from './AIQuestionGeneratorModal';
 import { getAIQuestionSuggestions } from '../services/mockApi';
 import { useLanguage } from '../App';
 
@@ -333,7 +333,6 @@ const ExamFormModal: React.FC<ExamFormModalProps> = ({ isOpen, onClose, onSave, 
                     </div>
                     <div className="space-y-2">
                         <select value={q.type} onChange={e => handleTypeChange(qIndex, e.target.value as QuestionType)} className="p-2 bg-white dark:bg-slate-600 rounded-md w-full">
-                            {/* FIX: Explicitly cast `value` to ReactNode to solve type error. */}
                             {Object.entries(t.questionTypes).map(([key, value]) => (
                                 <option key={key} value={key}>{value as ReactNode}</option>
                             ))}

@@ -1,9 +1,8 @@
 import React from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { NavLink } from "react-router-dom";
 import { useTheme, useLanguage } from '../App';
 import { useDarkMode } from '../contexts/DarkModeContext';
-import { BookOpenIcon, SunIcon, MoonIcon, ShoppingCartIcon } from './icons';
+import { BookOpenIcon, SunIcon, MoonIcon } from './icons';
 
 interface SitePageLayoutProps {
     children: React.ReactNode;

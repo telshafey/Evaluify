@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { Link, useLocation } from "react-router-dom";
-import { LogOutIcon, SunIcon, MoonIcon } from './icons';
+import { SunIcon, MoonIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage, useTheme } from '../App';
 import { useDarkMode } from '../contexts/DarkModeContext';

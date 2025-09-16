@@ -194,7 +194,6 @@ const AdminUserManagementPage: React.FC = () => {
                                                             onChange={e => setSelectedRole(e.target.value as UserRole)}
                                                             className="p-1 bg-slate-100 dark:bg-slate-600 rounded-md"
                                                         >
-                                                            {/* FIX: Cast role to string for key/value and to UserRole for indexing translations to resolve type errors. */}
                                                             {Object.values(UserRole).map(role => (
                                                                 <option key={role as string} value={role as string}>{t.roleBadges[role as UserRole]}</option>
                                                             ))}

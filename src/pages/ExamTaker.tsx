@@ -172,7 +172,7 @@ const ExamTaker: React.FC = () => {
                                     onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                                     className="w-5 h-5 text-primary-600 focus:ring-primary-500"
                                 />
-                                <span className="ml-3 text-slate-700 dark:text-slate-300">{option}</span>
+                                <span className="mx-3 text-slate-700 dark:text-slate-300">{option}</span>
                             </label>
                         ))}
                     </div>
@@ -194,7 +194,7 @@ const ExamTaker: React.FC = () => {
                                     }}
                                     className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                                 />
-                                <span className="ml-3 text-slate-700 dark:text-slate-300">{option}</span>
+                                <span className="mx-3 text-slate-700 dark:text-slate-300">{option}</span>
                             </label>
                         ))}
                     </div>
@@ -210,7 +210,7 @@ const ExamTaker: React.FC = () => {
                                     onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                                     className="w-5 h-5 text-primary-600 focus:ring-primary-500"
                                 />
-                                <span className="ml-3 text-slate-700 dark:text-slate-300">{option}</span>
+                                <span className="mx-3 text-slate-700 dark:text-slate-300">{option}</span>
                             </label>
                         ))}
                     </div>
@@ -246,14 +246,14 @@ const ExamTaker: React.FC = () => {
                                         onChange={() => handleAnswerChange(q.id, { ...tfAnswer, selection: option as 'True' | 'False' })}
                                         className="w-5 h-5"
                                     />
-                                    <span className="ml-3">{option}</span>
+                                    <span className="mx-3">{option}</span>
                                 </label>
                             ))}
                         </div>
                          <textarea
                             value={tfAnswer.justification}
                             onChange={(e) => handleAnswerChange(q.id, { ...tfAnswer, justification: e.target.value })}
-                            placeholder="Justify your answer..."
+                            placeholder="برر إجابتك..."
                             rows={4}
                             className="w-full p-3 bg-slate-50 dark:bg-slate-700 border rounded-lg"
                         />
@@ -275,7 +275,7 @@ const ExamTaker: React.FC = () => {
             <header className="bg-white dark:bg-slate-800 shadow-md p-4 flex justify-between items-center">
                 <h1 className="text-xl font-bold">{exam.title}</h1>
                 <div className="flex items-center bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 font-bold px-4 py-2 rounded-full">
-                    <ClockIcon className="w-6 h-6 mr-2" />
+                    <ClockIcon className="w-6 h-6 mx-2" />
                     <span>{`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</span>
                 </div>
             </header>

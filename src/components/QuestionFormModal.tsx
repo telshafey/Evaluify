@@ -1,7 +1,6 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-// Fix: Added imports for types and mockApi
+import React, { useState, useEffect } from 'react';
 import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types';
-import { XCircleIcon, Wand2Icon, SpinnerIcon } from './icons';
+import { XCircleIcon, Wand2Icon } from './icons';
 import { getAIQuestionSuggestions, getCategories } from '../services/mockApi';
 import { useLanguage } from '../App';
 
@@ -304,8 +303,8 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                 )}
                  {q.type === QuestionType.TrueFalse && (
                     <div className="flex gap-4">
-                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="True" checked={q.correctAnswer === 'True'} onChange={e => handleChange('correctAnswer', 'True')} className="mr-2" /> True</label>
-                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="False" checked={q.correctAnswer === 'False'} onChange={e => handleChange('correctAnswer', 'False')} className="mr-2" /> False</label>
+                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="True" checked={q.correctAnswer === 'True'} onChange={() => handleChange('correctAnswer', 'True')} className="mr-2" /> True</label>
+                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="False" checked={q.correctAnswer === 'False'} onChange={() => handleChange('correctAnswer', 'False')} className="mr-2" /> False</label>
                     </div>
                 )}
                  {q.type === QuestionType.TrueFalseWithJustification && (

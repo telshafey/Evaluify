@@ -28,7 +28,6 @@ const translations = {
         loadError: "Failed to load interviews.",
         addSuccess: "Interview scheduled successfully!",
         addError: "Failed to schedule interview.",
-        // Fix: Added statusValues to provide translations for interview statuses, ensuring consistency with the 'ar' object and fixing rendering logic.
         statusValues: {
             Scheduled: 'Scheduled',
             Completed: 'Completed',
@@ -53,7 +52,6 @@ const translations = {
         loadError: "فشل تحميل المقابلات.",
         addSuccess: "تمت جدولة المقابلة بنجاح!",
         addError: "فشل في جدولة المقابلة.",
-        // Fix: Renamed the 'status' object to 'statusValues' to resolve the duplicate key error.
          statusValues: {
             Scheduled: 'مجدولة',
             Completed: 'مكتملة',
@@ -133,7 +131,6 @@ const InterviewsPage: React.FC<InterviewsPageProps> = ({ pageTitle }) => {
                                         <td className="px-6 py-4">{new Date(interview.date).toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')}</td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-1 text-xs font-medium rounded-full ${t.statusColors[interview.status]}`}>
-                                                {/* Fix: Use t.statusValues to correctly look up the translated status text, resolving the type error. */}
                                                 {t.statusValues[interview.status]}
                                             </span>
                                         </td>

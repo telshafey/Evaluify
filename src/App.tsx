@@ -1,6 +1,5 @@
-
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DarkModeProvider } from './contexts/DarkModeContext';
 import { NotificationProvider } from './contexts/NotificationContext';
@@ -255,7 +254,7 @@ const ScrollToTop = () => {
 
 const AppWrapper: React.FC = () => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <ScrollToTop />
             <DarkModeProvider>
                 <AuthProvider>
@@ -267,7 +266,7 @@ const AppWrapper: React.FC = () => {
                     </NotificationProvider>
                 </AuthProvider>
             </DarkModeProvider>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 
