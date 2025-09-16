@@ -1,6 +1,4 @@
 
-
-
 import React, { useState } from 'react';
 // Fix: Added imports for mockApi and types
 import { generateFullExamWithAI } from '../services/mockApi';

@@ -1,136 +1,149 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import useNavLinks from '../../hooks/useNavLinks';
-import { VideoCameraIcon, CalendarIcon, EyeIcon } from '../../components/icons';
-import { getLiveInterviews } from '../../services/mockApi';
 import { Interview } from '../../types';
+import { getInterviews, addInterview } from '../../services/mockApi';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { PlusCircleIcon, VideoCameraIcon } from '../../components/icons';
+import InterviewFormModal from '../../components/InterviewFormModal';
+import { useNotification } from '../../contexts/NotificationContext';
+import { useLanguage } from '../../App';
 
 interface InterviewsPageProps {
     pageTitle: string;
 }
 
+const translations = {
+    en: {
+        addInterview: "Schedule Interview",
+        candidate: "Candidate",
+        role: "Role",
+        date: "Date",
+        interviewer: "Interviewer",
+        status: "Status",
+        actions: "Actions",
+        start: "Start Interview",
+        noInterviews: "No interviews scheduled yet.",
+        loadError: "Failed to load interviews.",
+        addSuccess: "Interview scheduled successfully!",
+        addError: "Failed to schedule interview.",
+        statusColors: {
+            Scheduled: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            Completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+            Canceled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+        }
+    },
+    ar: {
+        addInterview: "جدولة مقابلة",
+        candidate: "المرشح",
+        role: "الدور الوظيفي",
+        date: "التاريخ",
+        interviewer: "المحاور",
+        status: "الحالة",
+        actions: "الإجراءات",
+        start: "بدء المقابلة",
+        noInterviews: "لا توجد مقابلات مجدولة بعد.",
+        loadError: "فشل تحميل المقابلات.",
+        addSuccess: "تمت جدولة المقابلة بنجاح!",
+        addError: "فشل في جدولة المقابلة.",
+         statusColors: {
+            Scheduled: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            Completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+            Canceled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+        }
+    }
+};
+
 const InterviewsPage: React.FC<InterviewsPageProps> = ({ pageTitle }) => {
     const navLinks = useNavLinks();
-    const [liveInterviews, setLiveInterviews] = useState<Interview[]>([]);
+    const { addNotification } = useNotification();
+    const { lang } = useLanguage();
+    const t = translations[lang];
+
+    const [interviews, setInterviews] = useState<Interview[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchInterviews = async () => {
             try {
                 setLoading(true);
-                const data = await getLiveInterviews();
-                setLiveInterviews(data);
+                const data = await getInterviews();
+                setInterviews(data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
             } catch (error) {
-                console.error("Failed to load interviews", error);
+                addNotification(t.loadError, "error");
             } finally {
                 setLoading(false);
             }
         };
         fetchInterviews();
-    }, []);
+    }, [addNotification, t.loadError]);
 
-    const schedule = [
-        { time: '10:00 AM', candidate: 'Ahmed Salem', role: 'Frontend Developer', type: 'Technical', status: 'In Progress' },
-        { time: '02:00 PM', candidate: 'Sara Ahmed', role: 'UI/UX Designer', type: 'Behavioral', status: 'Upcoming' },
-        { time: '04:30 PM', candidate: 'Mohamed Ali', role: 'Backend Developer', type: 'Final', status: 'Upcoming' },
-    ];
+    const handleSaveInterview = async (interviewData: Omit<Interview, 'id'>) => {
+        try {
+            const newInterview = await addInterview(interviewData);
+            setInterviews(prev => [...prev, newInterview].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+            addNotification(t.addSuccess, "success");
+            setIsModalOpen(false);
+        } catch (error) {
+            addNotification(t.addError, "error");
+        }
+    };
     
-    const history = [
-        { id: 'hist-1', candidate: 'Ahmed Salem', type: 'Technical', date: 'Mar 20, 2024', duration: '45 min', score: 9.2, status: 'Completed' },
-        { id: 'hist-2', candidate: 'Sara Ahmed', type: 'Behavioral', date: 'Mar 19, 2024', duration: '32 min', score: 8.5, status: 'Completed' },
-    ];
-
     const headerActions = (
-        <>
-            <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
-                <VideoCameraIcon className="w-5 h-5 mr-2"/> New Interview
-            </button>
-             <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
-                <CalendarIcon className="w-5 h-5 mr-2"/> Schedule
-            </button>
-        </>
+        <button onClick={() => setIsModalOpen(true)} className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+            <PlusCircleIcon className="w-5 h-5 mr-2" />
+            {t.addInterview}
+        </button>
     );
 
     return (
         <DashboardLayout navLinks={navLinks} pageTitle={pageTitle} headerActions={headerActions}>
-            {/* Live Interviews */}
-            <div className="mb-8">
-                <h3 className="text-xl font-bold mb-4">Live Interviews</h3>
-                {loading ? <LoadingSpinner /> : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {liveInterviews.map(interview => (
-                            <div key={interview.id} className="bg-slate-800 text-white p-6 rounded-2xl shadow-lg">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                                        <span className="font-bold">Live</span>
-                                    </div>
-                                    <span className="text-sm font-mono">--:--</span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                    <div className="bg-slate-700 h-24 rounded-lg flex items-center justify-center text-center"><div><p className="text-lg">👩‍💼</p><p className="text-sm">{interview.candidateName}</p></div></div>
-                                    <div className="bg-slate-700 h-24 rounded-lg flex items-center justify-center text-center"><div><p className="text-lg">👨‍💻</p><p className="text-sm">{interview.interviewerName}</p></div></div>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="flex space-x-2">
-                                        <Link to={`/interviews/${interview.id}`} className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">Join</Link>
-                                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">Monitor</button>
-                                    </div>
-                                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${interview.typeColor}`}>{interview.type}</span>
-                                </div>
-                            </div>
-                        ))}
-                         {liveInterviews.length === 0 && <p className="text-slate-500">No live interviews at the moment.</p>}
-                    </div>
-                )}
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Today's Schedule */}
-                <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                    <h3 className="text-xl font-bold mb-4">Today's Schedule</h3>
-                    <div className="space-y-4">
-                        {schedule.map(item => (
-                            <div key={item.time} className={`p-4 rounded-xl ${item.status === 'In Progress' ? 'bg-blue-50 dark:bg-blue-900/50' : 'bg-slate-50 dark:bg-slate-700/50'}`}>
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <p className="font-bold">{item.candidate}</p>
-                                        <p className="text-sm text-slate-600 dark:text-slate-400">{item.role}</p>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="font-bold text-slate-800 dark:text-slate-200">{item.time}</p>
-                                        <p className={`text-sm ${item.status === 'In Progress' ? 'text-blue-500' : 'text-slate-500'}`}>{item.status}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Interview History */}
-                <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                    <h3 className="text-xl font-bold mb-4">Interview History</h3>
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
+                 {loading ? <LoadingSpinner /> : (
                     <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead className="text-left text-slate-500 dark:text-slate-400"><tr><th className="p-2">Candidate</th><th className="p-2">Type</th><th className="p-2">Score</th><th className="p-2">Actions</th></tr></thead>
+                        <table className="w-full text-sm text-left text-slate-500 dark:text-slate-400">
+                            <thead className="text-xs text-slate-700 uppercase bg-slate-50 dark:bg-slate-700 dark:text-slate-300">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">{t.candidate}</th>
+                                    <th scope="col" className="px-6 py-3">{t.role}</th>
+                                    <th scope="col" className="px-6 py-3">{t.date}</th>
+                                    <th scope="col" className="px-6 py-3">{t.status}</th>
+                                    <th scope="col" className="px-6 py-3">{t.actions}</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                {history.map(item => (
-                                    <tr key={item.id} className="border-b border-slate-200 dark:border-slate-700">
-                                        <td className="p-2 font-medium">{item.candidate}</td>
-                                        <td className="p-2 text-slate-600 dark:text-slate-300">{item.type}</td>
-                                        <td className="p-2 font-bold text-green-600">{item.score}/10</td>
-                                        <td className="p-2">
-                                            <button className="text-blue-500 hover:text-blue-600 p-1"><EyeIcon className="w-5 h-5"/></button>
+                                {interviews.map(interview => (
+                                    <tr key={interview.id} className="bg-white dark:bg-slate-800 border-b dark:border-slate-700">
+                                        <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{interview.candidateName}</td>
+                                        <td className="px-6 py-4">{interview.role}</td>
+                                        <td className="px-6 py-4">{new Date(interview.date).toLocaleString()}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${t.statusColors[interview.status]}`}>
+                                                {interview.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {interview.status === 'Scheduled' && new Date(interview.date) > new Date() && (
+                                                <Link to={`/interviews/${interview.id}`} className="font-medium text-primary-600 dark:text-primary-500 hover:underline flex items-center">
+                                                   <VideoCameraIcon className="w-4 h-4 mr-1"/> {t.start}
+                                                </Link>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                        {interviews.length === 0 && <p className="text-center py-8 text-slate-500">{t.noInterviews}</p>}
                     </div>
-                </div>
+                )}
             </div>
+            <InterviewFormModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSave={handleSaveInterview}
+            />
         </DashboardLayout>
     );
 };

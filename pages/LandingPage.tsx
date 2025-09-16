@@ -1,5 +1,6 @@
 
 
+
 import React from 'react';
 import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, InboxIcon, EyeIcon, TagIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
 import { useLanguage, useTheme } from '../App';
@@ -7,97 +8,101 @@ import SitePageLayout from '../components/SitePageLayout';
 
 const getTranslations = (platformName: string) => ({
     en: {
-        heroTitle: "The Future of Online Assessment",
-        heroSubtitle: `${platformName} provides a secure, intuitive, and powerful platform for creating, administering, and analyzing exams with advanced AI-powered integrity features.`,
-        getStarted: "Get Started Now",
-        featuresTitle: "An AI-Powered Toolkit for Absolute Integrity",
-        featuresSubtitle: "Our multi-layered security system ensures every assessment is fair, secure, and authentic.",
+        heroTitle: "Redefining Assessment Integrity",
+        heroSubtitle: `${platformName} combines cutting-edge AI with a user-centric design to deliver a secure, fair, and insightful online assessment experience.`,
+        getStarted: "Get Started for Free",
+        requestDemo: "Request a Demo",
+        trustedBy: "TRUSTED BY LEADING INSTITUTIONS",
+
+        featuresTitle: "A Suite of Tools for Modern Assessment",
+        featuresSubtitle: "Our multi-layered approach ensures every assessment is fair, secure, and insightful.",
         
         smartProctoring: "Smart AI Proctoring",
-        smartProctoringDesc: "Our AI analyzes visual behavior, digital patterns, and audio to detect suspicious activities and generate a comprehensive integrity report.",
-        dynamicQuestions: "Dynamic Questions",
-        dynamicQuestionsDesc: "Combat group cheating with unique exams for each student, generated in real-time by Gemini models, making answer sharing futile.",
+        smartProctoringDesc: "Gemini-powered analysis of visual, audio, and digital behavior to ensure exam integrity.",
+        dynamicQuestions: "Dynamic Question Generation",
+        dynamicQuestionsDesc: "Create unique exams for each student in real-time to eliminate answer sharing.",
         secureBrowser: "Secure Exam Browser",
-        secureBrowserDesc: "For high-stakes exams, our dedicated desktop and mobile apps lock down the testing environment, preventing access to other applications.",
+        secureBrowserDesc: "Lock down the testing environment on desktop and mobile for high-stakes exams.",
         adaptiveTesting: "Adaptive Testing",
-        adaptiveTestingDesc: "The AI selects the next question based on the student's previous answer, providing a more accurate assessment with fewer questions.",
-        speechAnalysis: "Speech & Voice Analysis",
-        speechAnalysisDesc: "Evaluate language proficiency and presentation skills with AI-powered analysis of spoken answers for fluency, pronunciation, and accuracy.",
-        personalizedGuides: "Personalized Study Guides",
-        personalizedGuidesDesc: "After an exam, the AI analyzes weak points and generates a custom study plan with targeted resources to help students improve.",
+        adaptiveTestingDesc: "AI tailors question difficulty to each student for a more precise, efficient assessment.",
+        speechAnalysis: "Advanced Speech Analysis",
+        speechAnalysisDesc: "Evaluate language proficiency and presentation skills with AI-driven voice analysis.",
+        personalizedGuides: "Personalized Study Plans",
+        personalizedGuidesDesc: "AI generates custom study guides based on performance to help learners improve.",
 
-        roadmapTitle: "The Future of Learning",
-        roadmapSubtitle: "We are constantly innovating to bring you the most advanced assessment tools.",
-        roadmapIntegration: "LMS & ATS Integration",
-        roadmapIntegrationDesc: "Seamlessly connect with systems like Moodle, Canvas, and Workday to streamline your assessment workflow.",
-        roadmapLiveProctoring: "Live Proctoring Center",
-        roadmapLiveProctoringDesc: "A command center for human proctors, assisted by AI that flags suspicious activities in real-time.",
-        roadmapMarketplace: "Verified Question Marketplace",
-        roadmapMarketplaceDesc: "A marketplace for educators and experts to buy and sell high-quality, verified question banks.",
+        howItWorksTitle: "Simple Steps to Secure Assessment",
+        step1Title: "Create or Generate",
+        step1Desc: "Build assessments manually, import from our bank, or let AI generate a full exam in minutes.",
+        step2Title: "Invite & Proctor",
+        step2Desc: "Securely invite candidates and monitor exams with our multi-layered AI proctoring.",
+        step3Title: "Analyze & Act",
+        step3Desc: "Get instant results, deep performance analytics, and actionable AI-powered insights.",
 
-        soon: "SOON",
+        testimonialsTitle: "What Our Users Say",
+        testimonial1: `"${platformName} has transformed how we conduct final exams. The AI proctoring is incredibly reliable, and our academic integrity has never been stronger."`,
+        testimonial1Name: "Dr. Anya Sharma",
+        testimonial1Role: "Dean of Engineering, Tech University",
+        testimonial2: `"The efficiency is unmatched. We reduced our assessment creation time by 70% using the AI generation tools. It's a game-changer for our corporate training programs."`,
+        testimonial2Name: "David Chen",
+        testimonial2Role: "Head of L&D, Innovate Corp",
+
+        finalCtaTitle: "Ready to Elevate Your Assessments?",
+        finalCtaDesc: "Join the growing number of institutions transforming their evaluation process.",
     },
     ar: {
-        heroTitle: "مستقبل التقييم عبر الإنترنت",
-        heroSubtitle: `توفر ${platformName} منصة آمنة وسهلة الاستخدام وقوية لإنشاء الاختبارات وإدارتها وتحليلها، معززة بميزات نزاهة متقدمة مدعومة بالذكاء الاصطناعي.`,
-        getStarted: "ابدأ الآن",
-        featuresTitle: "مجموعة أدوات مدعومة بالذكاء الاصطناعي لنزاهة مطلقة",
-        featuresSubtitle: "يضمن نظام الأمان متعدد الطبقات لدينا أن كل تقييم يتميز بالعدالة والأمان والموثوقية.",
+        heroTitle: "إعادة تعريف نزاهة التقييم",
+        heroSubtitle: `تجمع ${platformName} بين أحدث تقنيات الذكاء الاصطناعي والتصميم الذي يركز على المستخدم لتقديم تجربة تقييم آمنة وعادلة وثاقبة عبر الإنترنت.`,
+        getStarted: "ابدأ مجانًا",
+        requestDemo: "اطلب عرضًا توضيحيًا",
+        trustedBy: "موثوق به من قبل المؤسسات الرائدة",
 
-        smartProctoring: "المراقبة الذكية بالذكاء الاصطناعي",
-        smartProctoringDesc: "يقوم الذكاء الاصطناعي بتحليل السلوك البصري، الأنماط الرقمية، والصوت لكشف الأنشطة المشبوهة، ومن ثم إنشاء تقرير شامل حول نزاهة الاختبار.",
-        dynamicQuestions: "الأسئلة الديناميكية",
-        dynamicQuestionsDesc: "لمكافحة الغش الجماعي، يتم إنشاء اختبارات فريدة لكل طالب بشكل فوري باستخدام نماذج Gemini، مما يجعل مشاركة الإجابات غير مجدية.",
-        secureBrowser: "متصفح الاختبار الآمن",
-        secureBrowserDesc: "للاختبارات ذات الأهمية العالية، يقوم تطبيقنا المخصص لسطح المكتب والجوال بتأمين بيئة الاختبار بالكامل، مما يمنع الوصول إلى أي تطبيقات أخرى.",
-        adaptiveTesting: "الاختبارات التكيفية",
-        adaptiveTestingDesc: "يختار الذكاء الاصطناعي السؤال التالي بناءً على إجابة الطالب السابقة، مما يوفر تقييمًا أكثر دقة بأسئلة أقل.",
-        speechAnalysis: "تحليل الصوت والكلام",
-        speechAnalysisDesc: "قيّم إتقان اللغة ومهارات العرض مع تحليل الذكاء الاصطناعي للإجابات المنطوقة، مع التركيز على الطلاقة والنطق والدقة.",
-        personalizedGuides: "خطط دراسية مخصصة",
-        personalizedGuidesDesc: "بعد كل اختبار، يقوم الذكاء الاصطناعي بتحليل نقاط الضعف وإنشاء خطة دراسة مخصصة مع مصادر تعليمية موجهة لمساعدة الطلاب على التحسن.",
+        featuresTitle: "مجموعة أدوات للتقييم الحديث",
+        featuresSubtitle: "نهجنا متعدد الطبقات يضمن أن كل تقييم عادل وآمن ومفيد.",
         
-        roadmapTitle: "مستقبل التعلّم والتقييم",
-        roadmapSubtitle: "نحن نبتكر باستمرار لنقدم لكم أدوات التقييم الأكثر تقدماً.",
-        roadmapIntegration: "التكامل مع أنظمة LMS و ATS",
-        roadmapIntegrationDesc: "تكامل سلس مع أنظمة إدارة التعلم (LMS) مثل Moodle و Canvas، وأنظمة تتبع المتقدمين (ATS) مثل Workday لتبسيط إجراءات التقييم.",
-        roadmapLiveProctoring: "مركز المراقبة المباشرة",
-        roadmapLiveProctoringDesc: "مركز قيادة للمراقبين البشريين، مدعوم بالذكاء الاصطناعي الذي ينبه للأنشطة المشبوهة في نفس اللحظة.",
-        roadmapMarketplace: "سوق الأسئلة المعتمدة",
-        roadmapMarketplaceDesc: "سوق مخصص للمعلمين والخبراء لبيع وشراء بنوك أسئلة عالية الجودة ومُعتمدة.",
-        soon: "قريباً",
+        smartProctoring: "المراقبة الذكية بالذكاء الاصطناعي",
+        smartProctoringDesc: "تحليل مدعوم من Gemini للسلوك البصري والصوتي والرقمي لضمان نزاهة الاختبار.",
+        dynamicQuestions: "توليد الأسئلة الديناميكي",
+        dynamicQuestionsDesc: "أنشئ اختبارات فريدة لكل طالب في الوقت الفعلي للقضاء على مشاركة الإجابات.",
+        secureBrowser: "متصفح الاختبار الآمن",
+        secureBrowserDesc: "أغلق بيئة الاختبار على أجهزة الكمبيوتر المكتبية والمحمولة للاختبارات عالية الأهمية.",
+        adaptiveTesting: "الاختبار التكيفي",
+        adaptiveTestingDesc: "يقوم الذكاء الاصطناعي بتكييف صعوبة الأسئلة لكل طالب لتقييم أكثر دقة وكفاءة.",
+        speechAnalysis: "تحليل متقدم للكلام",
+        speechAnalysisDesc: "قم بتقييم الكفاءة اللغوية ومهارات العرض من خلال تحليل الصوت المعتمد على الذكاء الاصطناعي.",
+        personalizedGuides: "خطط دراسية مخصصة",
+        personalizedGuidesDesc: "يقوم الذكاء الاصطناعي بإنشاء أدلة دراسية مخصصة بناءً على الأداء لمساعدة المتعلمين على التحسن.",
+
+        howItWorksTitle: "خطوات بسيطة لتقييم آمن",
+        step1Title: "إنشاء أو توليد",
+        step1Desc: "أنشئ التقييمات يدويًا، أو استورد من بنك الأسئلة، أو دع الذكاء الاصطناعي يولد اختبارًا كاملاً في دقائق.",
+        step2Title: "دعوة ومراقبة",
+        step2Desc: "ادعُ المرشحين بأمان وراقب الاختبارات من خلال المراقبة متعددة الطبقات بالذكاء الاصطناعي.",
+        step3Title: "تحليل واتخاذ إجراء",
+        step3Desc: "احصل على نتائج فورية وتحليلات أداء عميقة ورؤى قابلة للتنفيذ مدعومة بالذكاء الاصطناعي.",
+
+        testimonialsTitle: "ماذا يقول مستخدمونا",
+        testimonial1: `"${platformName} غيرت طريقة إجرائنا للامتحانات النهائية. المراقبة بالذكاء الاصطناعي موثوقة بشكل لا يصدق، ونزاهتنا الأكاديمية لم تكن أقوى من أي وقت مضى."`,
+        testimonial1Name: "د. علياء الشمري",
+        testimonial1Role: "عميدة كلية الهندسة، جامعة التكنولوجيا",
+        testimonial2: `"الكفاءة لا مثيل لها. لقد قللنا وقت إنشاء التقييم بنسبة 70٪ باستخدام أدوات التوليد بالذكاء الاصطناعي. إنها تغير قواعد اللعبة لبرامج التدريب في شركتنا."`,
+        testimonial2Name: "خالد عبد الله",
+        testimonial2Role: "رئيس قسم التدريب والتطوير، شركة إبداع",
+        
+        finalCtaTitle: "هل أنت مستعد للارتقاء بتقييماتك؟",
+        finalCtaDesc: "انضم إلى العدد المتزايد من المؤسسات التي تغير عملية التقييم الخاصة بها.",
     }
 });
 
-
 const FeatureCard: React.FC<{ icon: React.ElementType, title: string, children: React.ReactNode }> = ({ icon: Icon, title, children }) => (
-    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 dark:border-slate-800">
-        <div className="flex items-center justify-center w-12 h-12 bg-primary-100 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400 rounded-full mb-4">
-            <Icon className="w-6 h-6" />
+    <div className="bg-white dark:bg-slate-900/50 p-6 rounded-xl shadow-lg hover:shadow-primary-500/10 transition-shadow duration-300 border border-slate-200 dark:border-slate-800 transform hover:-translate-y-1">
+        <div className="flex items-center justify-center w-12 h-12 bg-primary-100 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400 rounded-xl mb-4">
+            <Icon className="w-7 h-7" />
         </div>
         <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-slate-100">{title}</h3>
         <p className="text-slate-600 dark:text-slate-300">{children}</p>
     </div>
 );
 
-const RoadmapCard: React.FC<{ icon: React.ElementType, title: string, children: React.ReactNode }> = ({ icon: Icon, title, children }) => {
-    const { lang } = useLanguage();
-    const { theme } = useTheme();
-    const t = getTranslations(theme.platformName)[lang];
-
-    return (
-        <div className="bg-slate-100 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700/50">
-            <div className="flex items-center mb-3">
-                 <div className="flex items-center justify-center w-8 h-8 bg-primary-100 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400 rounded-full me-3">
-                    <Icon className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{title}</h3>
-                <span className="ms-auto text-xs font-semibold bg-primary-100 text-primary-800 dark:bg-primary-500/20 dark:text-primary-300 py-1 px-2 rounded-full">{t.soon}</span>
-            </div>
-            <p className="text-sm text-slate-600 dark:text-slate-300">{children}</p>
-        </div>
-    );
-};
 
 const LandingPage: React.FC = () => {
     const { lang } = useLanguage();
@@ -107,62 +112,118 @@ const LandingPage: React.FC = () => {
     return (
         <SitePageLayout>
             {/* Hero Section */}
-            <section className="relative py-24 md:py-40 bg-slate-50 dark:bg-slate-950 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+            <section className="relative py-28 md:py-40 bg-white dark:bg-slate-900 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100/50 via-transparent to-transparent dark:from-slate-950/50"></div>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400 leading-tight">
+                    <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-50 dark:to-slate-400 leading-tight tracking-tighter">
                         {t.heroTitle}
                     </h1>
-                    <p className="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                    <p className="mt-6 text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                          {t.heroSubtitle}
                     </p>
+                    <div className="mt-8 flex justify-center gap-4">
+                        <button className="bg-primary-500 text-white font-semibold px-8 py-3 rounded-lg hover:bg-primary-600 transition-transform transform hover:scale-105 shadow-lg">
+                            {t.getStarted}
+                        </button>
+                         <button className="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold px-8 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+                            {t.requestDemo}
+                        </button>
+                    </div>
                 </div>
             </section>
+            
+            {/* Trusted By Section */}
+            <div className="py-8 bg-slate-50 dark:bg-slate-950/50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <p className="text-center text-sm font-semibold text-slate-500 dark:text-slate-400 tracking-widest">{t.trustedBy}</p>
+                    <div className="mt-4 flex justify-center items-center gap-x-8 md:gap-x-12 opacity-60 grayscale">
+                        {/* Placeholder logos */}
+                        <span>Tech University</span>
+                        <span>Innovate Corp</span>
+                        <span>Global Certs</span>
+                        <span>Edu Alliance</span>
+                    </div>
+                </div>
+            </div>
 
             {/* Features Section */}
-            <section id="features" className="py-20 bg-white dark:bg-slate-900/70">
+            <section id="features" className="py-20 bg-white dark:bg-slate-900">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.featuresTitle}</h2>
                         <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{t.featuresSubtitle}</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <FeatureCard icon={ShieldCheckIcon} title={t.smartProctoring}>
-                            {t.smartProctoringDesc}
-                        </FeatureCard>
-                        <FeatureCard icon={SparklesIcon} title={t.dynamicQuestions}>
-                            {t.dynamicQuestionsDesc}
-                        </FeatureCard>
-                        <FeatureCard icon={DesktopIcon} title={t.secureBrowser}>
-                            {t.secureBrowserDesc}
-                        </FeatureCard>
-                        <FeatureCard icon={Wand2Icon} title={t.adaptiveTesting}>
-                            {t.adaptiveTestingDesc}
-                        </FeatureCard>
-                        <FeatureCard icon={MicIcon} title={t.speechAnalysis}>
-                            {t.speechAnalysisDesc}
-                        </FeatureCard>
-                        <FeatureCard icon={LightbulbIcon} title={t.personalizedGuides}>
-                            {t.personalizedGuidesDesc}
-                        </FeatureCard>
+                        <FeatureCard icon={ShieldCheckIcon} title={t.smartProctoring}>{t.smartProctoringDesc}</FeatureCard>
+                        <FeatureCard icon={SparklesIcon} title={t.dynamicQuestions}>{t.dynamicQuestionsDesc}</FeatureCard>
+                        <FeatureCard icon={DesktopIcon} title={t.secureBrowser}>{t.secureBrowserDesc}</FeatureCard>
+                        <FeatureCard icon={Wand2Icon} title={t.adaptiveTesting}>{t.adaptiveTestingDesc}</FeatureCard>
+                        <FeatureCard icon={MicIcon} title={t.speechAnalysis}>{t.speechAnalysisDesc}</FeatureCard>
+                        <FeatureCard icon={LightbulbIcon} title={t.personalizedGuides}>{t.personalizedGuidesDesc}</FeatureCard>
                     </div>
                 </div>
             </section>
 
-             {/* Roadmap Section */}
-            <section id="roadmap" className="py-20 bg-slate-50 dark:bg-slate-950">
+             {/* How It Works Section */}
+            <section id="how-it-works" className="py-20 bg-slate-50 dark:bg-slate-950">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.roadmapTitle}</h2>
-                        <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{t.roadmapSubtitle}</p>
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.howItWorksTitle}</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                        <RoadmapCard icon={InboxIcon} title={t.roadmapIntegration}>{t.roadmapIntegrationDesc}</RoadmapCard>
-                        <RoadmapCard icon={EyeIcon} title={t.roadmapLiveProctoring}>{t.roadmapLiveProctoringDesc}</RoadmapCard>
-                        <RoadmapCard icon={TagIcon} title={t.roadmapMarketplace}>{t.roadmapMarketplaceDesc}</RoadmapCard>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div className="p-6">
+                            <div className="text-4xl font-bold text-primary-400 mb-2">1</div>
+                            <h3 className="text-xl font-bold mb-2">{t.step1Title}</h3>
+                            <p className="text-slate-600 dark:text-slate-400">{t.step1Desc}</p>
+                        </div>
+                        <div className="p-6">
+                            <div className="text-4xl font-bold text-primary-400 mb-2">2</div>
+                            <h3 className="text-xl font-bold mb-2">{t.step2Title}</h3>
+                            <p className="text-slate-600 dark:text-slate-400">{t.step2Desc}</p>
+                        </div>
+                        <div className="p-6">
+                            <div className="text-4xl font-bold text-primary-400 mb-2">3</div>
+                            <h3 className="text-xl font-bold mb-2">{t.step3Title}</h3>
+                            <p className="text-slate-600 dark:text-slate-400">{t.step3Desc}</p>
+                        </div>
                     </div>
                 </div>
             </section>
+            
+            {/* Testimonials Section */}
+            <section className="py-20 bg-white dark:bg-slate-900">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                     <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.testimonialsTitle}</h2>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
+                            <p className="text-slate-700 dark:text-slate-300 italic">"{t.testimonial1}"</p>
+                            <div className="mt-4 font-semibold">{t.testimonial1Name}</div>
+                            <div className="text-sm text-slate-500">{t.testimonial1Role}</div>
+                        </div>
+                         <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
+                            <p className="text-slate-700 dark:text-slate-300 italic">{t.testimonial2}</p>
+                            <div className="mt-4 font-semibold">{t.testimonial2Name}</div>
+                            <div className="text-sm text-slate-500">{t.testimonial2Role}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            {/* Final CTA */}
+             <section className="py-20 bg-primary-500/10 dark:bg-primary-500/5">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50">{t.finalCtaTitle}</h2>
+                    <p className="mt-2 text-slate-600 dark:text-slate-400">{t.finalCtaDesc}</p>
+                     <div className="mt-6">
+                        <button className="bg-primary-500 text-white font-semibold px-8 py-3 rounded-lg hover:bg-primary-600 transition-transform transform hover:scale-105 shadow-lg">
+                            {t.getStarted}
+                        </button>
+                    </div>
+                </div>
+            </section>
+
         </SitePageLayout>
     );
 };

@@ -1,6 +1,7 @@
+
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 // Fix: Corrected react-router-dom import syntax.
-import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DarkModeProvider } from './contexts/DarkModeContext';
 import { NotificationProvider } from './contexts/NotificationContext';
@@ -18,6 +19,9 @@ import IntegrationsPage from './pages/IntegrationsPage';
 import CustomersPage from './pages/CustomersPage';
 import PricingPage from './pages/PricingPage';
 import AboutUsPage from './pages/AboutUsPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+
 
 // Dashboard Imports
 import TeacherDashboard from './pages/TeacherDashboard';
@@ -52,6 +56,7 @@ import ExamineeResultPage from './pages/shared/ExamineeResultPage';
 import ProctoringReportPage from './pages/shared/ProctoringReportPage';
 import QuestionBankPage from './pages/shared/QuestionBankPage';
 import AnalyticsPage from './pages/shared/AnalyticsPage';
+// FIX: Correctly import InterviewsPage from its new shared location.
 import InterviewsPage from './pages/shared/InterviewsPage';
 
 
@@ -176,6 +181,8 @@ const AppRoutes: React.FC = () => {
                 <Route path="/customers" element={<CustomersPage />} />
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/about-us" element={<AboutUsPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         );
@@ -222,7 +229,7 @@ const AppRoutes: React.FC = () => {
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Examinee]} />}>
                 <Route path="/examinee" element={<ExamineeDashboard />} />
                 <Route path="/examinee/exam/:examId" element={<ExamTaker />} />
-                <Route path="/examinee/results" element={<ExamineeResultsPage onLogout={logout} lang={lang}/>} />
+                <Route path="/examinee/results" element={<ExamineeResultsPage />} />
                 <Route path="/examinee/result/:resultId" element={<ExamineeExamReviewPage />} />
             </Route>
             
@@ -240,10 +247,21 @@ const App: React.FC = () => {
     );
 };
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 
 const AppWrapper: React.FC = () => {
     return (
         <HashRouter>
+            <ScrollToTop />
             <DarkModeProvider>
                 <AuthProvider>
                     <NotificationProvider>

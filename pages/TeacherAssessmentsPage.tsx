@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import useNavLinks from '../hooks/useNavLinks';
-import { Exam } from '../types';
+import { Exam, ExamDifficulty } from '../types';
 import { getAssessments, addAssessment, updateAssessment, deleteAssessment } from '../services/mockApi';
 import { useNotification } from '../contexts/NotificationContext';
-import { PlusCircleIcon, SparklesIcon, TrashIcon, PencilIcon, ClockIcon, UsersIcon } from '../components/icons';
+import { PlusCircleIcon, SparklesIcon, TrashIcon, PencilIcon, ClockIcon, BookOpenIcon } from '../components/icons';
 import EmptyState from '../components/EmptyState';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ExamFormModal from '../components/ExamFormModal';
@@ -17,6 +17,9 @@ const TeacherAssessmentsPage: React.FC = () => {
     const [exams, setExams] = useState<Exam[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [difficultyFilter, setDifficultyFilter] = useState<'All' | ExamDifficulty>('All');
+    const [statusFilter, setStatusFilter] = useState<'All' | 'Active' | 'Upcoming' | 'Expired'>('All');
+
 
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -77,11 +80,31 @@ const TeacherAssessmentsPage: React.FC = () => {
         }
     };
 
+    const getExamStatus = (exam: Exam): 'Active' | 'Upcoming' | 'Expired' => {
+        const now = new Date();
+        const from = exam.availableFrom ? new Date(exam.availableFrom) : null;
+        const until = exam.availableUntil ? new Date(exam.availableUntil) : null;
+
+        if (from && from > now) {
+            return 'Upcoming';
+        }
+        if (until && until < now) {
+            return 'Expired';
+        }
+        return 'Active';
+    };
+
+
     const filteredExams = useMemo(() => {
-        return exams.filter(e =>
-            e.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    }, [exams, searchTerm]);
+        return exams.filter(exam => {
+            const matchesSearch = exam.title.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesDifficulty = difficultyFilter === 'All' || exam.difficulty === difficultyFilter;
+            const examStatus = getExamStatus(exam);
+            const matchesStatus = statusFilter === 'All' || examStatus === statusFilter;
+            
+            return matchesSearch && matchesDifficulty && matchesStatus;
+        });
+    }, [exams, searchTerm, difficultyFilter, statusFilter]);
     
     const headerActions = (
         <div className="flex items-center gap-4">
@@ -99,37 +122,89 @@ const TeacherAssessmentsPage: React.FC = () => {
     return (
         <DashboardLayout navLinks={navLinks} pageTitle="Assessments" headerActions={headerActions}>
             <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                <input
-                    type="text"
-                    placeholder="Search assessments by title..."
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="p-3 bg-slate-100 dark:bg-slate-700 rounded-lg w-full mb-4"
-                />
+                <div className="flex flex-col md:flex-row gap-4 mb-4">
+                    <input
+                        type="text"
+                        placeholder="Search assessments by title..."
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                        className="p-3 bg-slate-100 dark:bg-slate-700 rounded-lg w-full md:flex-grow"
+                    />
+                    <div className="flex gap-4">
+                        <select
+                            value={difficultyFilter}
+                            onChange={e => setDifficultyFilter(e.target.value as any)}
+                            className="p-3 bg-slate-100 dark:bg-slate-700 rounded-lg w-full"
+                        >
+                            <option value="All">All Difficulties</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                         <select
+                            value={statusFilter}
+                            onChange={e => setStatusFilter(e.target.value as any)}
+                            className="p-3 bg-slate-100 dark:bg-slate-700 rounded-lg w-full"
+                        >
+                            <option value="All">All Statuses</option>
+                            <option value="Active">Active</option>
+                            <option value="Upcoming">Upcoming</option>
+                            <option value="Expired">Expired</option>
+                        </select>
+                    </div>
+                </div>
+
 
                 {loading ? <LoadingSpinner /> : (
                     <>
-                        {filteredExams.length === 0 ? (
-                            <EmptyState icon={UsersIcon} title="No Assessments Found" message="Create your first assessment or use the AI generator to get started." action={headerActions} />
+                        {exams.length > 0 && filteredExams.length === 0 ? (
+                             <EmptyState icon={BookOpenIcon} title="No Assessments Found" message="No assessments match your current filters. Try adjusting your search." />
+                        ) : exams.length === 0 ? (
+                             <EmptyState icon={BookOpenIcon} title="No Assessments Created" message="Create your first assessment or use the AI generator to get started." action={headerActions} />
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {filteredExams.map(exam => (
-                                    <div key={exam.id} className="bg-slate-50 dark:bg-slate-700/50 p-5 rounded-xl flex flex-col">
-                                        <h4 className="font-bold text-lg">{exam.title}</h4>
-                                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 flex-grow">{exam.description}</p>
-                                        <div className="flex items-center space-x-4 mt-3 text-sm text-slate-500 dark:text-slate-300">
-                                            <span className="flex items-center"><ClockIcon className="w-4 h-4 mr-1"/> {exam.duration} min</span>
-                                            <span className="flex items-center"><UsersIcon className="w-4 h-4 mr-1"/> {exam.questionCount} Qs</span>
-                                            <span className={`font-semibold px-2 py-1 rounded-full text-xs ${exam.difficulty === 'Easy' ? 'bg-green-100 text-green-800' : exam.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
-                                                {exam.difficulty}
-                                            </span>
+                                {filteredExams.map(exam => {
+                                    const examStatus = getExamStatus(exam);
+                                    const statusColors = {
+                                        Active: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
+                                        Upcoming: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
+                                        Expired: 'bg-slate-200 text-slate-800 dark:bg-slate-600 dark:text-slate-300 opacity-80'
+                                    };
+                                    return (
+                                        <div key={exam.id} className="bg-slate-50 dark:bg-slate-700/50 p-5 rounded-xl flex flex-col">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <h4 className="font-bold text-lg pr-2">{exam.title}</h4>
+                                                <span className={`font-semibold px-2 py-1 rounded-full text-xs flex-shrink-0 ${statusColors[examStatus]}`}>
+                                                    {examStatus}
+                                                </span>
+                                            </div>
+                                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 flex-grow">{exam.description}</p>
+                                            
+                                            {(exam.availableFrom || exam.availableUntil) && (
+                                                <div className="mt-3 text-xs text-slate-500 dark:text-slate-400 space-y-1 bg-slate-100 dark:bg-slate-600/50 p-2 rounded-md">
+                                                    {exam.availableFrom && (
+                                                        <p><strong>From:</strong> {new Date(exam.availableFrom).toLocaleString()}</p>
+                                                    )}
+                                                    {exam.availableUntil && (
+                                                        <p><strong>Until:</strong> {new Date(exam.availableUntil).toLocaleString()}</p>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            <div className="flex items-center space-x-4 mt-3 text-sm text-slate-500 dark:text-slate-300">
+                                                <span className="flex items-center"><ClockIcon className="w-4 h-4 mr-1"/> {exam.duration} min</span>
+                                                <span className="flex items-center"><BookOpenIcon className="w-4 h-4 mr-1"/> {exam.questionCount} Qs</span>
+                                                <span className={`font-semibold px-2 py-1 rounded-full text-xs ${exam.difficulty === 'Easy' ? 'bg-green-100 text-green-800' : exam.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                                                    {exam.difficulty}
+                                                </span>
+                                            </div>
+                                            <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 flex justify-end gap-2">
+                                                <button onClick={() => handleOpenEditModal(exam)} className="p-2 text-blue-500 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full" title="Edit"><PencilIcon className="w-4 h-4"/></button>
+                                                <button onClick={() => handleDeleteExam(exam.id)} className="p-2 text-red-500 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full" title="Delete"><TrashIcon className="w-4 h-4"/></button>
+                                            </div>
                                         </div>
-                                        <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 flex justify-end gap-2">
-                                            <button onClick={() => handleOpenEditModal(exam)} className="p-2 text-blue-500 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full" title="Edit"><PencilIcon className="w-4 h-4"/></button>
-                                            <button onClick={() => handleDeleteExam(exam.id)} className="p-2 text-red-500 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full" title="Delete"><TrashIcon className="w-4 h-4"/></button>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
                         )}
                     </>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { AIInsight } from '../../types';
 import { SparklesIcon, ChartBarIcon, LightbulbIcon } from '../icons';

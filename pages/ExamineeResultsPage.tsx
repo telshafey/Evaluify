@@ -1,23 +1,18 @@
 
-
-
-
-
 import React, { useState, useEffect } from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { Link } from "react-router-dom";
-// Fix: Added imports for mockApi and types
 import { getExamineeResults } from '../services/mockApi';
 import { ExamResult } from '../types';
-import { BookOpenIcon, CheckCircleIcon, EyeIcon, LogOutIcon } from '../components/icons';
-import { Language } from '../App';
+import { EyeIcon } from '../components/icons';
+import { useLanguage } from '../App';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const translations = {
     en: {
-        title: "Examinee Portal",
-        availableExams: "Available Exams",
-        myResults: "My Results",
-        switchRole: "Switch Role",
+        title: "My Results",
+        description: "Review your performance on all completed assessments.",
         loading: "Loading your results...",
         empty: "You haven't completed any exams yet.",
         table: {
@@ -30,10 +25,8 @@ const translations = {
         viewDetails: "View Details",
     },
     ar: {
-        title: "بوابة المستخدم",
-        availableExams: "الاختبارات المتاحة",
-        myResults: "نتائجي",
-        switchRole: "تبديل الدور",
+        title: "نتائجي",
+        description: "راجع أداءك في جميع التقييمات المكتملة.",
         loading: "جاري تحميل نتائجك...",
         empty: "لم تقم بإكمال أي اختبارات بعد.",
         table: {
@@ -47,10 +40,12 @@ const translations = {
     }
 }
 
-const ExamineeResultsPage = ({ onLogout, lang }: { onLogout: () => void, lang: Language }) => {
+const ExamineeResultsPage = () => {
     const [results, setResults] = useState<ExamResult[]>([]);
     const [loading, setLoading] = useState(true);
+    const { lang } = useLanguage();
     const t = translations[lang];
+    const navLinks = useNavLinks();
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -75,36 +70,12 @@ const ExamineeResultsPage = ({ onLogout, lang }: { onLogout: () => void, lang: L
     }
 
     return (
-        <div className="flex min-h-screen bg-slate-100 dark:bg-slate-900">
-            <nav className="w-64 bg-white dark:bg-slate-800 p-5 shadow-lg flex flex-col">
-                <h1 className="text-2xl font-bold text-teal-600 dark:text-teal-400 mb-10">{t.title}</h1>
-                <ul>
-                    <li className="mb-4">
-                        <Link to="/examinee" className="flex items-center p-2 text-base font-normal text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">
-                            <BookOpenIcon className="w-6 h-6" />
-                            <span className="ms-3">{t.availableExams}</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/examinee/results" className="flex items-center p-2 text-base font-normal text-slate-900 dark:text-white rounded-lg bg-slate-200 dark:bg-slate-700">
-                            <CheckCircleIcon className="w-6 h-6" />
-                            <span className="ms-3">{t.myResults}</span>
-                        </Link>
-                    </li>
-                </ul>
-                <div className="mt-auto pt-4 border-t border-slate-200 dark:border-slate-700">
-                    <button onClick={onLogout} className="flex items-center p-2 text-base font-normal rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 w-full">
-                        <LogOutIcon className="w-6 h-6" />
-                        <span className="ms-3">{t.switchRole}</span>
-                    </button>
-                </div>
-            </nav>
-            <main className="flex-1 p-10">
-                <h2 className="text-3xl font-bold mb-8">{t.myResults}</h2>
-
-                 <div className="bg-white dark:bg-slate-800 shadow-md rounded-lg overflow-x-auto">
+        <DashboardLayout navLinks={navLinks} pageTitle={t.title}>
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
+                <p className="text-slate-600 dark:text-slate-400 mb-4">{t.description}</p>
+                <div className="overflow-x-auto">
                     {loading ? (
-                        <p className="p-4">{t.loading}</p>
+                        <LoadingSpinner />
                     ) : (
                         <table className="w-full text-sm text-left text-slate-500 dark:text-slate-400">
                             <thead className="text-xs text-slate-700 uppercase bg-slate-50 dark:bg-slate-700 dark:text-slate-300">
@@ -142,8 +113,8 @@ const ExamineeResultsPage = ({ onLogout, lang }: { onLogout: () => void, lang: L
                         <p className="text-center text-slate-500 py-10">{t.empty}</p>
                     )}
                 </div>
-            </main>
-        </div>
+            </div>
+        </DashboardLayout>
     );
 };
 

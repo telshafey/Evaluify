@@ -1,145 +1,271 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import useNavLinks from '../hooks/useNavLinks';
-// Fix: Added imports for Question and QuestionType.
-import { Question, QuestionType } from '../types';
-import { SparklesIcon, TrashIcon, PlusCircleIcon, EyeIcon } from '../components/icons';
+import { Question, QuestionType, ExamDifficulty } from '../types';
+import { SparklesIcon, TrashIcon, EyeIcon, SpinnerIcon } from '../components/icons';
 import AIQuestionGeneratorModal from '../components/AIQuestionGeneratorModal';
 import { useNotification } from '../contexts/NotificationContext';
+import { useLanguage } from '../App';
+import { addAssessment } from '../services/mockApi';
+
+const translations = {
+    en: {
+        pageTitle: "Test Builder",
+        testName: "Test Name",
+        description: "Description",
+        duration: "Duration (minutes)",
+        difficulty: "Difficulty",
+        questions: "Questions",
+        addQuestion: "Add Question",
+        saveTest: "Save Test",
+        savingTest: "Saving...",
+        previewTest: "Preview",
+        aiGenerate: "AI Generate Questions ✨",
+        testSaved: "Test saved successfully!",
+        saveError: "Please provide a test name and add at least one question.",
+        saveFailed: "Failed to save the test. Please try again.",
+        noQuestions: "No questions added yet. Start by adding a question manually or using the AI generator.",
+        questionPlaceholder: "Enter question text...",
+        descriptionPlaceholder: "Provide a brief description of the test...",
+        points: "Points",
+        questionTypes: {
+            mcq: "MCQ",
+            short: "Short Answer",
+            essay: "Essay",
+            tf: "T/F"
+        }
+    },
+    ar: {
+        pageTitle: "منشئ الاختبارات",
+        testName: "اسم الاختبار",
+        description: "الوصف",
+        duration: "المدة (بالدقائق)",
+        difficulty: "الصعوبة",
+        questions: "الأسئلة",
+        addQuestion: "إضافة سؤال",
+        saveTest: "حفظ الاختبار",
+        savingTest: "جاري الحفظ...",
+        previewTest: "معاينة",
+        aiGenerate: "توليد أسئلة بالذكاء الاصطناعي ✨",
+        testSaved: "تم حفظ الاختبار بنجاح!",
+        saveError: "يرجى تقديم اسم للاختبار وإضافة سؤال واحد على الأقل.",
+        saveFailed: "فشل حفظ الاختبار. يرجى المحاولة مرة أخرى.",
+        noQuestions: "لم تتم إضافة أي أسئلة بعد. ابدأ بإضافة سؤال يدويًا أو باستخدام مولد الذكاء الاصطناعي.",
+        questionPlaceholder: "أدخل نص السؤال...",
+        descriptionPlaceholder: "أدخل وصفاً موجزاً للاختبار...",
+        points: "النقاط",
+        questionTypes: {
+            mcq: "اختيار من متعدد",
+            short: "إجابة قصيرة",
+            essay: "مقالي",
+            tf: "صح/خطأ"
+        }
+    }
+};
+
+const QuestionEditor: React.FC<{ 
+    question: Question; 
+    onUpdate: (q: Question) => void; 
+    onDelete: () => void;
+    lang: 'en' | 'ar';
+}> = ({ question, onUpdate, onDelete, lang }) => {
+    const t = translations[lang];
+    return (
+        <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3">
+            <div className="flex justify-between items-start">
+                <textarea 
+                    value={question.text} 
+                    onChange={(e) => onUpdate({ ...question, text: e.target.value })}
+                    placeholder={t.questionPlaceholder}
+                    className="w-full bg-transparent p-1 -m-1 focus:bg-white dark:focus:bg-slate-700 rounded text-base font-semibold"
+                    rows={2}
+                />
+                <button onClick={onDelete} className="ml-2 text-red-500 hover:text-red-700 flex-shrink-0">
+                    <TrashIcon className="w-5 h-5" />
+                </button>
+            </div>
+            {/* Minimal controls for demo */}
+            <div className="flex items-center justify-between">
+                <span className="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded-full">{question.type}</span>
+                <div className="flex items-center">
+                    <label className="text-sm mr-2">{t.points}:</label>
+                    <input 
+                        type="number" 
+                        value={question.points}
+                        onChange={(e) => onUpdate({ ...question, points: parseInt(e.target.value) || 0 })}
+                        className="w-16 p-1 bg-slate-100 dark:bg-slate-700 rounded-md text-sm"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const TestBuilderPage: React.FC = () => {
     const navLinks = useNavLinks();
+    const navigate = useNavigate();
+    const { lang } = useLanguage();
+    const t = translations[lang];
+    const { addNotification } = useNotification();
+
     const [testName, setTestName] = useState('');
-    const [testType, setTestType] = useState('Technical Test');
+    const [description, setDescription] = useState('');
     const [duration, setDuration] = useState(60);
     const [difficulty, setDifficulty] = useState('Medium');
     const [questions, setQuestions] = useState<Question[]>([]);
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
-    const { addNotification } = useNotification();
-
+    const [isSaving, setIsSaving] = useState(false);
+    
     const addQuestion = (type: QuestionType) => {
         const newQuestion: Question = {
             id: `q-${Date.now()}`,
+            ownerId: 'teacher-1',
             text: '',
             type: type,
-            options: type === QuestionType.MultipleChoice || type === QuestionType.MultipleSelect ? ['', ''] : undefined,
+            category: 'General',
+            subCategory: 'General',
+            options: type === QuestionType.MultipleChoice || type === QuestionType.MultipleSelect || type === QuestionType.Ordering ? ['', ''] : undefined,
+            prompts: type === QuestionType.Matching ? ['', ''] : undefined,
             correctAnswer: '',
-            points: 10,
+            points: 5,
             tags: [],
-            ownerId: 'current-user',
-            category: 'Custom',
-            subCategory: 'Custom',
         };
-        setQuestions([...questions, newQuestion]);
-    };
-    
-    const removeQuestion = (id: string) => {
-        setQuestions(questions.filter(q => q.id !== id));
+        setQuestions(prev => [...prev, newQuestion]);
     };
 
-    const handleAddQuestionsFromAI = (aiQuestions: Omit<Question, 'id'>[]) => {
-        const newQuestions = aiQuestions.map(q => ({...q, id: `ai-${Date.now()}-${Math.random()}`}));
-        setQuestions([...questions, ...newQuestions]);
-        addNotification(`${newQuestions.length} questions generated by AI successfully!`, 'success');
+    const updateQuestion = (updatedQuestion: Question) => {
+        setQuestions(prev => prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
+    };
+
+    const deleteQuestion = (questionId: string) => {
+        setQuestions(prev => prev.filter(q => q.id !== questionId));
+    };
+
+    const handleAddFromAI = (aiQuestions: Omit<Question, 'id'>[]) => {
+        const newQuestions = aiQuestions.map(q => ({ ...q, id: `ai-q-${Date.now()}-${Math.random()}`}));
+        setQuestions(prev => [...prev, ...newQuestions]);
         setIsAiModalOpen(false);
+        addNotification(`${newQuestions.length} questions added from AI!`, "success");
     };
 
-    const saveTest = () => {
-        if (!testName || questions.length === 0) {
-            addNotification("Test name and at least one question are required.", "error");
+    const handleSaveTest = async () => {
+        if (!testName.trim() || questions.length === 0) {
+            addNotification(t.saveError, "error");
             return;
         }
-        addNotification(`Test "${testName}" saved successfully!`, "success");
-        // Here you would typically send the data to your backend
-        console.log({ testName, testType, duration, difficulty, questions });
+        setIsSaving(true);
+        try {
+            await addAssessment({
+                ownerId: 'teacher-1', // hardcoded for demo
+                ownerName: 'Dr. Anya Sharma',
+                title: testName,
+                description: description,
+                duration,
+                difficulty: difficulty as ExamDifficulty,
+                questions,
+            });
+            addNotification(t.testSaved, "success");
+            navigate('/assessments');
+        } catch (error) {
+            addNotification(t.saveFailed, "error");
+            console.error(error);
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const headerActions = (
-        <button onClick={saveTest} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
-            💾 Save Test
-        </button>
+        <div className="flex items-center gap-4">
+            <button onClick={() => { /* Preview logic */ }} className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500 font-bold py-2 px-4 rounded-lg flex items-center">
+                <EyeIcon className="w-5 h-5 mr-2" />
+                {t.previewTest}
+            </button>
+            <button onClick={handleSaveTest} disabled={isSaving} className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded-lg flex items-center min-w-[120px] justify-center">
+                {isSaving ? <SpinnerIcon className="w-5 h-5" /> : t.saveTest}
+            </button>
+        </div>
     );
-
+    
     return (
-        <DashboardLayout navLinks={navLinks} pageTitle="Smart Test Builder" headerActions={headerActions}>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Column 1: Test Configuration */}
-                <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg space-y-4">
-                    <h3 className="text-lg font-bold">Test Configuration</h3>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Test Name</label>
-                        <input type="text" value={testName} onChange={e => setTestName(e.target.value)} placeholder="e.g., Advanced React Test" className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md" />
-                    </div>
-                     <div>
-                        <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Test Type</label>
-                        <select value={testType} onChange={e => setTestType(e.target.value)} className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md">
-                            <option>Technical Test</option>
-                            <option>Personality Assessment</option>
-                            <option>Soft Skills</option>
-                        </select>
-                    </div>
-                     <div>
-                        <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Duration (minutes)</label>
-                        <input type="number" value={duration} onChange={e => setDuration(parseInt(e.target.value))} className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md" />
-                    </div>
-                     <div>
-                        <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Difficulty</label>
-                        <select value={difficulty} onChange={e => setDifficulty(e.target.value)} className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md">
-                            <option>Easy</option>
-                            <option>Medium</option>
-                            <option>Hard</option>
-                        </select>
-                    </div>
-                </div>
-
-                {/* Column 2: Question Builder */}
-                <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg space-y-4">
-                     <h3 className="text-lg font-bold">Question Builder</h3>
-                     <div className="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg space-y-2">
-                        <p className="text-sm font-medium">Add a new question:</p>
-                        <div className="grid grid-cols-2 gap-2">
-                            <button onClick={() => addQuestion(QuestionType.MultipleChoice)} className="text-sm p-2 bg-white dark:bg-slate-600 rounded-md hover:bg-slate-100 dark:hover:bg-slate-500">Multiple Choice</button>
-                            <button onClick={() => addQuestion(QuestionType.ShortAnswer)} className="text-sm p-2 bg-white dark:bg-slate-600 rounded-md hover:bg-slate-100 dark:hover:bg-slate-500">Short Answer</button>
-                            <button onClick={() => addQuestion(QuestionType.TrueFalse)} className="text-sm p-2 bg-white dark:bg-slate-600 rounded-md hover:bg-slate-100 dark:hover:bg-slate-500">True/False</button>
-                            <button onClick={() => addQuestion(QuestionType.Essay)} className="text-sm p-2 bg-white dark:bg-slate-600 rounded-md hover:bg-slate-100 dark:hover:bg-slate-500">Essay</button>
+        <DashboardLayout navLinks={navLinks} pageTitle={t.pageTitle} headerActions={headerActions}>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Content */}
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                             <div className="md:col-span-3">
+                                <label className="block text-sm font-medium mb-1">{t.testName}</label>
+                                <input type="text" value={testName} onChange={e => setTestName(e.target.value)} className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md" placeholder="e.g., Final JavaScript Exam" />
+                            </div>
+                            <div className="md:col-span-3">
+                                <label className="block text-sm font-medium mb-1">{t.description}</label>
+                                <textarea 
+                                    value={description} 
+                                    onChange={e => setDescription(e.target.value)} 
+                                    className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md" 
+                                    rows={2}
+                                    placeholder={t.descriptionPlaceholder}
+                                />
+                            </div>
                         </div>
-                     </div>
-                     <div className="p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-center">
-                        <h4 className="font-semibold text-purple-800 dark:text-purple-300">Feeling creative?</h4>
-                        <p className="text-sm text-purple-600 dark:text-purple-400 mt-1 mb-3">Let our AI generate questions for you based on a topic.</p>
-                        <button onClick={() => setIsAiModalOpen(true)} className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center w-full">
-                            <SparklesIcon className="w-5 h-5 mr-2" />
-                            Generate with AI
-                        </button>
-                     </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
+                        <h3 className="text-xl font-bold mb-4">{t.questions} ({questions.length})</h3>
+                        <div className="space-y-4">
+                            {questions.length > 0 ? questions.map((q) => (
+                                <QuestionEditor 
+                                    key={q.id} 
+                                    question={q} 
+                                    onUpdate={updateQuestion} 
+                                    onDelete={() => deleteQuestion(q.id)}
+                                    lang={lang}
+                                />
+                            )) : <p className="text-center text-slate-500 py-8">{t.noQuestions}</p>}
+                        </div>
+                    </div>
                 </div>
 
-                {/* Column 3: Preview */}
-                <div className="lg:col-span-3 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                    <h3 className="text-lg font-bold mb-4 flex items-center"><EyeIcon className="w-5 h-5 mr-2" /> Test Preview ({questions.length} questions)</h3>
-                    <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
-                        {questions.map((q, index) => (
-                            <div key={q.id} className="p-4 border border-slate-200 dark:border-slate-700 rounded-lg relative">
-                                <p className="font-semibold">{index + 1}. {q.text || "New Question"}</p>
-                                <p className="text-xs text-slate-500 mt-1">Type: {q.type}, Points: {q.points}</p>
-                                 <button onClick={() => removeQuestion(q.id)} className="absolute top-2 right-2 text-red-500 hover:text-red-600 p-1">
-                                    <TrashIcon className="w-4 h-4" />
-                                </button>
+                {/* Sidebar */}
+                <div className="space-y-6">
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
+                        <h3 className="text-xl font-bold mb-4">Settings</h3>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">{t.duration}</label>
+                                <input type="number" value={duration} onChange={e => setDuration(parseInt(e.target.value))} className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md" />
                             </div>
-                        ))}
-                         {questions.length === 0 && (
-                            <div className="text-center py-10 text-slate-500">
-                                <p>Your questions will appear here as you add them.</p>
+                             <div>
+                                <label className="block text-sm font-medium mb-1">{t.difficulty}</label>
+                                <select value={difficulty} onChange={e => setDifficulty(e.target.value)} className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md">
+                                    <option>Easy</option>
+                                    <option>Medium</option>
+                                    <option>Hard</option>
+                                </select>
                             </div>
-                        )}
+                        </div>
+                    </div>
+                     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
+                        <h3 className="text-xl font-bold mb-4">{t.addQuestion}</h3>
+                        <div className="grid grid-cols-2 gap-2">
+                             <button onClick={() => addQuestion(QuestionType.MultipleChoice)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.mcq}</button>
+                             <button onClick={() => addQuestion(QuestionType.ShortAnswer)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.short}</button>
+                             <button onClick={() => addQuestion(QuestionType.Essay)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.essay}</button>
+                             <button onClick={() => addQuestion(QuestionType.TrueFalse)} className="text-sm p-2 bg-slate-100 dark:bg-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-600">{t.questionTypes.tf}</button>
+                        </div>
+                        <button onClick={() => setIsAiModalOpen(true)} className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
+                            <SparklesIcon className="w-5 h-5 mr-2" />
+                            {t.aiGenerate}
+                        </button>
                     </div>
                 </div>
             </div>
-            <AIQuestionGeneratorModal
+
+            <AIQuestionGeneratorModal 
                 isOpen={isAiModalOpen}
                 onClose={() => setIsAiModalOpen(false)}
-                onAddQuestions={handleAddQuestionsFromAI}
+                onAddQuestions={handleAddFromAI}
             />
         </DashboardLayout>
     );

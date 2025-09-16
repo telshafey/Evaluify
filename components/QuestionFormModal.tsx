@@ -1,8 +1,4 @@
 
-
-
-
-
 import React, { useState, useEffect, ReactNode } from 'react';
 // Fix: Added imports for types and mockApi
 import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types';

@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 // Fix: Added import for UserRole.
@@ -59,7 +56,7 @@ const DevRoleSwitcher: React.FC = () => {
     };
 
     return (
-        <div className="fixed bottom-5 right-5 z-[100]">
+        <div className="fixed bottom-24 right-5 z-[100]">
             {isOpen && (
                 <div role="menu" aria-label="Role switcher" className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 mb-3 w-56 animate-fade-in-up">
                     <div className="p-2">

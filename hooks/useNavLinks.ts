@@ -34,6 +34,8 @@ const navTranslations = {
         masterQBank: 'Master Q-Bank',
         categories: 'Categories',
         settings: 'Settings',
+        examineeDashboard: 'Dashboard',
+        myResults: 'My Results',
     },
     ar: {
         dashboard: 'لوحة التحكم',
@@ -55,6 +57,8 @@ const navTranslations = {
         masterQBank: 'بنك الأسئلة الرئيسي',
         categories: 'الفئات',
         settings: 'الإعدادات',
+        examineeDashboard: 'لوحة التحكم',
+        myResults: 'نتائجي',
     }
 };
 
@@ -101,6 +105,11 @@ const useNavLinks = (): NavLink[] => {
         { path: '/categories', icon: BriefcaseIcon, label: t.categories },
         { path: '/settings', icon: SettingsIcon, label: t.settings },
     ];
+
+    const examineeLinks: NavLink[] = [
+        { path: '/examinee', icon: ChartBarIcon, label: t.examineeDashboard },
+        { path: '/examinee/results', icon: CheckCircleIcon, label: t.myResults },
+    ];
     
     switch (userRole) {
         case UserRole.Teacher:
@@ -111,6 +120,8 @@ const useNavLinks = (): NavLink[] => {
             return trainingLinks;
         case UserRole.Admin:
             return adminLinks;
+        case UserRole.Examinee:
+            return examineeLinks;
         default:
             return [];
     }

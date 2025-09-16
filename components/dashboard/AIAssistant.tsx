@@ -29,7 +29,8 @@ const AIAssistant: React.FC = () => {
     const { lang } = useLanguage();
     const t = translations[lang];
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
+    
+    // FIX: Initialize GoogleGenAI with apiKey in an object
     const ai = new GoogleGenAI({apiKey: process.env.API_KEY as string});
 
     useEffect(() => {
@@ -52,12 +53,13 @@ const AIAssistant: React.FC = () => {
         setIsLoading(true);
 
         try {
-            // Gemini API call
-            const response: GenerateContentResponse = await ai.models.generateContent({
+            // FIX: Use ai.models.generateContent as per guidelines
+            const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: `You are a helpful assistant for an online assessment platform called "evaluify". Keep your answers concise and helpful. User question: "${input}"`,
             });
             
+            // FIX: Access response text directly from the response object
             const aiMessage: Message = { sender: 'ai', text: response.text };
             setMessages(prev => [...prev, aiMessage]);
 

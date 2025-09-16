@@ -58,7 +58,7 @@ const translations = {
         userDeleteError: "فشل حذف المستخدم.",
         roleUpdated: "تم تحديث دور المستخدم بنجاح.",
         roleUpdateError: "فشل تحديث دور المستخدم.",
-        loadError: "ไม่สามารถโหลดผู้ใช้ได้",
+        loadError: "לא ניתן לטעון משתמשים.",
         roleBadges: {
             [UserRole.Admin]: "مسؤول",
             [UserRole.Teacher]: "معلم",

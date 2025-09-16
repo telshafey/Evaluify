@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { getInterviewDetails } from '../services/mockApi';
-import { Interview } from '../types';
+import { Interview, ProctoringEvent } from '../types';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { SparklesIcon, PaperAirplaneIcon, LogOutIcon } from '../components/icons';
+import { SparklesIcon, LogOutIcon, ShieldCheckIcon, ClockIcon } from '../components/icons';
 
 // Declare the JitsiMeetExternalAPI to TypeScript, as it's loaded from a script tag.
 declare var JitsiMeetExternalAPI: any;
@@ -16,6 +16,19 @@ const aiTips = [
     "Ask them to explain a complex project they've worked on."
 ];
 
+const eventDetails: Record<ProctoringEvent['type'], { title: string; icon: string; }> = {
+    tab_switch: { title: 'Tab Switch Detected', icon: '🖥️' },
+    paste_content: { title: 'Paste Detected', icon: '📋' },
+    face_detection: { title: 'Face Anomaly', icon: '👥' },
+    noise_detection: { title: 'Noise Detected', icon: '🔊' }
+};
+
+const severityColors: Record<ProctoringEvent['severity'] & string, string> = {
+    low: 'border-yellow-500',
+    medium: 'border-orange-500',
+    high: 'border-red-500',
+};
+
 const LiveInterviewPage: React.FC = () => {
     const { interviewId } = useParams<{ interviewId: string }>();
     const navigate = useNavigate();
@@ -23,7 +36,9 @@ const LiveInterviewPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [currentAiTip, setCurrentAiTip] = useState(aiTips[0]);
-
+    const [interviewEvents, setInterviewEvents] = useState<ProctoringEvent[]>([]);
+    
+    const interviewStartTime = useRef<number>(Date.now());
     const jitsiContainerRef = useRef<HTMLDivElement>(null);
     const jitsiApiRef = useRef<any>(null);
 
@@ -55,9 +70,39 @@ const LiveInterviewPage: React.FC = () => {
 
         return () => {
             clearInterval(tipInterval);
-            // The Jitsi cleanup is handled in the next useEffect
         };
     }, [interviewId, navigate]);
+    
+    useEffect(() => {
+        const getTimestamp = () => Date.now() - interviewStartTime.current;
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                const newEvent: ProctoringEvent = { type: 'tab_switch', timestamp: getTimestamp(), severity: 'medium' };
+                setInterviewEvents(prev => [newEvent, ...prev]);
+            }
+        };
+        
+        const eventInterval = setInterval(() => {
+            const randomEvent = Math.random();
+            if (randomEvent < 0.1) { // 10% chance every 20 seconds
+                 const newEvent: ProctoringEvent = {
+                    type: 'face_detection',
+                    timestamp: getTimestamp(),
+                    severity: 'high',
+                    details: 'Multiple faces detected'
+                };
+                setInterviewEvents(prev => [newEvent, ...prev]);
+            }
+        }, 20000);
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            clearInterval(eventInterval);
+        };
+    }, []);
 
     useEffect(() => {
         // This effect handles the Jitsi API setup and cleanup
@@ -65,7 +110,6 @@ const LiveInterviewPage: React.FC = () => {
             return;
         }
 
-        // Check if the Jitsi API script is loaded
         if (typeof JitsiMeetExternalAPI === 'undefined') {
             setError("Jitsi API could not be loaded. Please check your connection and refresh.");
             setLoading(false);
@@ -84,21 +128,16 @@ const LiveInterviewPage: React.FC = () => {
                 prejoinPageEnabled: false,
             },
             interfaceConfigOverwrite: {
-                TOOLBAR_BUTTONS: [
-                    'microphone', 'camera', 'desktop', 'fullscreen',
-                    'hangup', 'chat', 'raisehand', 'tileview', 'settings'
-                ],
+                TOOLBAR_BUTTONS: [ 'microphone', 'camera', 'desktop', 'fullscreen', 'hangup', 'chat', 'raisehand', 'tileview', 'settings' ],
                 SHOW_CHROME_EXTENSION_BANNER: false,
             },
-            userInfo: {
-                displayName: interview.interviewerName,
-            }
+            userInfo: { displayName: interview.interviewerName }
         };
 
         try {
             const api = new JitsiMeetExternalAPI(domain, options);
             jitsiApiRef.current = api;
-            setLoading(false); // Jitsi is now loading, so we can hide our spinner
+            setLoading(false); 
         } catch (jitsiError) {
              console.error("Jitsi initialization failed:", jitsiError);
              setError("Failed to start the video conference.");
@@ -106,7 +145,6 @@ const LiveInterviewPage: React.FC = () => {
         }
 
         return () => {
-            // Cleanup: dispose of the Jitsi meeting when the component unmounts
             jitsiApiRef.current?.dispose();
         };
     }, [interview, interviewId]);
@@ -114,6 +152,13 @@ const LiveInterviewPage: React.FC = () => {
     const handleLeave = () => {
         jitsiApiRef.current?.executeCommand('hangup');
         navigate('/interviews');
+    };
+    
+    const formatTimestamp = (ms: number) => {
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
     return (
@@ -127,22 +172,39 @@ const LiveInterviewPage: React.FC = () => {
             </header>
             
             <main className="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-4">
-                {/* Main Jitsi Container */}
                 <div className="lg:col-span-3 bg-black rounded-xl overflow-hidden relative flex items-center justify-center">
                     {loading && <LoadingSpinner />}
                     <div ref={jitsiContainerRef} className="h-full w-full" />
                 </div>
 
-                {/* Side Panel */}
                 <div className="flex flex-col gap-4">
-                    {/* AI Assistant */}
                     <div className="bg-slate-800 p-4 rounded-xl flex-1 flex flex-col">
                         <h3 className="font-bold text-lg flex items-center mb-2"><SparklesIcon className="w-5 h-5 me-2 text-purple-400"/> AI Assistant</h3>
                         <div className="bg-purple-500/20 text-purple-300 p-3 rounded-lg text-sm italic flex-1 flex items-center justify-center">
                            <p>"{currentAiTip}"</p>
                         </div>
                     </div>
-                     {/* Leave Button */}
+                     <div className="bg-slate-800 p-4 rounded-xl flex-1 flex flex-col">
+                        <h3 className="font-bold text-lg flex items-center mb-2"><ShieldCheckIcon className="w-5 h-5 me-2 text-yellow-400"/> Proctoring Log</h3>
+                        <div className="space-y-2 overflow-y-auto h-40 pr-2">
+                             {interviewEvents.length === 0 ? (
+                                <p className="text-sm text-slate-400 text-center pt-8">No events detected yet.</p>
+                            ) : (
+                                interviewEvents.map((event, index) => {
+                                    const details = eventDetails[event.type];
+                                    const color = severityColors[event.severity || 'low'];
+                                    return (
+                                        <div key={index} className={`p-2 rounded-md border-l-4 ${color} bg-slate-700/50 text-xs`}>
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-semibold">{details.icon} {details.title}</span>
+                                                <span className="font-mono flex items-center"><ClockIcon className="w-3 h-3 me-1"/>{formatTimestamp(event.timestamp)}</span>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            )}
+                        </div>
+                    </div>
                     <button onClick={handleLeave} className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center gap-2">
                         <LogOutIcon className="w-5 h-5" />
                         End & Leave Interview

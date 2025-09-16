@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import useNavLinks from '../hooks/useNavLinks';
-import { SparklesIcon, UploadIcon, VideoCameraIcon, ChartBarIcon } from '../components/icons';
+import { SparklesIcon, UploadIcon, VideoCameraIcon, ChartBarIcon, SpinnerIcon } from '../components/icons';
+import { analyzeCvWithAI, addQuestionToBank } from '../services/mockApi';
+import { CvAnalysisResult, Question } from '../types';
+import { useNotification } from '../contexts/NotificationContext';
+import CvAnalysisResultModal from '../components/CvAnalysisResultModal';
+import AIQuestionGeneratorModal from '../components/AIQuestionGeneratorModal';
+
 
 interface ToolCardProps {
     icon: React.FC<{ className?: string }>;
@@ -31,8 +38,127 @@ const ToolCard: React.FC<ToolCardProps> = ({ icon: Icon, title, children, color 
     );
 };
 
+// New component for the CV Analyzer logic
+const CvAnalyzer: React.FC = () => {
+    const [cvFile, setCvFile] = useState<File | null>(null);
+    const [jobDescription, setJobDescription] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [analysisResult, setAnalysisResult] = useState<CvAnalysisResult | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { addNotification } = useNotification();
+
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            // For demo purposes, we'll only accept .txt files to avoid complex parsing.
+            if (file.type === 'text/plain') {
+                 setCvFile(file);
+            } else {
+                addNotification("For this demo, please upload a .txt file.", "error");
+                e.target.value = ''; // Reset file input
+            }
+        }
+    };
+
+    const handleAnalyze = () => {
+        if (!cvFile) {
+            addNotification("Please select a CV file.", "error");
+            return;
+        }
+        if (!jobDescription.trim()) {
+            addNotification("Please enter a job description.", "error");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const cvText = e.target?.result as string;
+            if (!cvText) {
+                addNotification("Could not read the CV file.", "error");
+                return;
+            }
+
+            setIsLoading(true);
+            setAnalysisResult(null);
+            try {
+                const result = await analyzeCvWithAI(cvText, jobDescription);
+                setAnalysisResult(result);
+                setIsModalOpen(true);
+            } catch (error) {
+                addNotification("AI Analysis failed. Please try again.", "error");
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        reader.readAsText(cvFile);
+    };
+
+    return (
+        <>
+            <ToolCard icon={UploadIcon} title="CV / Resume Analyzer" color="blue">
+                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">Upload a CV and job description to get an AI-powered analysis and match score.</p>
+                 <div className="space-y-4">
+                     <div>
+                         <label htmlFor="job-description" className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Job Description</label>
+                         <textarea
+                             id="job-description"
+                             rows={4}
+                             value={jobDescription}
+                             onChange={(e) => setJobDescription(e.target.value)}
+                             placeholder="Paste the job description here..."
+                             className="w-full p-2 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm"
+                         />
+                     </div>
+                     <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4 text-center">
+                         <label htmlFor="cv-upload" className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 inline-block">
+                             📎 Choose CV File (.txt)
+                         </label>
+                         <input id="cv-upload" type="file" accept=".txt" className="hidden" onChange={handleFileChange} />
+                         {cvFile && <p className="text-sm text-slate-500 mt-2">Selected: {cvFile.name}</p>}
+                     </div>
+                     <button
+                        onClick={handleAnalyze}
+                        disabled={isLoading}
+                        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-bold flex items-center justify-center disabled:opacity-50"
+                     >
+                        {isLoading ? <SpinnerIcon className="w-5 h-5"/> : 'Analyze with AI'}
+                     </button>
+                 </div>
+            </ToolCard>
+            <CvAnalysisResultModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                result={analysisResult}
+            />
+        </>
+    );
+};
+
+
 const TeacherAIToolsPage: React.FC = () => {
     const navLinks = useNavLinks();
+    const navigate = useNavigate();
+    const { addNotification } = useNotification();
+    const [isAiQuestionModalOpen, setIsAiQuestionModalOpen] = useState(false);
+
+    const handleAddQuestionsFromAI = async (aiQuestions: Omit<Question, 'id'>[]) => {
+        setIsAiQuestionModalOpen(false);
+        const ownerId = 'teacher-1'; // Hardcoded for demo
+        try {
+            await Promise.all(
+                aiQuestions.map(q => addQuestionToBank({ ...q, ownerId }))
+            );
+            addNotification(
+                `${aiQuestions.length} AI-generated questions have been added to your question bank!`,
+                "success"
+            );
+        } catch (error) {
+            addNotification("Failed to add AI-generated questions.", "error");
+            console.error("Failed to add questions to bank:", error);
+        }
+    };
+
 
     return (
         <DashboardLayout navLinks={navLinks} pageTitle="AI Tools">
@@ -40,22 +166,26 @@ const TeacherAIToolsPage: React.FC = () => {
                 {/* Smart Question Generator */}
                 <ToolCard icon={SparklesIcon} title="Smart Question Generator" color="purple">
                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">Generate custom questions based on topic, difficulty, and type.</p>
-                    <button className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-bold">✨ Generate Questions</button>
+                    <button 
+                        onClick={() => setIsAiQuestionModalOpen(true)}
+                        className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-bold"
+                    >
+                        ✨ Generate Questions
+                    </button>
                 </ToolCard>
                 
                 {/* CV Analyzer */}
-                <ToolCard icon={UploadIcon} title="CV / Resume Analyzer" color="blue">
-                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">Upload a CV to automatically extract skills, experience, and match score.</p>
-                    <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4 text-center">
-                        <p className="text-sm text-slate-500">Drag & drop a file here</p>
-                        <button className="mt-2 bg-blue-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-600">📎 Choose File</button>
-                    </div>
-                </ToolCard>
+                <CvAnalyzer />
                 
                 {/* Interview Assistant */}
                 <ToolCard icon={VideoCameraIcon} title="Interview Assistant" color="green">
                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">Get real-time guidance, question suggestions, and sentiment analysis during live interviews.</p>
-                    <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-bold">🚀 Activate Assistant</button>
+                    <button 
+                        onClick={() => navigate('/interviews')}
+                        className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-bold"
+                    >
+                        🚀 Activate Assistant
+                    </button>
                 </ToolCard>
             </div>
             
@@ -78,6 +208,11 @@ const TeacherAIToolsPage: React.FC = () => {
                 </div>
             </div>
 
+            <AIQuestionGeneratorModal
+                isOpen={isAiQuestionModalOpen}
+                onClose={() => setIsAiQuestionModalOpen(false)}
+                onAddQuestions={handleAddQuestionsFromAI}
+            />
         </DashboardLayout>
     );
 };
