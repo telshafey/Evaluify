@@ -1,58 +1,58 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { DarkModeProvider } from './contexts/DarkModeContext';
-import { NotificationProvider } from './contexts/NotificationContext';
-import { UserRole } from './types';
-import ProtectedRoute from './components/auth/ProtectedRoute';
+import { AuthProvider, useAuth } from './contexts/AuthContext.tsx';
+import { DarkModeProvider } from './contexts/DarkModeContext.tsx';
+import { NotificationProvider } from './contexts/NotificationContext.tsx';
+import { UserRole } from './types.ts';
+import ProtectedRoute from './components/auth/ProtectedRoute.tsx';
 
 // Page Imports
-import LandingPage from './pages/LandingPage';
-import DevRoleSwitcher from './components/DevRoleSwitcher';
-import ProductsPage from './pages/ProductsPage';
-import IndustriesPage from './pages/IndustriesPage';
-import WhyEvaluifyPage from './pages/WhyEvaluifyPage';
-import IntegrationsPage from './pages/IntegrationsPage';
-import CustomersPage from './pages/CustomersPage';
-import PricingPage from './pages/PricingPage';
-import AboutUsPage from './pages/AboutUsPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsOfServicePage from './pages/TermsOfServicePage';
+import LandingPage from './pages/LandingPage.tsx';
+import DevRoleSwitcher from './components/DevRoleSwitcher.tsx';
+import ProductsPage from './pages/ProductsPage.tsx';
+import IndustriesPage from './pages/IndustriesPage.tsx';
+import WhyEvaluifyPage from './pages/WhyEvaluifyPage.tsx';
+import IntegrationsPage from './pages/IntegrationsPage.tsx';
+import CustomersPage from './pages/CustomersPage.tsx';
+import PricingPage from './pages/PricingPage.tsx';
+import AboutUsPage from './pages/AboutUsPage.tsx';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage.tsx';
+import TermsOfServicePage from './pages/TermsOfServicePage.tsx';
 
 
 // Dashboard Imports
-import TeacherDashboard from './pages/TeacherDashboard';
-import CorporateDashboard from './pages/CorporateDashboard';
-import TrainingCompanyDashboard from './pages/TrainingCompanyDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import ExamineeDashboard from './pages/ExamineeDashboard';
-import ExamTaker from './pages/ExamTaker';
+import TeacherDashboard from './pages/TeacherDashboard.tsx';
+import CorporateDashboard from './pages/CorporateDashboard.tsx';
+import TrainingCompanyDashboard from './pages/TrainingCompanyDashboard.tsx';
+import AdminDashboard from './pages/AdminDashboard.tsx';
+import ExamineeDashboard from './pages/ExamineeDashboard.tsx';
+import ExamTaker from './pages/ExamTaker.tsx';
 
 // Teacher-specific pages that are not duplicated
-import TeacherAssessmentsPage from './pages/TeacherAssessmentsPage';
-import LiveInterviewPage from './pages/LiveInterviewPage';
-import TeacherCandidatesPage from './pages/TeacherCandidatesPage';
-import TeacherAIToolsPage from './pages/TeacherAIToolsPage';
-import TeacherReportsPage from './pages/TeacherReportsPage';
-import TestBuilderPage from './pages/TestBuilderPage';
+import TeacherAssessmentsPage from './pages/TeacherAssessmentsPage.tsx';
+import LiveInterviewPage from './pages/LiveInterviewPage.tsx';
+import TeacherCandidatesPage from './pages/TeacherCandidatesPage.tsx';
+import TeacherAIToolsPage from './pages/TeacherAIToolsPage.tsx';
+import TeacherReportsPage from './pages/TeacherReportsPage.tsx';
+import TestBuilderPage from './pages/TestBuilderPage.tsx';
 
 // Examinee pages
-import ExamineeResultsPage from './pages/ExamineeResultsPage';
-import ExamineeExamReviewPage from './pages/ExamineeExamReviewPage';
+import ExamineeResultsPage from './pages/ExamineeResultsPage.tsx';
+import ExamineeExamReviewPage from './pages/ExamineeExamReviewPage.tsx';
 
 // Admin pages
-import AdminUserManagementPage from './pages/AdminUserManagementPage';
-import AdminExamManagementPage from './pages/AdminExamManagementPage';
-import AdminCategoryManagementPage from './pages/AdminCategoryManagementPage';
-import AdminSettingsPage from './pages/AdminSettingsPage';
+import AdminUserManagementPage from './pages/AdminUserManagementPage.tsx';
+import AdminExamManagementPage from './pages/AdminExamManagementPage.tsx';
+import AdminCategoryManagementPage from './pages/AdminCategoryManagementPage.tsx';
+import AdminSettingsPage from './pages/AdminSettingsPage.tsx';
 
 // --- REFACTORED SHARED PAGES ---
-import ExamResultsPage from './pages/shared/ExamResultsPage';
-import ExamineeResultPage from './pages/shared/ExamineeResultPage';
-import ProctoringReportPage from './pages/shared/ProctoringReportPage';
-import QuestionBankPage from './pages/shared/QuestionBankPage';
-import AnalyticsPage from './pages/shared/AnalyticsPage';
-import InterviewsPage from './pages/shared/InterviewsPage';
+import ExamResultsPage from './pages/shared/ExamResultsPage.tsx';
+import ExamineeResultPage from './pages/shared/ExamineeResultPage.tsx';
+import ProctoringReportPage from './pages/shared/ProctoringReportPage.tsx';
+import QuestionBankPage from './pages/shared/QuestionBankPage.tsx';
+import AnalyticsPage from './pages/shared/AnalyticsPage.tsx';
+import InterviewsPage from './pages/shared/InterviewsPage.tsx';
 
 
 // Theme and Language Context

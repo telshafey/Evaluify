@@ -1,11 +1,11 @@
-import { useAuth } from '../contexts/AuthContext';
-import { UserRole } from '../types';
-import { useLanguage } from '../App';
+import { useAuth } from '../contexts/AuthContext.tsx';
+import { UserRole } from '../types.ts';
+import { useLanguage } from '../App.tsx';
 import { 
     ChartBarIcon, BookOpenIcon, UsersIcon, CheckCircleIcon,
     DocumentTextIcon, BuildingIcon, BriefcaseIcon, SettingsIcon, WrenchIcon,
     VideoCameraIcon, UserGroupIcon, DocumentReportIcon, SparklesIcon,
-} from '../components/icons';
+} from '../components/icons.tsx';
 
 interface NavLink {
     path: string;

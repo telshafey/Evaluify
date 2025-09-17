@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { UserRole } from '../types';
+import { UserRole } from '../types.ts';
 
 interface AuthContextType {
   userRole: UserRole | null;

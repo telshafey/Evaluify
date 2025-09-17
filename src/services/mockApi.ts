@@ -21,7 +21,7 @@ import {
     AnalyticsData,
     TrueFalseJustificationAnswer,
     SmartReport
-} from '../types';
+} from '../types.ts';
 
 // --- MOCK DATABASE ---
 
