@@ -71,7 +71,7 @@ export const generateResultPdf = (result: ExamResult, exam: Exam, platformName: 
             3: { cellWidth: 35 },
             4: { cellWidth: 20 },
         },
-        didDrawCell: (data: any) => {
+        didDrawCell: () => {
           // You can add custom cell drawing logic here if needed
         }
     });
