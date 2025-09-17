@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import DashboardLayout from '../../components/DashboardLayout';
-import useNavLinks from '../../hooks/useNavLinks';
-import { Interview } from '../../types';
-import { getInterviews, addInterview } from '../../services/mockApi';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { PlusCircleIcon, VideoCameraIcon } from '../../components/icons';
-import InterviewFormModal from '../../components/InterviewFormModal';
-import { useNotification } from '../../contexts/NotificationContext';
-import { useLanguage } from '../../App';
+import DashboardLayout from '../../components/DashboardLayout.tsx';
+import useNavLinks from '../../hooks/useNavLinks.ts';
+import { Interview } from '../../types.ts';
+import { getInterviews, addInterview } from '../../services/mockApi.ts';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import { PlusCircleIcon, VideoCameraIcon } from '../../components/icons.tsx';
+import InterviewFormModal from '../../components/InterviewFormModal.tsx';
+import { useNotification } from '../../contexts/NotificationContext.tsx';
+import { useLanguage } from '../../App.tsx';
 
 interface InterviewsPageProps {
     pageTitle: string;
@@ -28,11 +28,6 @@ const translations = {
         loadError: "Failed to load interviews.",
         addSuccess: "Interview scheduled successfully!",
         addError: "Failed to schedule interview.",
-        statusValues: {
-            Scheduled: 'Scheduled',
-            Completed: 'Completed',
-            Canceled: 'Canceled',
-        },
         statusColors: {
             Scheduled: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
             Completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
@@ -52,11 +47,6 @@ const translations = {
         loadError: "فشل تحميل المقابلات.",
         addSuccess: "تمت جدولة المقابلة بنجاح!",
         addError: "فشل في جدولة المقابلة.",
-         statusValues: {
-            Scheduled: 'مجدولة',
-            Completed: 'مكتملة',
-            Canceled: 'ملغاة',
-        },
          statusColors: {
             Scheduled: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
             Completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
@@ -128,10 +118,10 @@ const InterviewsPage: React.FC<InterviewsPageProps> = ({ pageTitle }) => {
                                     <tr key={interview.id} className="bg-white dark:bg-slate-800 border-b dark:border-slate-700">
                                         <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{interview.candidateName}</td>
                                         <td className="px-6 py-4">{interview.role}</td>
-                                        <td className="px-6 py-4">{new Date(interview.date).toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')}</td>
+                                        <td className="px-6 py-4">{new Date(interview.date).toLocaleString()}</td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-1 text-xs font-medium rounded-full ${t.statusColors[interview.status]}`}>
-                                                {t.statusValues[interview.status]}
+                                                {interview.status}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">

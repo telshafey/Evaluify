@@ -3,6 +3,7 @@ import DashboardLayout from '../components/DashboardLayout.tsx';
 import useNavLinks from '../hooks/useNavLinks.ts';
 import StatCard from '../components/dashboard/StatCard.tsx';
 import { UsersIcon, DocumentTextIcon, BookOpenIcon, ShieldCheckIcon } from '../components/icons.tsx';
+// Fix: Added imports for mockApi and types
 import { getDashboardStats } from '../services/mockApi.ts';
 import { DashboardStats, UserRole } from '../types.ts';
 import LoadingSpinner from '../components/LoadingSpinner.tsx';

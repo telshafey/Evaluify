@@ -8,57 +8,10 @@ import { TrashIcon, PencilIcon, DocumentTextIcon } from '../components/icons.tsx
 import EmptyState from '../components/EmptyState.tsx';
 import LoadingSpinner from '../components/LoadingSpinner.tsx';
 import ExamFormModal from '../components/ExamFormModal.tsx';
-import { useLanguage } from '../App.tsx';
-
-const translations = {
-    en: {
-        pageTitle: "Exam Management",
-        description: "As an admin, you can view, edit, or delete any exam on the platform.",
-        searchPlaceholder: "Search by title or owner...",
-        tableTitle: "Exam Title",
-        tableOwner: "Owner",
-        tableDifficulty: "Difficulty",
-        tableQuestions: "Questions",
-        tableActions: "Actions",
-        edit: "Edit",
-        delete: "Delete",
-        deleteConfirm: "Are you sure you want to delete this assessment? This action cannot be undone.",
-        noExamsFound: "No Exams Found",
-        noExamsMessage: "There are no exams matching your search criteria.",
-        loadError: "Failed to load exams.",
-        updateSuccess: "Assessment updated successfully!",
-        updateError: "Failed to update assessment.",
-        deleteSuccess: "Assessment deleted successfully.",
-        deleteError: "Failed to delete assessment.",
-    },
-    ar: {
-        pageTitle: "إدارة الاختبارات",
-        description: "بصفتك مسؤولاً، يمكنك عرض أو تعديل أو حذف أي اختبار على المنصة.",
-        searchPlaceholder: "ابحث بالعنوان أو المالك...",
-        tableTitle: "عنوان الاختبار",
-        tableOwner: "المالك",
-        tableDifficulty: "الصعوبة",
-        tableQuestions: "الأسئلة",
-        tableActions: "الإجراءات",
-        edit: "تعديل",
-        delete: "حذف",
-        deleteConfirm: "هل أنت متأكد أنك تريد حذف هذا التقييم؟ لا يمكن التراجع عن هذا الإجراء.",
-        noExamsFound: "لم يتم العثور على اختبارات",
-        noExamsMessage: "لا توجد اختبارات تطابق معايير البحث الحالية.",
-        loadError: "فشل تحميل الاختبارات.",
-        updateSuccess: "تم تحديث التقييم بنجاح!",
-        updateError: "فشل تحديث التقييم.",
-        deleteSuccess: "تم حذف التقييم بنجاح.",
-        deleteError: "فشل حذف التقييم.",
-    }
-};
 
 const AdminExamManagementPage: React.FC = () => {
     const navLinks = useNavLinks();
     const { addNotification } = useNotification();
-    const { lang } = useLanguage();
-    const t = translations[lang];
-
     const [exams, setExams] = useState<Exam[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -72,13 +25,13 @@ const AdminExamManagementPage: React.FC = () => {
                 const data = await getAllExams();
                 setExams(data);
             } catch (error) {
-                addNotification(t.loadError, "error");
+                addNotification("Failed to load exams.", "error");
             } finally {
                 setLoading(false);
             }
         };
         loadExams();
-    }, [addNotification, t.loadError]);
+    }, [addNotification]);
     
     const handleOpenEditModal = (exam: Exam) => {
         setExamToEdit(exam);
@@ -90,21 +43,21 @@ const AdminExamManagementPage: React.FC = () => {
         try {
             const updatedExam = await updateAssessment(examData as Exam);
             setExams(prev => prev.map(e => e.id === updatedExam.id ? updatedExam : e));
-            addNotification(t.updateSuccess, "success");
+            addNotification("Assessment updated successfully!", "success");
             setIsModalOpen(false);
         } catch (error) {
-            addNotification(t.updateError, "error");
+            addNotification("Failed to update assessment.", "error");
         }
     };
     
     const handleDeleteExam = async (examId: string) => {
-        if (window.confirm(t.deleteConfirm)) {
+        if (window.confirm("Are you sure you want to delete this assessment? This action cannot be undone.")) {
             try {
                 await deleteAssessment(examId);
                 setExams(prev => prev.filter(e => e.id !== examId));
-                addNotification(t.deleteSuccess, "success");
+                addNotification("Assessment deleted successfully.", "success");
             } catch (error) {
-                addNotification(t.deleteError, "error");
+                addNotification("Failed to delete assessment.", "error");
             }
         }
     };
@@ -117,12 +70,14 @@ const AdminExamManagementPage: React.FC = () => {
     }, [exams, searchTerm]);
 
     return (
-        <DashboardLayout navLinks={navLinks} pageTitle={t.pageTitle}>
+        <DashboardLayout navLinks={navLinks} pageTitle="Exam Management">
             <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                <p className="text-slate-600 dark:text-slate-400 mb-4">{t.description}</p>
+                <p className="text-slate-600 dark:text-slate-400 mb-4">
+                    As an admin, you can view, edit, or delete any exam on the platform.
+                </p>
                 <input
                     type="text"
-                    placeholder={t.searchPlaceholder}
+                    placeholder="Search by title or owner..."
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
                     className="p-3 bg-slate-100 dark:bg-slate-700 rounded-lg w-full mb-4"
@@ -131,17 +86,17 @@ const AdminExamManagementPage: React.FC = () => {
                 {loading ? <LoadingSpinner /> : (
                     <>
                         {filteredExams.length === 0 ? (
-                            <EmptyState icon={DocumentTextIcon} title={t.noExamsFound} message={t.noExamsMessage} />
+                            <EmptyState icon={DocumentTextIcon} title="No Exams Found" message="There are no exams matching your search criteria." />
                         ) : (
                              <div className="overflow-x-auto">
                                 <table className="w-full text-sm text-left text-slate-500 dark:text-slate-400">
                                     <thead className="text-xs text-slate-700 uppercase bg-slate-50 dark:bg-slate-700 dark:text-slate-300">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3">{t.tableTitle}</th>
-                                            <th scope="col" className="px-6 py-3">{t.tableOwner}</th>
-                                            <th scope="col" className="px-6 py-3">{t.tableDifficulty}</th>
-                                            <th scope="col" className="px-6 py-3">{t.tableQuestions}</th>
-                                            <th scope="col" className="px-6 py-3">{t.tableActions}</th>
+                                            <th scope="col" className="px-6 py-3">Exam Title</th>
+                                            <th scope="col" className="px-6 py-3">Owner</th>
+                                            <th scope="col" className="px-6 py-3">Difficulty</th>
+                                            <th scope="col" className="px-6 py-3">Questions</th>
+                                            <th scope="col" className="px-6 py-3">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -152,8 +107,8 @@ const AdminExamManagementPage: React.FC = () => {
                                                 <td className="px-6 py-4">{exam.difficulty}</td>
                                                 <td className="px-6 py-4">{exam.questionCount}</td>
                                                 <td className="px-6 py-4 flex items-center gap-2">
-                                                    <button onClick={() => handleOpenEditModal(exam)} className="p-2 text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full" title={t.edit}><PencilIcon className="w-4 h-4" /></button>
-                                                    <button onClick={() => handleDeleteExam(exam.id)} className="p-2 text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full" title={t.delete}><TrashIcon className="w-4 h-4" /></button>
+                                                    <button onClick={() => handleOpenEditModal(exam)} className="p-2 text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full" title="Edit"><PencilIcon className="w-4 h-4" /></button>
+                                                    <button onClick={() => handleDeleteExam(exam.id)} className="p-2 text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full" title="Delete"><TrashIcon className="w-4 h-4" /></button>
                                                 </td>
                                             </tr>
                                         ))}

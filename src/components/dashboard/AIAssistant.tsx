@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, FormEvent } from 'react';
+// Fix: Corrected import for @google/genai to use GoogleGenAI as per guidelines.
 import { GoogleGenAI } from "@google/genai";
 import { SparklesIcon, PaperAirplaneIcon, XCircleIcon, SpinnerIcon } from '../icons.tsx';
 import { useLanguage } from '../../App.tsx';
@@ -28,7 +29,8 @@ const AIAssistant: React.FC = () => {
     const t = translations[lang];
     const messagesEndRef = useRef<HTMLDivElement>(null);
     
-    const ai = new GoogleGenAI({apiKey: process.env.API_KEY as string});
+    // Fix: Initialize GoogleGenAI with apiKey from process.env as per guidelines.
+    const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {
@@ -50,12 +52,14 @@ const AIAssistant: React.FC = () => {
         setIsLoading(true);
 
         try {
+            // FIX: Use ai.models.generateContent as per guidelines
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: `You are a helpful assistant for an online assessment platform called "evaluify". Keep your answers concise and helpful. User question: "${input}"`,
             });
             
-            const aiMessage: Message = { sender: 'ai', text: response.text };
+            // FIX: Access response text directly from the response object and provide a fallback
+            const aiMessage: Message = { sender: 'ai', text: response.text ?? "Sorry, I couldn't get a response." };
             setMessages(prev => [...prev, aiMessage]);
 
         } catch (error) {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import DashboardLayout from '../../components/DashboardLayout';
-import useNavLinks from '../../hooks/useNavLinks';
-import { getAnalyticsData } from '../../services/mockApi';
-import { AnalyticsData } from '../../types';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { useDarkMode } from '../../contexts/DarkModeContext';
-import { useTheme } from '../../App';
+import DashboardLayout from '../../components/DashboardLayout.tsx';
+import useNavLinks from '../../hooks/useNavLinks.ts';
+import { getAnalyticsData } from '../../services/mockApi.ts';
+import { AnalyticsData } from '../../types.ts';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import { useDarkMode } from '../../contexts/DarkModeContext.tsx';
+import { useTheme } from '../../App.tsx';
 
 // Since Chart.js is loaded from a CDN, we need to declare it to TypeScript
 declare var Chart: any;

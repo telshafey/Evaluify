@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import DashboardLayout from '../components/DashboardLayout';
-import useNavLinks from '../hooks/useNavLinks';
-import { Candidate, CandidateStatus } from '../types';
-import KanbanBoard from '../components/kanban/KanbanBoard';
-import { PlusCircleIcon } from '../components/icons';
-import { getCandidates, updateCandidateStatus } from '../services/mockApi';
-import { useNotification } from '../contexts/NotificationContext';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useLanguage } from '../App';
+import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks.ts';
+import { Candidate, CandidateStatus } from '../types.ts';
+import KanbanBoard from '../components/kanban/KanbanBoard.tsx';
+import { PlusCircleIcon } from '../components/icons.tsx';
+import { getCandidates, updateCandidateStatus } from '../services/mockApi.ts';
+import { useNotification } from '../contexts/NotificationContext.tsx';
+import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import { useLanguage } from '../App.tsx';
 
 const translations = {
     en: {

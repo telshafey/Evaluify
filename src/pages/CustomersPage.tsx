@@ -1,4 +1,3 @@
-import React from 'react';
 import SitePageLayout from '../components/SitePageLayout.tsx';
 import { useLanguage } from '../App.tsx';
 
@@ -16,8 +15,8 @@ const translations = {
         customer2Quote: `"The automated technical assessments allow our engineering managers to focus only on the most qualified candidates, saving countless hours."`
     },
     ar: {
-        title: "شركاء النجاح",
-        description: "نفخر بشراكتنا مع المؤسسات التعليمية والشركات الرائدة حول العالم. شاهد كيف تُحدِث evaluify تحولاً في التقييم عبر الإنترنت للمؤسسات التي تشبه مؤسستك.",
+        title: "موثوق به من قبل الأفضل",
+        description: "نحن فخورون بشراكتنا مع المؤسسات التعليمية والشركات الرائدة في جميع أنحاء العالم. انظر كيف تعمل evaluify على تحويل التقييم عبر الإنترنت للمؤسسات مثل مؤسستك.",
         caseStudy: "دراسة حالة",
         readStory: "اقرأ القصة كاملة",
 
@@ -25,7 +24,7 @@ const translations = {
         customer1Quote: `"مع المراقبة بالذكاء الاصطناعي من evaluify، شهدنا انخفاضًا كبيرًا في حالات عدم النزاهة الأكاديمية، مما أعاد الثقة في برامجنا للشهادات عبر الإنترنت."`,
 
         customer2Title: "شركة إبداع تقلل وقت التوظيف بنسبة 30%",
-        customer2Quote: `"التقييمات الفنية الآلية تسمح لمديري الهندسة لدينا بالتركيز فقط على المرشحين الأكثر تأهيلاً، مما يوفر ساعات لا حصر لها."`
+        customer2Quote: `"تسمح التقييمات الفنية الآلية لمديري الهندسة لدينا بالتركيز فقط على المرشحين الأكثر تأهيلاً، مما يوفر ساعات لا حصر لها."`
     }
 };
 

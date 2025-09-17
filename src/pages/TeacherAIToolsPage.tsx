@@ -1,13 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DashboardLayout from '../components/DashboardLayout';
-import useNavLinks from '../hooks/useNavLinks';
-import { SparklesIcon, UploadIcon, VideoCameraIcon, ChartBarIcon, SpinnerIcon } from '../components/icons';
-import { analyzeCvWithAI, addQuestionToBank } from '../services/mockApi';
-import { CvAnalysisResult, Question } from '../types';
-import { useNotification } from '../contexts/NotificationContext';
-import CvAnalysisResultModal from '../components/CvAnalysisResultModal';
-import { AIQuestionGeneratorModal } from '../components/AIQuestionGeneratorModal';
+import DashboardLayout from '../../components/DashboardLayout.tsx';
+import useNavLinks from '../../hooks/useNavLinks.ts';
+import { SparklesIcon, UploadIcon, VideoCameraIcon, ChartBarIcon, SpinnerIcon } from '../../components/icons.tsx';
+import { analyzeCvWithAI, addQuestionToBank } from '../../services/mockApi.ts';
+import { CvAnalysisResult, Question } from '../../types.ts';
+import { useNotification } from '../../contexts/NotificationContext.tsx';
+import CvAnalysisResultModal from '../../components/CvAnalysisResultModal.tsx';
+import { AIQuestionGeneratorModal } from '../../components/AIQuestionGeneratorModal.tsx';
 
 
 interface ToolCardProps {

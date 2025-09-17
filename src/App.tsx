@@ -1,8 +1,10 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+// Fix: Corrected react-router-dom import syntax.
+import { HashRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from './contexts/AuthContext.tsx';
 import { DarkModeProvider } from './contexts/DarkModeContext.tsx';
 import { NotificationProvider } from './contexts/NotificationContext.tsx';
+// Fix: Added import for UserRole.
 import { UserRole } from './types.ts';
 import ProtectedRoute from './components/auth/ProtectedRoute.tsx';
 
@@ -30,7 +32,8 @@ import ExamTaker from './pages/ExamTaker.tsx';
 
 // Teacher-specific pages that are not duplicated
 import TeacherAssessmentsPage from './pages/TeacherAssessmentsPage.tsx';
-import LiveInterviewPage from './pages/LiveInterviewPage.tsx';
+// import TeacherInterviewsPage from './pages/TeacherInterviewsPage'; // Replaced by shared page
+import LiveInterviewPage from './pages/LiveInterviewPage.tsx'; // New import
 import TeacherCandidatesPage from './pages/TeacherCandidatesPage.tsx';
 import TeacherAIToolsPage from './pages/TeacherAIToolsPage.tsx';
 import TeacherReportsPage from './pages/TeacherReportsPage.tsx';
@@ -52,6 +55,7 @@ import ExamineeResultPage from './pages/shared/ExamineeResultPage.tsx';
 import ProctoringReportPage from './pages/shared/ProctoringReportPage.tsx';
 import QuestionBankPage from './pages/shared/QuestionBankPage.tsx';
 import AnalyticsPage from './pages/shared/AnalyticsPage.tsx';
+// FIX: Correctly import InterviewsPage from its new shared location.
 import InterviewsPage from './pages/shared/InterviewsPage.tsx';
 
 
@@ -162,7 +166,8 @@ const InterviewsRouter: React.FC = () => {
 
 
 const AppRoutes: React.FC = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
+    const { lang } = useLanguage();
 
     if (!isAuthenticated) {
         return (

@@ -81,6 +81,7 @@ let mockCandidates: Candidate[] = [
 let mockInterviews: Interview[] = [
     { id: 'int1', candidateName: 'Jane Smith', role: 'Backend Developer', date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), interviewerName: 'Ahmad M.', status: 'Scheduled' },
     { id: 'int2', candidateName: 'Peter Jones', role: 'UI/UX Designer', date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), interviewerName: 'Ahmad M.', status: 'Completed' },
+    // Fix: Changed 'name' to 'candidateName' to match the Interview type.
     { id: 'int3', candidateName: 'John Doe', role: 'Frontend Developer', date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), interviewerName: 'Ahmad M.', status: 'Scheduled' },
 ];
 
@@ -407,7 +408,7 @@ export const generateFullExamWithAI = async (params: { topic: string, difficulty
     };
 };
 
-export const analyzeCvWithAI = async (_cvText: string, _jobDescription: string): Promise<CvAnalysisResult> => {
+export const analyzeCvWithAI = async (cvText: string, jobDescription: string): Promise<CvAnalysisResult> => {
     await delay(2500);
     // Simulate some basic analysis
     const score = Math.floor(60 + Math.random() * 40);
@@ -424,7 +425,7 @@ export const analyzeCvWithAI = async (_cvText: string, _jobDescription: string):
     };
 };
 
-export const generateSmartReportWithAI = async (_ownerId: string): Promise<SmartReport> => {
+export const generateSmartReportWithAI = async (ownerId: string): Promise<SmartReport> => {
     await delay(2500);
     // This simulates analyzing all data for a given owner (e.g., teacher-1)
     // In a real app, this would be a complex backend process feeding data to Gemini

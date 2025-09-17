@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { getExamineeDashboardData } from '../services/mockApi';
-import { Exam, ExamResult } from '../types';
-import { BookOpenIcon, ClockIcon, CalendarIcon } from '../components/icons';
-import LoadingSpinner from '../components/LoadingSpinner';
-import DashboardLayout from '../components/DashboardLayout';
-import useNavLinks from '../hooks/useNavLinks';
-import { useLanguage } from '../App';
-import EmptyState from '../components/EmptyState';
+import { getExamineeDashboardData } from '../services/mockApi.ts';
+import { Exam, ExamResult } from '../types.ts';
+import { BookOpenIcon, ClockIcon, CalendarIcon } from '../components/icons.tsx';
+import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks.ts';
+import { useLanguage } from '../App.tsx';
+import EmptyState from '../components/EmptyState.tsx';
 
 const translations = {
     en: {
@@ -131,12 +131,12 @@ const ExamineeDashboard = () => {
                 {completedResults.map(result => {
                     const percentage = Math.round((result.score / result.totalPoints) * 100);
                     return (
-                        <div key={result.id} className="p-4 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 flex flex-col gap-4 sm:flex-row items-center justify-between">
-                            <div className="text-center sm:text-left">
+                        <div key={result.id} className="p-4 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 md:flex items-center justify-between">
+                            <div className='mb-4 md:mb-0'>
                                 <h4 className="font-bold text-slate-800 dark:text-slate-100">{result.examTitle}</h4>
                                 <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Submitted: {result.submittedAt.toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US')}</p>
                             </div>
-                            <div className="flex items-center gap-6">
+                            <div className="flex items-center gap-4 md:gap-6">
                                 <div className="text-right">
                                     <p className={`font-bold text-xl ${percentage >= 80 ? 'text-green-500' : 'text-yellow-500'}`}>{percentage}%</p>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">{result.score}/{result.totalPoints}</p>
