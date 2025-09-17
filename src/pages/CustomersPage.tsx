@@ -1,6 +1,6 @@
-
-import SitePageLayout from '../components/SitePageLayout';
-import { useLanguage } from '../App';
+import React from 'react';
+import SitePageLayout from '../components/SitePageLayout.tsx';
+import { useLanguage } from '../App.tsx';
 
 const translations = {
     en: {

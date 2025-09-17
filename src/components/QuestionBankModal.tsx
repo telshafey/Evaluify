@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { getQuestionBank } from '../services/mockApi';
-import { Question, QuestionStatus, QuestionType } from '../types';
-import { useLanguage } from '../App';
+import { getQuestionBank } from '../services/mockApi.ts';
+import { Question, QuestionStatus, QuestionType } from '../types.ts';
+import { useLanguage } from '../App.tsx';
 
 interface QuestionBankModalProps {
   isOpen: boolean;

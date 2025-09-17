@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { generateQuestionsWithAI } from '../services/mockApi';
-import { Question, QuestionType } from '../types';
-import { SparklesIcon, SpinnerIcon } from './icons';
-import { useLanguage } from '../App';
+import { generateQuestionsWithAI } from '../services/mockApi.ts';
+import { Question, QuestionType } from '../types.ts';
+import { SparklesIcon } from './icons.tsx';
+import { useLanguage } from '../App.tsx';
 
 interface AIQuestionGeneratorModalProps {
   isOpen: boolean;

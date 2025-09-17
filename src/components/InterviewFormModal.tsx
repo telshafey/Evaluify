@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Interview } from '../types';
-import { useLanguage } from '../App';
+import { Interview } from '../types.ts';
+import { useLanguage } from '../App.tsx';
 
 interface InterviewFormModalProps {
   isOpen: boolean;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import { useTheme, useLanguage } from '../App';
-import { useDarkMode } from '../contexts/DarkModeContext';
-import { BookOpenIcon, SunIcon, MoonIcon } from './icons';
+import { useTheme, useLanguage } from '../App.tsx';
+import { useDarkMode } from '../contexts/DarkModeContext.tsx';
+import { BookOpenIcon, SunIcon, MoonIcon } from './icons.tsx';
 
 interface SitePageLayoutProps {
     children: React.ReactNode;

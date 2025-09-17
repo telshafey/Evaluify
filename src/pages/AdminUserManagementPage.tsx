@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import DashboardLayout from '../components/DashboardLayout';
-import useNavLinks from '../hooks/useNavLinks';
-import { User, UserRole } from '../types';
-import { getUsers, updateUserRole, deleteUser } from '../services/mockApi';
-import { useNotification } from '../contexts/NotificationContext';
-import { UsersIcon, TrashIcon, PencilIcon } from '../components/icons';
-import EmptyState from '../components/EmptyState';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useLanguage } from '../App';
+import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks.ts';
+import { User, UserRole } from '../types.ts';
+import { getUsers, updateUserRole, deleteUser } from '../services/mockApi.ts';
+import { useNotification } from '../contexts/NotificationContext.tsx';
+import { UsersIcon, TrashIcon, PencilIcon } from '../components/icons.tsx';
+import EmptyState from '../components/EmptyState.tsx';
+import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import { useLanguage } from '../App.tsx';
 
 const translations = {
     en: {

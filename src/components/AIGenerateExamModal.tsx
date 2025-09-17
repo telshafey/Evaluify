@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { generateFullExamWithAI } from '../services/mockApi';
-import { Exam, ExamDifficulty } from '../types';
-import { SparklesIcon } from './icons';
-import { useLanguage } from '../App';
+import { generateFullExamWithAI } from '../services/mockApi.ts';
+import { Exam, ExamDifficulty } from '../types.ts';
+import { SparklesIcon } from './icons.tsx';
+import { useLanguage } from '../App.tsx';
 
 interface AIGenerateExamModalProps {
   isOpen: boolean;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types';
-import { XCircleIcon, Wand2Icon } from './icons';
-import { getAIQuestionSuggestions, getCategories } from '../services/mockApi';
-import { useLanguage } from '../App';
+import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types.ts';
+import { XCircleIcon, Wand2Icon } from './icons.tsx';
+import { getAIQuestionSuggestions, getCategories } from '../services/mockApi.ts';
+import { useLanguage } from '../App.tsx';
 
 interface QuestionFormModalProps {
   isOpen: boolean;
@@ -37,7 +37,6 @@ const translations = {
         modelAnswerHelp: "Provide the model answer or grading criteria here...",
         cancel: "Cancel",
         save: "Save Question",
-        // FIX: Added missing questionTypes translations.
         questionTypes: {
             [QuestionType.MultipleChoice]: 'Multiple Choice',
             [QuestionType.MultipleSelect]: 'Multiple Select',
@@ -74,7 +73,6 @@ const translations = {
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
         cancel: "إلغاء",
         save: "حفظ السؤال",
-        // FIX: Added missing questionTypes translations.
         questionTypes: {
             [QuestionType.MultipleChoice]: 'اختيار من متعدد',
             [QuestionType.MultipleSelect]: 'تحديد متعدد',

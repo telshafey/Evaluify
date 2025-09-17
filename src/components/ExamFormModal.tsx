@@ -1,10 +1,10 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { Exam, Question, QuestionType, ExamDifficulty } from '../types';
-import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, SpinnerIcon } from './icons';
-import QuestionBankModal from './QuestionBankModal';
-import { AIQuestionGeneratorModal } from './AIQuestionGeneratorModal';
-import { getAIQuestionSuggestions } from '../services/mockApi';
-import { useLanguage } from '../App';
+import { Exam, Question, QuestionType, ExamDifficulty } from '../types.ts';
+import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, SpinnerIcon } from './icons.tsx';
+import QuestionBankModal from './QuestionBankModal.tsx';
+import { AIQuestionGeneratorModal } from './AIQuestionGeneratorModal.tsx';
+import { getAIQuestionSuggestions } from '../services/mockApi.ts';
+import { useLanguage } from '../App.tsx';
 
 interface ExamFormModalProps {
   isOpen: boolean;

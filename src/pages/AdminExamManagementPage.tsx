@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import DashboardLayout from '../components/DashboardLayout';
-import useNavLinks from '../hooks/useNavLinks';
-import { Exam } from '../types';
-import { getAllExams, updateAssessment, deleteAssessment } from '../services/mockApi';
-import { useNotification } from '../contexts/NotificationContext';
-import { TrashIcon, PencilIcon, DocumentTextIcon } from '../components/icons';
-import EmptyState from '../components/EmptyState';
-import LoadingSpinner from '../components/LoadingSpinner';
-import ExamFormModal from '../components/ExamFormModal';
-import { useLanguage } from '../App';
+import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks.ts';
+import { Exam } from '../types.ts';
+import { getAllExams, updateAssessment, deleteAssessment } from '../services/mockApi.ts';
+import { useNotification } from '../contexts/NotificationContext.tsx';
+import { TrashIcon, PencilIcon, DocumentTextIcon } from '../components/icons.tsx';
+import EmptyState from '../components/EmptyState.tsx';
+import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import ExamFormModal from '../components/ExamFormModal.tsx';
+import { useLanguage } from '../App.tsx';
 
 const translations = {
     en: {

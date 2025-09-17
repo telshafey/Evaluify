@@ -1,7 +1,7 @@
 import React from 'react';
-import { UserRole } from '../types';
-import { BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon } from './icons';
-import { useTheme, useLanguage } from '../App';
+import { UserRole } from '../types.ts';
+import { BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon } from './icons.tsx';
+import { useTheme, useLanguage } from '../App.tsx';
 
 interface LoginModalProps {
   isOpen: boolean;

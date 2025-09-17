@@ -1,10 +1,10 @@
 import React, { ReactNode, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { SunIcon, MoonIcon, MenuIcon } from './icons';
-import { useAuth } from '../contexts/AuthContext';
-import { useLanguage, useTheme } from '../App';
-import { useDarkMode } from '../contexts/DarkModeContext';
-import AIAssistant from './dashboard/AIAssistant';
+import { SunIcon, MoonIcon, MenuIcon } from './icons.tsx';
+import { useAuth } from '../contexts/AuthContext.tsx';
+import { useLanguage, useTheme } from '../App.tsx';
+import { useDarkMode } from '../contexts/DarkModeContext.tsx';
+import AIAssistant from './dashboard/AIAssistant.tsx';
 
 interface NavLink {
   path: string;
