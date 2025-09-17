@@ -1,7 +1,6 @@
-
 import React, { ReactNode, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { LogOutIcon, SunIcon, MoonIcon, MenuIcon } from './icons';
+import { SunIcon, MoonIcon, MenuIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage, useTheme } from '../App';
 import { useDarkMode } from '../contexts/DarkModeContext';

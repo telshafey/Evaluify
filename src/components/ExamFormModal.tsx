@@ -2,7 +2,6 @@ import React, { useState, useEffect, ReactNode } from 'react';
 import { Exam, Question, QuestionType, ExamDifficulty } from '../types';
 import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, SpinnerIcon } from './icons';
 import QuestionBankModal from './QuestionBankModal';
-// Fix: Changed to a named import to resolve the module error.
 import { AIQuestionGeneratorModal } from './AIQuestionGeneratorModal';
 import { getAIQuestionSuggestions } from '../services/mockApi';
 import { useLanguage } from '../App';

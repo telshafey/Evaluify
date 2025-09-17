@@ -1,7 +1,6 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-// Fix: Added imports for types and mockApi
+import React, { useState, useEffect } from 'react';
 import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types';
-import { XCircleIcon, Wand2Icon, SpinnerIcon } from './icons';
+import { XCircleIcon, Wand2Icon } from './icons';
 import { getAIQuestionSuggestions, getCategories } from '../services/mockApi';
 import { useLanguage } from '../App';
 
@@ -259,7 +258,6 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                 <div>
                     <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">{t.questionType}</label>
                     <select value={q.type} onChange={e => handleTypeChange(e.target.value as QuestionType)} className="p-2 bg-slate-100 dark:bg-slate-700 rounded-md w-full">
-                        {/* FIX: Use translations for question types. */}
                         {Object.values(QuestionType).map(type => (
                           <option key={type} value={type}>{t.questionTypes[type]}</option>
                         ))}

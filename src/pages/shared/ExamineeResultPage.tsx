@@ -10,6 +10,7 @@ import { useTheme } from '../../App';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
+
 const formatAnswerForPdf = (answer: Answer, type: QuestionType): string => {
     if (answer === null || answer === undefined) return "Not Answered";
     if (Array.isArray(answer)) return answer.join(', ');

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { generateQuestionsWithAI } from '../services/mockApi';
 import { Question, QuestionType } from '../types';
-import { SparklesIcon } from './icons';
+import { SparklesIcon, SpinnerIcon } from './icons';
 import { useLanguage } from '../App';
 
 interface AIQuestionGeneratorModalProps {
@@ -53,7 +53,6 @@ const translations = {
     }
 }
 
-// Fix: Switched to a named export to resolve the module import error.
 export const AIQuestionGeneratorModal: React.FC<AIQuestionGeneratorModalProps> = ({ isOpen, onClose, onAddQuestions }) => {
   const [topic, setTopic] = useState('React Hooks');
   const [questionType, setQuestionType] = useState<QuestionType>(QuestionType.MultipleChoice);
