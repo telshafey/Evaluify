@@ -10,7 +10,13 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ExamFormModal from '../components/ExamFormModal';
 import AIGenerateExamModal from '../components/AIGenerateExamModal';
 
-const TeacherAssessmentsPage: React.FC = () => {
+interface AssessmentsPageProps {
+    pageTitle: string;
+    description: string;
+    ownerId: string;
+}
+
+const AssessmentsPage: React.FC<AssessmentsPageProps> = ({ pageTitle, ownerId }) => {
     const navLinks = useNavLinks();
     const { addNotification } = useNotification();
 
@@ -29,7 +35,7 @@ const TeacherAssessmentsPage: React.FC = () => {
         const loadExams = async () => {
             try {
                 setLoading(true);
-                const data = await getAssessments('teacher-1'); // Hardcoded ownerId for demo
+                const data = await getAssessments(ownerId);
                 setExams(data);
             } catch (error) {
                 addNotification("Failed to load assessments.", "error");
@@ -38,7 +44,7 @@ const TeacherAssessmentsPage: React.FC = () => {
             }
         };
         loadExams();
-    }, [addNotification]);
+    }, [addNotification, ownerId]);
     
     const handleOpenCreateModal = () => {
         setExamToEdit(null);
@@ -57,7 +63,7 @@ const TeacherAssessmentsPage: React.FC = () => {
                 setExams(prev => prev.map(e => e.id === updatedExam.id ? updatedExam : e));
                 addNotification("Assessment updated successfully!", "success");
             } else {
-                const newExam = await addAssessment({ ...examData, ownerId: 'teacher-1' });
+                const newExam = await addAssessment({ ...examData, ownerId });
                 setExams(prev => [...prev, newExam]);
                 addNotification("Assessment created successfully!", "success");
             }
@@ -120,7 +126,7 @@ const TeacherAssessmentsPage: React.FC = () => {
     );
 
     return (
-        <DashboardLayout navLinks={navLinks} pageTitle="Assessments" headerActions={headerActions}>
+        <DashboardLayout navLinks={navLinks} pageTitle={pageTitle} headerActions={headerActions}>
             <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
                 <div className="flex flex-col md:flex-row gap-4 mb-4">
                     <input
@@ -226,4 +232,4 @@ const TeacherAssessmentsPage: React.FC = () => {
     );
 };
 
-export default TeacherAssessmentsPage;
+export default AssessmentsPage;

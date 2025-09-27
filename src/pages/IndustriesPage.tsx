@@ -1,7 +1,8 @@
+
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout';
-import { useLanguage } from '../App';
-import { BookOpenIcon, BriefcaseIcon, CheckCircleIcon } from '../components/icons';
+import SitePageLayout from '../components/SitePageLayout.tsx';
+import { useLanguage } from '../App.tsx';
+import { BookOpenIcon, BriefcaseIcon, CheckCircleIcon } from '../components/icons.tsx';
 
 const translations = {
     en: {
@@ -18,17 +19,17 @@ const translations = {
         trainingDesc: "Validate learning and award certifications with confidence. Create comprehensive exams for professional development and training programs.",
     },
     ar: {
-        title: "حلول مصممة لكل قطاع",
-        description: "توفر evaluify حلول تقييم مخصصة لمجموعة واسعة من القطاعات. اكتشف كيف يمكن تكييف منصتنا لتناسب التحديات الفريدة لقطاعك.",
+        title: "حلول لكل قطاع",
+        description: "توفر evaluify حلول تقييم مخصصة لمجموعة واسعة من القطاعات. اكتشف كيف يمكن تخصيص منصتنا لتناسب التحديات الفريدة لقطاعك.",
         
         educationTitle: "التعليم العالي",
-        educationDesc: "اضمن النزاهة الأكاديمية للاختبارات والواجبات واختبارات القبول عن بعد، من خلال المراقبة القوية بالذكاء الاصطناعي وكشف الانتحال.",
+        educationDesc: "اضمن النزاهة الأكاديمية للاختبارات عن بعد والواجبات واختبارات القبول من خلال المراقبة القوية بالذكاء الاصطناعي وكشف الانتحال.",
 
         corporateTitle: "التوظيف في الشركات",
-        corporateDesc: "بسّط عملية التوظيف لديك بتقييمات موحدة للمهارات الفنية والشخصية. حدد أفضل المرشحين بسرعة أكبر وقلل من التحيز في الاختيار.",
+        corporateDesc: "قم بتبسيط عملية التوظيف الخاصة بك من خلال تقييمات المهارات الفنية والشخصية الموحدة. حدد أفضل المرشحين بشكل أسرع وقلل من التحيز في التوظيف.",
 
-        trainingTitle: "التدريب وإصدار الشهادات",
-        trainingDesc: "تحقق من مخرجات التعلم وامْنح الشهادات بثقة. أنشئ اختبارات شاملة لبرامج التطوير المهني والتدريب.",
+        trainingTitle: "التدريب والشهادات",
+        trainingDesc: "تحقق من صحة التعلم ومنح الشهادات بثقة. قم بإنشاء اختبارات شاملة لبرامج التطوير المهني والتدريب.",
     }
 };
 

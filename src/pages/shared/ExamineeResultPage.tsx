@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { useParams, Link } from "react-router-dom";
 import DashboardLayout from '../../components/DashboardLayout.tsx';
 import useNavLinks from '../../hooks/useNavLinks.ts';
@@ -9,7 +8,6 @@ import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 import { ShieldCheckIcon, CheckCircleIcon, XCircleIcon, DownloadIcon } from '../../components/icons.tsx';
 import { useTheme } from '../../App.tsx';
 import { jsPDF } from 'jspdf';
-// @ts-ignore
 import 'jspdf-autotable';
 
 
@@ -71,9 +69,6 @@ export const generateResultPdf = (result: ExamResult, exam: Exam, platformName: 
             3: { cellWidth: 35 },
             4: { cellWidth: 20 },
         },
-        didDrawCell: () => {
-          // You can add custom cell drawing logic here if needed
-        }
     });
 
     // Footer

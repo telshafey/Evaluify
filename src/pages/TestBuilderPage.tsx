@@ -4,7 +4,7 @@ import DashboardLayout from '../components/DashboardLayout.tsx';
 import useNavLinks from '../hooks/useNavLinks.ts';
 import { Question, QuestionType, ExamDifficulty } from '../types.ts';
 import { SparklesIcon, TrashIcon, EyeIcon, SpinnerIcon } from '../components/icons.tsx';
-import { AIQuestionGeneratorModal } from '../components/AIQuestionGeneratorModal.tsx';
+import AIQuestionGeneratorModal from '../components/AIQuestionGeneratorModal.tsx';
 import { useNotification } from '../contexts/NotificationContext.tsx';
 import { useLanguage } from '../App.tsx';
 import { addAssessment } from '../services/mockApi.ts';

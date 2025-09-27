@@ -1,7 +1,8 @@
+
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout';
-import { useLanguage, useTheme } from '../App';
-import { ShieldCheckIcon, SparklesIcon, ChartBarIcon, CheckCircleIcon, XCircleIcon } from '../components/icons';
+import SitePageLayout from '../components/SitePageLayout.tsx';
+import { useLanguage, useTheme } from '../App.tsx';
+import { ShieldCheckIcon, SparklesIcon, ChartBarIcon, CheckCircleIcon, XCircleIcon } from '../components/icons.tsx';
 
 const getTranslations = (platformName: string) => ({
     en: {
@@ -35,34 +36,34 @@ const getTranslations = (platformName: string) => ({
         accessibilityTrad: "Physical location required",
     },
     ar: {
-        title: `مزايا ${platformName}`,
-        description: `تعرف على ما يميز ${platformName}. إن التزامنا بالنزاهة، والتصميم الذي يركز على المستخدم، والتكامل القوي للذكاء الاصطناعي يجعلنا الشريك المثالي للمؤسسات التي تقدر التقييمات العادلة والموثوقة وذات الرؤى العميقة.`,
+        title: `ميزة ${platformName}`,
+        description: `تعرف على ما يميز ${platformName}. إن التزامنا بالنزاهة والتصميم الذي يركز على المستخدم والتكامل القوي للذكاء الاصطناعي يجعلنا الشريك المثالي للمؤسسات التي تقدر التقييمات العادلة والموثوقة وذات الرؤى العميقة.`,
         
         integrityTitle: "نزاهة لا تقبل المساومة",
-        integrityDesc: `نؤمن بأن الثقة هي أساس أي تقييم صحيح. تم بناء منصتنا من الألف إلى الياء لحماية نزاهة اختباراتك من خلال نهج أمني متعدد المستويات، يجمع بين القوة وسهولة الاستخدام.`,
+        integrityDesc: `نحن نؤمن بأن الثقة هي أساس أي تقييم صحيح. تم بناء منصتنا من الألف إلى الياء لحماية نزاهة اختباراتك من خلال نهج أمني متعدد الطبقات قوي وسهل الاستخدام.`,
         
         aiTitle: "مدعوم من Gemini",
-        aiDesc: `نستفيد من نماذج Gemini الحديثة من Google لتقديم ميزات ذكية تتجاوز المراقبة البسيطة. من إنشاء أسئلة مقاومة للغش إلى تقديم رؤى أداء عميقة، الذكاء الاصطناعي هو جوهر ما يجعل منصة ${platformName} ذكية.`,
+        aiDesc: `نحن نستفيد من نماذج Gemini الحديثة من Google لتوفير ميزات ذكية تتجاوز المراقبة البسيطة. من إنشاء أسئلة مقاومة للغش إلى تقديم رؤى أداء عميقة، الذكاء الاصطناعي هو جوهر ما يجعل ${platformName} ذكيًا.`,
         
         insightsTitle: "رؤى قائمة على البيانات",
-        insightsDesc: `تجاوز الدرجات والنسب المئوية. نوفر لك تحليلات قابلة للتنفيذ تساعدك على فهم أداء المتعلم، وتحديد فجوات المعرفة، وتحسين مناهجك. اتخذ قرارات مستنيرة مدعومة بالبيانات.`,
+        insightsDesc: `تجاوز الدرجات والنسب المئوية. نحن نوفر لك تحليلات قابلة للتنفيذ تساعدك على فهم أداء المتعلم وتحديد فجوات المعرفة وتحسين مناهجك. اتخذ قرارات مستنيرة مدعومة بالبيانات.`,
         
         comparisonTitle: "النهج الحديث للتقييم",
         feature: "الميزة",
         evaluify: platformName,
         traditional: "الطرق التقليدية",
         integrity: "النزاهة",
-        integrityEval: "مراقبة بالذكاء الاصطناعي وأمان متعدد المستويات",
-        integrityTrad: "مراقبة يدوية وقوانين شرف",
+        integrityEval: "مراقبة بالذكاء الاصطناعي، أمان متعدد الطبقات",
+        integrityTrad: "مراقبة يدوية، قوانين شرف",
         efficiency: "الكفاءة",
         efficiencyEval: "تصحيح آلي وتوليد بالذكاء الاصطناعي",
         efficiencyTrad: "إنشاء يدوي يستغرق وقتًا طويلاً",
-        insights: "الرؤى والتحليلات",
-        insightsEval: "تحليلات عميقة وتتبع للأداء",
-        insightsTrad: "درجات أساسية وبيانات محدودة",
+        insights: "الرؤى",
+        insightsEval: "تحليلات عميقة، تتبع الأداء",
+        insightsTrad: "درجات أساسية، بيانات محدودة",
         accessibility: "إمكانية الوصول",
         accessibilityEval: "وصول آمن عبر الإنترنت من أي مكان",
-        accessibilityTrad: "يتطلب التواجد في مكان محدد",
+        accessibilityTrad: "يتطلب موقعًا فعليًا",
     }
 });
 
@@ -117,7 +118,7 @@ const WhyEvaluifyPage = () => {
                                 { feature: t.efficiency, evaluify: t.efficiencyEval, traditional: t.efficiencyTrad },
                                 { feature: t.insights, evaluify: t.insightsEval, traditional: t.insightsTrad },
                                 { feature: t.accessibility, evaluify: t.accessibilityEval, traditional: t.accessibilityTrad },
-                            ].map((item) => (
+                            ].map((item, index) => (
                                 <div key={item.feature} className={`grid grid-cols-3 text-center items-center border-t border-slate-200 dark:border-slate-700`}>
                                     <div className="p-4 text-left font-semibold">{item.feature}</div>
                                     <div className="p-4 bg-primary-500/5 dark:bg-primary-500/10">

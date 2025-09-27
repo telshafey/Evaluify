@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout.tsx';
 import useNavLinks from '../hooks/useNavLinks.ts';
@@ -18,7 +19,7 @@ const ReportTypeCard: React.FC<ReportTypeCardProps> = ({ icon: Icon, title, desc
     return (
         <div className={`p-6 rounded-2xl bg-gradient-to-br from-${color}-50 to-${color}-100 dark:from-slate-800 dark:to-slate-800 border-l-4 border-${color}-500`}>
             <Icon className={`w-8 h-8 text-${color}-500 mb-3`} />
-            <h4 className="text-lg font-bold">{title}</h4>
+            <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100">{title}</h4>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{description}</p>
         </div>
     );
@@ -68,31 +69,31 @@ const TeacherReportsPage: React.FC = () => {
 
                 {/* Executive Dashboard */}
                 <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg mb-8">
-                    <h3 className="text-xl font-bold mb-4">Executive Summary</h3>
+                    <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Executive Summary</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                         <div className="text-center p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                            <div className="text-3xl font-bold text-blue-600">2,847</div>
-                            <div className="text-sm">Total Candidates</div>
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">2,847</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">Total Candidates</div>
                         </div>
                         <div className="text-center p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                            <div className="text-3xl font-bold text-green-600">1,247</div>
-                            <div className="text-sm">Assessments Done</div>
+                            <div className="text-3xl font-bold text-green-600 dark:text-green-400">1,247</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">Assessments Done</div>
                         </div>
                          <div className="text-center p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                            <div className="text-3xl font-bold text-purple-600">847</div>
-                            <div className="text-sm">Interviews Done</div>
+                            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">847</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">Interviews Done</div>
                         </div>
                         <div className="text-center p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                            <div className="text-3xl font-bold text-yellow-600">234</div>
-                            <div className="text-sm">Successful Hires</div>
+                            <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">234</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">Successful Hires</div>
                         </div>
                          <div className="text-center p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                            <div className="text-3xl font-bold text-red-600">18</div>
-                            <div className="text-sm">Avg. Days to Hire</div>
+                            <div className="text-3xl font-bold text-red-600 dark:text-red-400">18</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">Avg. Days to Hire</div>
                         </div>
                          <div className="text-center p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                            <div className="text-3xl font-bold text-teal-600">89%</div>
-                            <div className="text-sm">Satisfaction Rate</div>
+                            <div className="text-3xl font-bold text-teal-600 dark:text-teal-400">89%</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">Satisfaction Rate</div>
                         </div>
                     </div>
                 </div>
@@ -100,7 +101,7 @@ const TeacherReportsPage: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Recent Reports */}
                     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                        <h3 className="text-xl font-bold mb-4">Recent Reports</h3>
+                        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Recent Reports</h3>
                         {/* List of recent reports would go here */}
                         <div className="text-center py-10 text-slate-500">
                             <DocumentReportIcon className="w-12 h-12 mx-auto mb-2 text-slate-400"/>
@@ -109,17 +110,17 @@ const TeacherReportsPage: React.FC = () => {
                     </div>
                     {/* Report Builder */}
                     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg">
-                        <h3 className="text-xl font-bold mb-4">Custom Report Builder</h3>
+                        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Custom Report Builder</h3>
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium mb-1">Report Type</label>
+                                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">Report Type</label>
                                 <select className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md">
                                     <option>Comprehensive Report</option>
                                     <option>Performance Report</option>
                                 </select>
                             </div>
                              <div>
-                                <label className="block text-sm font-medium mb-1">Date Range</label>
+                                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">Date Range</label>
                                 <input type="date" className="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded-md" />
                             </div>
                             <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">

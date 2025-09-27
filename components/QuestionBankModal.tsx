@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, ReactNode } from 'react';
 // Fix: Added imports for types and mockApi
 import { getQuestionBank } from '../services/mockApi';
 import { Question, QuestionStatus, QuestionType } from '../types';
@@ -138,8 +138,9 @@ const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, onClose, 
                 className="p-2 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-2 focus:ring-blue-500"
             >
                 <option value="">{t.allTypes}</option>
+                {/* FIX: Cast value to ReactNode to resolve type error. */}
                 {Object.entries(t.questionTypes).map(([key, value]) => (
-                    <option key={key} value={key}>{value}</option>
+                    <option key={key} value={key}>{value as ReactNode}</option>
                 ))}
             </select>
              <select
@@ -148,8 +149,9 @@ const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, onClose, 
                 className="p-2 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-2 focus:ring-blue-500"
             >
                 <option value="">{t.allStatuses}</option>
+                {/* FIX: Cast value to ReactNode to resolve type error. */}
                 {Object.entries(t.questionStatuses).map(([key, value]) => (
-                    <option key={key} value={key}>{value}</option>
+                    <option key={key} value={key}>{value as ReactNode}</option>
                 ))}
             </select>
         </div>

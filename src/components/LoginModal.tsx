@@ -27,11 +27,11 @@ const getTranslations = (platformName: string) => ({
         student: `${platformName} User`,
         studentDesc: "Take assessments and earn certificates.",
         
-        admin: "Platform Admin",
+        adminLogin: "Admin Login",
         adminDesc: "Manage the entire platform.",
     },
     ar: {
-        title: "تسجيل الدخول إلى مساحة العمل",
+        title: "اختر دورك لتسجيل الدخول",
         forOrganizations: "للمنظمات والمؤسسات",
         forIndividuals: "للأفراد",
         
@@ -44,10 +44,10 @@ const getTranslations = (platformName: string) => ({
         
         instructor: "مدرب / معلم",
         instructorDesc: "إنشاء الاختبارات وتقييم أداء المتعلمين.",
-        student: `طالب / ممتحن`,
+        student: `طالب / متدرب`,
         studentDesc: "إجراء التقييمات والحصول على الشهادات.",
         
-        admin: "مسؤول المنصة",
+        adminLogin: "دخول المسؤول",
         adminDesc: "إدارة المنصة بأكملها.",
     }
 });
@@ -88,7 +88,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSelectRole }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center p-4" onClick={onClose}>
-      <div role="dialog" aria-modal="true" aria-labelledby="login-modal-title" className="bg-slate-100 dark:bg-slate-800 rounded-2xl shadow-2xl p-8 w-full max-w-5xl" onClick={e => e.stopPropagation()}>
+      <div role="dialog" aria-modal="true" aria-labelledby="login-modal-title" className="modal-content-container bg-slate-100 dark:bg-slate-800 rounded-2xl shadow-2xl p-8 w-full max-w-5xl" onClick={e => e.stopPropagation()}>
         <h2 id="login-modal-title" className="text-3xl font-bold mb-6 text-center text-slate-800 dark:text-slate-100">{t.title}</h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -106,10 +106,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSelectRole }
                     <RoleCard onClick={() => handleRoleSelect(UserRole.Teacher)} icon={UsersIcon} title={t.instructor} description={t.instructorDesc} colorClasses="from-sky-600 to-sky-800" />
                     <RoleCard onClick={() => handleRoleSelect(UserRole.Examinee)} icon={UsersIcon} title={t.student} description={t.studentDesc} colorClasses="from-green-600 to-green-800" />
                  </div>
-                 <div className="mt-6">
-                     <RoleCard onClick={() => handleRoleSelect(UserRole.Admin)} icon={ShieldCheckIcon} title={t.admin} description={t.adminDesc} colorClasses="from-red-600 to-red-800" />
-                 </div>
             </div>
+        </div>
+        <div className="mt-8 px-4">
+            <RoleCard onClick={() => handleRoleSelect(UserRole.Admin)} icon={ShieldCheckIcon} title={t.adminLogin} description={t.adminDesc} colorClasses="from-slate-600 to-slate-800" />
         </div>
       </div>
     </div>

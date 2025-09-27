@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 // Fix: Corrected react-router-dom import syntax.
 import { useParams, Link } from "react-router-dom";
+// Fix: Add .tsx extension to local component imports
 import DashboardLayout from '../../components/DashboardLayout.tsx';
 import useNavLinks from '../../hooks/useNavLinks.ts';
 import { getExamResultDetails } from '../../services/mockApi.ts';

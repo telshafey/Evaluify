@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import useNavLinks from '../hooks/useNavLinks';
@@ -12,7 +11,6 @@ import { useLanguage } from '../App';
 
 const translations = {
     en: {
-        pageTitle: "Candidates",
         addCandidate: "Add Candidate",
         loadError: "Could not load candidates.",
         updateSuccess: "Candidate status updated successfully!",
@@ -27,7 +25,6 @@ const translations = {
         }
     },
     ar: {
-        pageTitle: "المرشحون",
         addCandidate: "إضافة مرشح",
         loadError: "تعذر تحميل المرشحين.",
         updateSuccess: "تم تحديث حالة المرشح بنجاح!",
@@ -43,7 +40,11 @@ const translations = {
     }
 };
 
-const TeacherCandidatesPage: React.FC = () => {
+interface CandidatesPageProps {
+    pageTitle: string;
+}
+
+const CandidatesPage: React.FC<CandidatesPageProps> = ({ pageTitle }) => {
     const navLinks = useNavLinks();
     const [candidates, setCandidates] = useState<Candidate[]>([]);
     const [loading, setLoading] = useState(true);
@@ -100,7 +101,7 @@ const TeacherCandidatesPage: React.FC = () => {
     }, [t.stages]);
 
     return (
-        <DashboardLayout navLinks={navLinks} pageTitle={t.pageTitle} headerActions={headerActions}>
+        <DashboardLayout navLinks={navLinks} pageTitle={pageTitle} headerActions={headerActions}>
             {loading ? (
                 <div className="flex justify-center items-center h-full"><LoadingSpinner /></div>
             ) : (
@@ -114,4 +115,4 @@ const TeacherCandidatesPage: React.FC = () => {
     );
 };
 
-export default TeacherCandidatesPage;
+export default CandidatesPage;

@@ -1,5 +1,5 @@
 {
-  "name": "evaluify - AI-Powered Platform",
+  "name": "AI-Powered Assessment Platform",
   "description": "A comprehensive platform for teachers to create and manage exams, and for students to take them in an AI-proctored environment. Features include various question types, performance tracking, and PDF report generation.",
   "requestFramePermissions": [
     "camera",

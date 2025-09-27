@@ -1,8 +1,10 @@
+
 import React from 'react';
+// Fix: Corrected react-router-dom import syntax.
 import { NavLink } from "react-router-dom";
 import { useTheme, useLanguage } from '../App.tsx';
 import { useDarkMode } from '../contexts/DarkModeContext.tsx';
-import { BookOpenIcon, SunIcon, MoonIcon } from './icons.tsx';
+import { BookOpenIcon, SunIcon, MoonIcon, ShoppingCartIcon } from './icons.tsx';
 
 interface SitePageLayoutProps {
     children: React.ReactNode;
@@ -35,7 +37,7 @@ const translations = {
         pricing: "الأسعار",
         aboutUs: "عن المنصة",
         footerRights: "جميع الحقوق محفوظة.",
-        footerProject: "مشروع لعرض الإمكانيات الحديثة في تطوير تطبيقات الويب.",
+        footerProject: "مشروع يعرض القدرات الحديثة في تطوير تطبيقات الويب.",
         langSwitch: "English",
         company: "الشركة",
         product: "المنتج",
@@ -53,7 +55,6 @@ const SitePageLayout: React.FC<SitePageLayoutProps> = ({ children }) => {
 
     const productLinks = [
         { to: "/products", text: t.products },
-        { to: "/features", text: "Features" }, // Placeholder
         { to: "/pricing", text: t.pricing },
         { to: "/integrations", text: t.integrations },
     ];

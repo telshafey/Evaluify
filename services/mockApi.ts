@@ -21,7 +21,8 @@ import {
     Interview,
     AnalyticsData,
     TrueFalseJustificationAnswer,
-    SmartReport
+    SmartReport,
+    PerformanceBySubject
 } from '../types';
 
 // --- MOCK DATABASE ---
@@ -486,6 +487,11 @@ export const getInterviewDetails = async (interviewId: string): Promise<Intervie
     await delay(400);
     return mockInterviews.find(i => i.id === interviewId) || null;
 };
+// Fix: Added missing mock API function for initial interview question.
+export const getInitialInterviewQuestion = async (role: string): Promise<string> => {
+    await delay(300);
+    return `Tell me about your experience as a ${role}.`;
+};
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
     await delay(1200);
@@ -504,4 +510,13 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
             scores: [92, 81, 68]
         }
     };
+};
+// Fix: Added missing mock API function for performance by subject.
+export const getPerformanceBySubject = async (): Promise<PerformanceBySubject[]> => {
+    await delay(700);
+    return [
+        { subject: 'React Hooks', averageScore: 92, color: '#3b82f6' },
+        { subject: 'JavaScript Algorithms', averageScore: 75, color: '#8b5cf6' },
+        { subject: 'CSS Fundamentals', averageScore: 88, color: '#10b981' },
+    ];
 };

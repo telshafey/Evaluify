@@ -31,11 +31,11 @@ import AdminDashboard from './pages/AdminDashboard';
 import ExamineeDashboard from './pages/ExamineeDashboard';
 import ExamTaker from './pages/ExamTaker';
 
-// Teacher-specific pages that are not duplicated
-import TeacherAssessmentsPage from './pages/TeacherAssessmentsPage';
-// import TeacherInterviewsPage from './pages/TeacherInterviewsPage'; // Replaced by shared page
+// Refactored component imports
+import AssessmentsPage from './pages/TeacherAssessmentsPage';
+import CandidatesPage from './pages/TeacherCandidatesPage';
+
 import LiveInterviewPage from './pages/LiveInterviewPage'; // New import
-import TeacherCandidatesPage from './pages/TeacherCandidatesPage';
 import TeacherAIToolsPage from './pages/TeacherAIToolsPage';
 import TeacherReportsPage from './pages/TeacherReportsPage';
 import TestBuilderPage from './pages/TestBuilderPage';
@@ -124,6 +124,33 @@ const DashboardRedirector: React.FC = () => {
     }
 };
 
+const AssessmentsRouter: React.FC = () => {
+    const { userRole } = useAuth();
+    switch (userRole) {
+        case UserRole.Teacher:
+            return <AssessmentsPage pageTitle="My Assessments" description="Manage all your created assessments and view their status." ownerId="teacher-1" />;
+        case UserRole.Corporate:
+            return <AssessmentsPage pageTitle="Candidate Assessments" description="Manage assessments for your hiring pipelines." ownerId="corp-1" />;
+        case UserRole.TrainingCompany:
+            return <AssessmentsPage pageTitle="Course Assessments" description="Manage assessments and final exams for your training courses." ownerId="training-1" />;
+        default:
+            return <Navigate to="/" replace />;
+    }
+}
+
+const CandidatesRouter: React.FC = () => {
+    const { userRole } = useAuth();
+    // Candidates page is mostly for Teacher/Corporate roles
+    switch (userRole) {
+        case UserRole.Teacher:
+            return <CandidatesPage pageTitle="Student Candidates" />;
+        case UserRole.Corporate:
+            return <CandidatesPage pageTitle="Hiring Candidates" />;
+        default:
+            return <Navigate to="/" replace />;
+    }
+}
+
 const QuestionBankRouter: React.FC = () => {
     const { userRole } = useAuth();
     switch (userRole) {
@@ -167,8 +194,7 @@ const InterviewsRouter: React.FC = () => {
 
 
 const AppRoutes: React.FC = () => {
-    const { isAuthenticated, logout } = useAuth();
-    const { lang } = useLanguage();
+    const { isAuthenticated } = useAuth();
 
     if (!isAuthenticated) {
         return (
@@ -194,7 +220,6 @@ const AppRoutes: React.FC = () => {
             
             {/* Teacher Only Routes */}
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Teacher]} />}>
-                <Route path="/candidates" element={<TeacherCandidatesPage />} />
                 <Route path="/test-builder" element={<TestBuilderPage />} />
                 <Route path="/ai-tools" element={<TeacherAIToolsPage />} />
                 <Route path="/reports" element={<TeacherReportsPage />} />
@@ -202,13 +227,14 @@ const AppRoutes: React.FC = () => {
 
             {/* Shared Interview Routes (Teacher, Corporate) */}
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Teacher, UserRole.Corporate]} />}>
+                <Route path="/candidates" element={<CandidatesRouter />} />
                 <Route path="/interviews" element={<InterviewsRouter />} />
                 <Route path="/interviews/:interviewId" element={<LiveInterviewPage />} />
             </Route>
             
             {/* Shared Routes (Teacher, Corp, Training) */}
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Teacher, UserRole.Corporate, UserRole.TrainingCompany]} />}>
-                <Route path="/assessments" element={<TeacherAssessmentsPage />} />
+                <Route path="/assessments" element={<AssessmentsRouter />} />
                 <Route path="/results" element={<ExamResultsPage />} />
                 <Route path="/results/:resultId" element={<ExamineeResultPage />} />
                 <Route path="/results/:resultId/proctoring" element={<ProctoringReportPage />} />

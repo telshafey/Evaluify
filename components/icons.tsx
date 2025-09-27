@@ -1,9 +1,9 @@
 import React from 'react';
 
-const createIcon = (displayName: string, path: string) => {
+const createIcon = (displayName: string, path: string | React.ReactNode) => {
   const Icon: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={path} />
+      {typeof path === 'string' ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={path} /> : path}
     </svg>
   );
   Icon.displayName = displayName;
@@ -50,5 +50,10 @@ export const WrenchIcon = createIcon('WrenchIcon', "M10.965 6.03a.75.75 0 01.27 
 export const UploadIcon = createIcon('UploadIcon', "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12");
 export const PaperAirplaneIcon = createIcon('PaperAirplaneIcon', 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8');
 export const CalendarIcon = createIcon('CalendarIcon', "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z");
+export const MenuIcon = createIcon('MenuIcon', "M4 6h16M4 12h16M4 18h16");
+export const FaceSmileIcon = createIcon('FaceSmileIcon', <><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M9.5 9.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm5 0c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z"/><path d="M12 14c-1.68 0-3.18.82-4.1 2.05.18.03.36.05.54.05h7.12c.18 0 .36-.02.54-.05C15.18 14.82 13.68 14 12 14z"/></>);
+export const FaceFrownIcon = createIcon('FaceFrownIcon', <><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M9.5 9.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm5 0c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z"/><path d="M12 16c1.68 0 3.18-.82 4.1-2.05-.18-.03-.36-.05-.54-.05H8.44c-.18 0-.36.02-.54.05C8.82 15.18 10.32 16 12 16z"/></>);
+export const ChatBubbleLeftRightIcon = createIcon('ChatBubbleLeftRightIcon', "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z");
+export const FunnelIcon = createIcon('FunnelIcon', "M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z");
 
 export default createIcon;

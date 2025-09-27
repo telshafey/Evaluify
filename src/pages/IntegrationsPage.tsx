@@ -1,6 +1,7 @@
 
-import SitePageLayout from '../components/SitePageLayout';
-import { useLanguage } from '../App';
+import React from 'react';
+import SitePageLayout from '../components/SitePageLayout.tsx';
+import { useLanguage } from '../App.tsx';
 
 const translations = {
     en: {
@@ -12,10 +13,10 @@ const translations = {
     },
     ar: {
         title: "تكاملات سلسة",
-        description: "قم بربط evaluify بسلاسة مع نظام إدارة التعلم (LMS)، أو نظام معلومات الطالب (SIS)، أو نظام تتبع المتقدمين (ATS) الذي تستخدمه. واجهة برمجة التطبيقات القوية والموصلات المعدة مسبقًا تجعل عملية التكامل بسيطة وفعالة.",
+        description: "قم بتوصيل evaluify بسلاسة مع نظام إدارة التعلم (LMS) الحالي أو نظام معلومات الطالب (SIS) أو نظام تتبع المتقدمين (ATS). واجهة برمجة التطبيقات القوية والموصلات المعدة مسبقًا تجعل التكامل بسيطًا وفعالًا.",
         apiTitle: "API قوي للحلول المخصصة",
-        apiDescription: "أنشئ تدفقات عمل مخصصة وادمج بيانات التقييم مباشرة في تطبيقاتك باستخدام واجهة برمجة التطبيقات (REST API) الشاملة وسهلة الاستخدام.",
-        viewDocs: "عرض التوثيق"
+        apiDescription: "أنشئ تدفقات عمل مخصصة وادمج بيانات التقييم مباشرة في تطبيقاتك باستخدام واجهة برمجة تطبيقات REST الشاملة وسهلة الاستخدام.",
+        viewDocs: "عرض وثائق API"
     }
 };
 

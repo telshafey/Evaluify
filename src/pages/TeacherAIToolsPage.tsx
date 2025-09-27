@@ -1,3 +1,4 @@
+
 import React, { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout.tsx';
@@ -7,7 +8,7 @@ import { analyzeCvWithAI, addQuestionToBank } from '../services/mockApi.ts';
 import { CvAnalysisResult, Question } from '../types.ts';
 import { useNotification } from '../contexts/NotificationContext.tsx';
 import CvAnalysisResultModal from '../components/CvAnalysisResultModal.tsx';
-import { AIQuestionGeneratorModal } from '../components/AIQuestionGeneratorModal.tsx';
+import AIQuestionGeneratorModal from '../components/AIQuestionGeneratorModal.tsx';
 
 
 interface ToolCardProps {
@@ -30,7 +31,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ icon: Icon, title, children, color 
                     <Icon className={`w-6 h-6 text-${color}-500`} />
                 </div>
                 <div>
-                    <h4 className="text-lg font-bold">{title}</h4>
+                    <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100">{title}</h4>
                 </div>
             </div>
             {children}

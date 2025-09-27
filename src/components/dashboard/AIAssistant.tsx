@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect, FormEvent } from 'react';
-// Fix: Corrected import for @google/genai to use GoogleGenAI as per guidelines.
-import { GoogleGenAI } from "@google/genai";
 import { SparklesIcon, PaperAirplaneIcon, XCircleIcon, SpinnerIcon } from '../icons.tsx';
 import { useLanguage } from '../../App.tsx';
+import ai from '../../services/geminiService.ts';
 
 const translations = {
     en: {
@@ -28,9 +27,6 @@ const AIAssistant: React.FC = () => {
     const { lang } = useLanguage();
     const t = translations[lang];
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    
-    // Fix: Initialize GoogleGenAI with apiKey from process.env as per guidelines.
-    const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {
@@ -47,25 +43,41 @@ const AIAssistant: React.FC = () => {
         if (!input.trim() || isLoading) return;
 
         const userMessage: Message = { sender: 'user', text: input };
-        setMessages(prev => [...prev, userMessage]);
+        // Add user message and an empty placeholder for the streaming AI response
+        setMessages(prev => [...prev, userMessage, { sender: 'ai', text: '' }]);
         setInput('');
         setIsLoading(true);
 
         try {
-            // FIX: Use ai.models.generateContent as per guidelines
-            const response = await ai.models.generateContent({
+            const stream = await ai.models.generateContentStream({
                 model: 'gemini-2.5-flash',
                 contents: `You are a helpful assistant for an online assessment platform called "evaluify". Keep your answers concise and helpful. User question: "${input}"`,
             });
             
-            // FIX: Access response text directly from the response object and provide a fallback
-            const aiMessage: Message = { sender: 'ai', text: response.text ?? "Sorry, I couldn't get a response." };
-            setMessages(prev => [...prev, aiMessage]);
+            let fullResponse = "";
+            for await (const chunk of stream) {
+                fullResponse += chunk.text;
+                setMessages(prev => {
+                    const newMessages = [...prev];
+                    // Update the last message (the AI's response) in place
+                    if (newMessages.length > 0) {
+                        newMessages[newMessages.length - 1] = { sender: 'ai', text: fullResponse };
+                    }
+                    return newMessages;
+                });
+            }
 
         } catch (error) {
             console.error("Gemini API error:", error);
             const errorMessage: Message = { sender: 'ai', text: "Sorry, I'm having trouble connecting right now." };
-            setMessages(prev => [...prev, errorMessage]);
+            setMessages(prev => {
+                 const newMessages = [...prev];
+                // Update the last message (the AI's response placeholder) with an error
+                if (newMessages.length > 0) {
+                    newMessages[newMessages.length - 1] = errorMessage;
+                }
+                return newMessages;
+            });
         } finally {
             setIsLoading(false);
         }
@@ -82,17 +94,17 @@ const AIAssistant: React.FC = () => {
                     {messages.map((msg, index) => (
                         <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div className={`max-w-xs px-4 py-2 rounded-2xl ${msg.sender === 'user' ? 'bg-primary-500 text-white rounded-br-none' : 'bg-slate-100 dark:bg-slate-700 rounded-bl-none'}`}>
-                                <p className="text-sm">{msg.text}</p>
+                                 {msg.text ? (
+                                    <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                                ) : (
+                                    // Show spinner only for the last empty AI message while loading
+                                    msg.sender === 'ai' && isLoading && index === messages.length - 1 && (
+                                        <SpinnerIcon className="w-5 h-5 text-slate-500"/>
+                                    )
+                                )}
                             </div>
                         </div>
                     ))}
-                    {isLoading && (
-                        <div className="flex justify-start">
-                            <div className="max-w-xs px-4 py-2 rounded-2xl bg-slate-100 dark:bg-slate-700 rounded-bl-none">
-                                <SpinnerIcon className="w-5 h-5 text-slate-500"/>
-                            </div>
-                        </div>
-                    )}
                     <div ref={messagesEndRef} />
                 </div>
                 <form onSubmit={handleSubmit} className="p-4 border-t border-slate-200 dark:border-slate-700 flex items-center">

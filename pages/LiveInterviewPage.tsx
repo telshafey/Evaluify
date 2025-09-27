@@ -1,20 +1,17 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import { getInterviewDetails } from '../services/mockApi';
+// Fix: Added missing import from mock API.
+import { getInterviewDetails, getInitialInterviewQuestion } from '../services/mockApi';
 import { Interview, ProctoringEvent } from '../types';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { SparklesIcon, LogOutIcon, ShieldCheckIcon, ClockIcon } from '../components/icons';
+import { SparklesIcon, LogOutIcon, ShieldCheckIcon, ClockIcon, FaceSmileIcon, FaceFrownIcon, ChatBubbleLeftRightIcon, SpinnerIcon } from '../components/icons';
+// Fix: Correct import for GoogleGenAI
+import { GoogleGenAI } from "@google/genai";
+import { useNotification } from '../contexts/NotificationContext';
 
 // Declare the JitsiMeetExternalAPI to TypeScript, as it's loaded from a script tag.
 declare var JitsiMeetExternalAPI: any;
-
-const aiTips = [
-    "Ask about their experience with state management in React.",
-    "Probe their understanding of asynchronous JavaScript.",
-    "Present a hypothetical debugging scenario.",
-    "Inquire about their approach to CSS architecture.",
-    "Ask them to explain a complex project they've worked on."
-];
 
 const eventDetails: Record<ProctoringEvent['type'], { title: string; icon: string; }> = {
     tab_switch: { title: 'Tab Switch Detected', icon: '🖥️' },
@@ -29,18 +26,28 @@ const severityColors: Record<ProctoringEvent['severity'] & string, string> = {
     high: 'border-red-500',
 };
 
+type Sentiment = 'Positive' | 'Neutral' | 'Negative';
+
 const LiveInterviewPage: React.FC = () => {
     const { interviewId } = useParams<{ interviewId: string }>();
     const navigate = useNavigate();
     const [interview, setInterview] = useState<Interview | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [currentAiTip, setCurrentAiTip] = useState(aiTips[0]);
+    // Fix: Added missing isAiLoading state.
+    const [isAiLoading, setIsAiLoading] = useState(false);
+    // Fix: Added missing sentiment state.
+    const [sentiment, setSentiment] = useState<Sentiment>('Neutral');
+    const [currentAiTip, setCurrentAiTip] = useState('');
     const [interviewEvents, setInterviewEvents] = useState<ProctoringEvent[]>([]);
     
     const interviewStartTime = useRef<number>(Date.now());
     const jitsiContainerRef = useRef<HTMLDivElement>(null);
     const jitsiApiRef = useRef<any>(null);
+    const { addNotification } = useNotification();
+
+    // Fix: Initialize GoogleGenAI with apiKey from process.env
+    const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
 
     useEffect(() => {
         const fetchInterview = async () => {
@@ -52,6 +59,9 @@ const LiveInterviewPage: React.FC = () => {
                 const data = await getInterviewDetails(interviewId);
                 if (data) {
                     setInterview(data);
+                    // Fix: Added call to get initial question.
+                    const initialQuestion = await getInitialInterviewQuestion(data.role);
+                    setCurrentAiTip(initialQuestion);
                 } else {
                     setError("Interview not found.");
                     setLoading(false);
@@ -64,12 +74,14 @@ const LiveInterviewPage: React.FC = () => {
 
         fetchInterview();
         
-        const tipInterval = setInterval(() => {
-            setCurrentAiTip(aiTips[Math.floor(Math.random() * aiTips.length)]);
-        }, 15000); // Change tip every 15 seconds
+        // Fix: Added sentiment simulation interval
+        const sentimentInterval = setInterval(() => {
+            const sentiments: Sentiment[] = ['Positive', 'Neutral', 'Negative'];
+            setSentiment(sentiments[Math.floor(Math.random() * sentiments.length)]);
+        }, 15000); // Change sentiment every 15 seconds
 
         return () => {
-            clearInterval(tipInterval);
+            clearInterval(sentimentInterval);
         };
     }, [interviewId, navigate]);
     
@@ -161,6 +173,48 @@ const LiveInterviewPage: React.FC = () => {
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
+    const handleGenerateFollowUp = async () => {
+        if (!interview || isAiLoading) return;
+        // Fix: Correctly set loading state.
+        setIsAiLoading(true);
+        try {
+            const prompt = `You are an expert interviewer. The candidate is applying for the role of "${interview.role}". The last question asked was "${currentAiTip}". Provide one concise, relevant follow-up question.`;
+            // Fix: Use ai.models.generateContent and access .text property
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: prompt,
+            });
+            setCurrentAiTip(response.text);
+        } catch (err) {
+            console.error("Gemini error:", err);
+            addNotification("Could not generate a follow-up question.", "error");
+        } finally {
+            // Fix: Correctly set loading state.
+            setIsAiLoading(false);
+        }
+    };
+
+
+    const SentimentDisplay = () => {
+        const sentimentConfig: Record<Sentiment, { icon: React.FC<any>, text: string, color: string }> = {
+            Positive: { icon: FaceSmileIcon, text: 'Positive', color: 'text-green-400' },
+            Neutral: { icon: ChatBubbleLeftRightIcon, text: 'Neutral', color: 'text-yellow-400' },
+            Negative: { icon: FaceFrownIcon, text: 'Negative', color: 'text-red-400' },
+        };
+        // Fix: Use sentiment state variable.
+        const config = sentimentConfig[sentiment];
+        const Icon = config.icon;
+        return (
+             <div className="bg-slate-800 p-4 rounded-xl">
+                <h3 className="font-bold text-lg flex items-center mb-2">Sentiment Analysis</h3>
+                <div className={`flex items-center justify-center p-3 rounded-lg bg-slate-700/50 ${config.color}`}>
+                    <Icon className="w-8 h-8 mr-3"/>
+                    <span className="text-xl font-semibold">{config.text}</span>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="min-h-screen bg-slate-900 text-white flex flex-col p-4">
             <header className="flex justify-between items-center mb-4">
@@ -180,10 +234,17 @@ const LiveInterviewPage: React.FC = () => {
                 <div className="flex flex-col gap-4">
                     <div className="bg-slate-800 p-4 rounded-xl flex-1 flex flex-col">
                         <h3 className="font-bold text-lg flex items-center mb-2"><SparklesIcon className="w-5 h-5 me-2 text-purple-400"/> AI Assistant</h3>
-                        <div className="bg-purple-500/20 text-purple-300 p-3 rounded-lg text-sm italic flex-1 flex items-center justify-center">
-                           <p>"{currentAiTip}"</p>
+                        <div className="bg-purple-500/20 text-purple-300 p-3 rounded-lg text-sm italic flex-1 flex items-center justify-center min-h-[100px]">
+                           {/* Fix: Use isAiLoading state. */}
+                           {isAiLoading ? <SpinnerIcon /> : <p>"{currentAiTip}"</p>}
                         </div>
+                        {/* Fix: Use isAiLoading state. */}
+                        <button onClick={handleGenerateFollowUp} disabled={isAiLoading} className="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg disabled:opacity-50 flex items-center justify-center">
+                            {/* Fix: Use isAiLoading state. */}
+                            {isAiLoading ? <SpinnerIcon className="w-5 h-5"/> : <><ChatBubbleLeftRightIcon className="w-5 h-5 mr-2"/> Suggest Follow-up</>}
+                        </button>
                     </div>
+                    <SentimentDisplay />
                      <div className="bg-slate-800 p-4 rounded-xl flex-1 flex flex-col">
                         <h3 className="font-bold text-lg flex items-center mb-2"><ShieldCheckIcon className="w-5 h-5 me-2 text-yellow-400"/> Proctoring Log</h3>
                         <div className="space-y-2 overflow-y-auto h-40 pr-2">

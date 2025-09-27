@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import DashboardLayout from '../../components/DashboardLayout.tsx';
-import useNavLinks from '../../hooks/useNavLinks.ts';
-import { getAnalyticsData } from '../../services/mockApi.ts';
-import { AnalyticsData } from '../../types.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import { useDarkMode } from '../../contexts/DarkModeContext.tsx';
-import { useTheme } from '../../App.tsx';
+import DashboardLayout from '../../components/DashboardLayout';
+import useNavLinks from '../../hooks/useNavLinks';
+import { getAnalyticsData } from '../../services/mockApi';
+import { AnalyticsData } from '../../types';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { useDarkMode } from '../../contexts/DarkModeContext';
+import { useTheme } from '../../App';
 
 // Since Chart.js is loaded from a CDN, we need to declare it to TypeScript
 declare var Chart: any;
@@ -47,7 +47,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ pageTitle, description })
     }, []);
 
     useEffect(() => {
-        if (!analyticsData || loading) return;
+        if (!analyticsData || loading || typeof Chart === 'undefined') return;
 
         // Common chart options
         const getChartOptions = (title: string) => {
@@ -68,7 +68,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ pageTitle, description })
         };
 
         const destroyCharts = () => {
-            Object.values(chartInstances.current).forEach(chart => chart.destroy());
+            (Object.values(chartInstances.current) as any[]).forEach(chart => chart.destroy());
             chartInstances.current = {};
         };
         destroyCharts(); // Destroy previous instances before creating new ones
@@ -115,7 +115,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ pageTitle, description })
         // Performance by Category (Radar)
         if (categoryPerfChartRef.current) {
              const options = getChartOptions('Performance by Category');
-             (options.scales as any) = { r: { pointLabels: { color: isDarkMode ? '#cbd5e1' : '#475569' }, grid: { color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' } } };
+             (options as any).scales = { r: { pointLabels: { color: isDarkMode ? '#cbd5e1' : '#475569' }, grid: { color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' } } };
              chartInstances.current.categoryPerf = new Chart(categoryPerfChartRef.current, {
                 type: 'radar',
                 data: {

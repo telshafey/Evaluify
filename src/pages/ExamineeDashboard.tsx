@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { getExamineeDashboardData } from '../services/mockApi.ts';
 import { Exam, ExamResult } from '../types.ts';
@@ -23,7 +23,7 @@ const translations = {
         availableFrom: "Available from",
     },
     ar: {
-        dashboardTitle: "لوحة تحكم الطالب",
+        dashboardTitle: "لوحة التحكم",
         availableExams: "الاختبارات المتاحة",
         upcomingExams: "الاختبارات القادمة",
         recentResults: "النتائج الأخيرة",
@@ -31,7 +31,7 @@ const translations = {
         noUpcomingExams: "ليس لديك أي اختبارات مجدولة قادمة.",
         noResults: "لم تكمل أي اختبارات بعد.",
         startExam: "ابدأ الاختبار",
-        review: "مراجعة",
+        review: "مراجعة النتيجة",
         availableFrom: "متاح من",
     }
 }
@@ -112,13 +112,13 @@ const ExamineeDashboard = () => {
                     <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100">{exam.title}</h4>
                     <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{exam.description}</p>
                     <div className="flex items-center space-x-4 mt-3 text-sm text-slate-500 dark:text-slate-300">
-                      <span className="flex items-center"><CalendarIcon className="w-4 h-4 mr-1"/> {t.availableFrom}: {new Date(exam.availableFrom!).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US')}</span>
+                      <span className="flex items-center"><CalendarIcon className="w-4 h-4 mr-1"/> {t.availableFrom}: {new Date(exam.availableFrom!).toLocaleDateString()}</span>
                     </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-slate-500 dark:text-slate-400">{t.noUpcomingExams}</p>
+            <EmptyState icon={CalendarIcon} title="Nothing Scheduled" message={t.noUpcomingExams} />
           )}
         </section>
         
@@ -131,12 +131,12 @@ const ExamineeDashboard = () => {
                 {completedResults.map(result => {
                     const percentage = Math.round((result.score / result.totalPoints) * 100);
                     return (
-                        <div key={result.id} className="p-4 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 md:flex items-center justify-between">
-                            <div className='mb-4 md:mb-0'>
+                        <div key={result.id} className="p-4 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center justify-between">
+                            <div>
                                 <h4 className="font-bold text-slate-800 dark:text-slate-100">{result.examTitle}</h4>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Submitted: {result.submittedAt.toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US')}</p>
+                                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Submitted: {result.submittedAt.toLocaleDateString()}</p>
                             </div>
-                            <div className="flex items-center gap-4 md:gap-6">
+                            <div className="flex items-center gap-6">
                                 <div className="text-right">
                                     <p className={`font-bold text-xl ${percentage >= 80 ? 'text-green-500' : 'text-yellow-500'}`}>{percentage}%</p>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">{result.score}/{result.totalPoints}</p>
@@ -151,7 +151,7 @@ const ExamineeDashboard = () => {
                 </div>
             </div>
           ) : (
-             <p className="text-slate-500 dark:text-slate-400">{t.noResults}</p>
+             <EmptyState icon={BookOpenIcon} title="No History Yet" message={t.noResults} />
           )}
         </section>
       </div>

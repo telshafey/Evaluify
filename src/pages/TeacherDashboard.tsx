@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import DashboardLayout from '../components/DashboardLayout.tsx';
 import useNavLinks from '../hooks/useNavLinks.ts';
-import StatCard from '../components/dashboard/StatCard.tsx';
 import RecentAssessmentsCard from '../components/dashboard/RecentAssessmentsCard.tsx';
-import PerformanceByTypeCard from '../components/dashboard/PerformanceByTypeCard.tsx';
 import AIInsightsCard from '../components/dashboard/AIInsightsCard.tsx';
+import PerformanceBySubjectCard from '../components/dashboard/PerformanceBySubjectCard.tsx';
 import { BookOpenIcon, UsersIcon, CheckCircleIcon, ChartBarIcon } from '../components/icons.tsx';
-// Fix: Added imports for mockApi and types
-import { getDashboardStats, getRecentAssessments, getPerformanceByType, getAIInsights } from '../services/mockApi.ts';
-import { DashboardStats, RecentAssessment, PerformanceData, AIInsight, UserRole } from '../types.ts';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import { getDashboardStats, getRecentAssessments, getPerformanceBySubject, getAIInsights } from '../services/mockApi.ts';
+import { DashboardStats, RecentAssessment, PerformanceBySubject, AIInsight, UserRole } from '../types.ts';
+import GenericDashboard from '../components/dashboard/GenericDashboard.tsx';
+import DashboardLayout from '../components/DashboardLayout.tsx';
+
+const statCardsConfig = [
+    { icon: BookOpenIcon, key: 'stat1' as const, color: 'blue' as const },
+    { icon: UsersIcon, key: 'stat2' as const, color: 'purple' as const },
+    { icon: CheckCircleIcon, key: 'stat3' as const, color: 'green' as const },
+    { icon: ChartBarIcon, key: 'stat4' as const, color: 'yellow' as const },
+];
 
 const TeacherDashboard: React.FC = () => {
     const navLinks = useNavLinks();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [recentAssessments, setRecentAssessments] = useState<RecentAssessment[] | null>(null);
-    const [performanceData, setPerformanceData] = useState<PerformanceData[] | null>(null);
+    const [performanceData, setPerformanceData] = useState<PerformanceBySubject[] | null>(null);
     const [insights, setInsights] = useState<AIInsight[] | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -26,7 +31,7 @@ const TeacherDashboard: React.FC = () => {
                 const [statsData, assessmentsData, perfData, insightsData] = await Promise.all([
                     getDashboardStats(UserRole.Teacher),
                     getRecentAssessments(),
-                    getPerformanceByType(),
+                    getPerformanceBySubject(),
                     getAIInsights(),
                 ]);
                 setStats(statsData);
@@ -42,40 +47,21 @@ const TeacherDashboard: React.FC = () => {
         fetchData();
     }, []);
 
-    if (loading) {
-        return (
-             <DashboardLayout navLinks={navLinks} pageTitle="Teacher Dashboard">
-                <div className="flex justify-center items-center h-full">
-                    <LoadingSpinner />
-                </div>
-            </DashboardLayout>
-        );
-    }
-
     return (
-        <DashboardLayout
-            navLinks={navLinks}
-            pageTitle="Teacher Dashboard"
-        >
-            {stats && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <StatCard icon={BookOpenIcon} title={stats.stat1.title} value={stats.stat1.value} trend={stats.stat1.trend} color="blue" />
-                    <StatCard icon={UsersIcon} title={stats.stat2.title} value={stats.stat2.value} trend={stats.stat2.trend} color="purple" />
-                    <StatCard icon={CheckCircleIcon} title={stats.stat3.title} value={stats.stat3.value} trend={stats.stat3.trend} color="green" />
-                    <StatCard icon={ChartBarIcon} title={stats.stat4.title} value={stats.stat4.value} trend={stats.stat4.trend} color="yellow" />
+        <DashboardLayout navLinks={navLinks} pageTitle="Teacher Dashboard">
+            <GenericDashboard loading={loading} stats={stats} statCardsConfig={statCardsConfig}>
+                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2">
+                        {recentAssessments && <RecentAssessmentsCard assessments={recentAssessments} />}
+                    </div>
+                    <div>
+                        {performanceData && <PerformanceBySubjectCard performanceData={performanceData} />}
+                    </div>
+                     <div className="lg:col-span-3">
+                        {insights && <AIInsightsCard insights={insights} />}
+                    </div>
                 </div>
-            )}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                    {recentAssessments && <RecentAssessmentsCard assessments={recentAssessments} />}
-                </div>
-                <div>
-                    {performanceData && <PerformanceByTypeCard performanceData={performanceData} />}
-                </div>
-                 <div className="lg:col-span-3">
-                    {insights && <AIInsightsCard insights={insights} />}
-                </div>
-            </div>
+            </GenericDashboard>
         </DashboardLayout>
     );
 };

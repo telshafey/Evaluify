@@ -1,10 +1,12 @@
+
 import React, { useState, useEffect, ReactNode } from 'react';
-import { Exam, Question, QuestionType, ExamDifficulty } from '../types.ts';
-import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, SpinnerIcon } from './icons.tsx';
-import QuestionBankModal from './QuestionBankModal.tsx';
-import { AIQuestionGeneratorModal } from './AIQuestionGeneratorModal.tsx';
-import { getAIQuestionSuggestions } from '../services/mockApi.ts';
-import { useLanguage } from '../App.tsx';
+// Fix: Added imports for types and mockApi
+import { Exam, Question, QuestionType, ExamDifficulty } from '../types';
+import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, SpinnerIcon } from './icons';
+import QuestionBankModal from './QuestionBankModal';
+import AIQuestionGeneratorModal from './AIQuestionGeneratorModal';
+import { getAIQuestionSuggestions } from '../services/mockApi';
+import { useLanguage } from '../App';
 
 interface ExamFormModalProps {
   isOpen: boolean;
@@ -76,10 +78,10 @@ const translations = {
         tags: "الوسوم (مفصولة بفاصلة)",
         addOption: "إضافة خيار",
         addItem: "إضافة عنصر",
-        prompts: "البنود",
+        prompts: "المطالبات",
         options: "الخيارات",
         correctMatches: "المطابقات الصحيحة",
-        addPrompt: "إضافة بند",
+        addPrompt: "إضافة مطالبة",
         orderingHelp: "أدخل العناصر بالترتيب الصحيح. سيُطلب من الممتحنين إعادة ترتيبها.",
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
         justifyHelp: "برر إجابتك...",
@@ -92,8 +94,8 @@ const translations = {
         alertRequired: "يجب إدخال عنوان للاختبار وسؤال واحد على الأقل.",
         aiAssistTitle: "أكمل بالذكاء الاصطناعي (15 حرفًا على الأقل)",
         questionTypes: {
-            [QuestionType.MultipleChoice]: 'اختيار من متعدد',
-            [QuestionType.MultipleSelect]: 'تحديد متعدد',
+            [QuestionType.MultipleChoice]: 'اختيار من متعدد (إجابة واحدة صحيحة)',
+            [QuestionType.MultipleSelect]: 'اختيار من متعدد (عدة إجابات صحيحة)',
             [QuestionType.TrueFalse]: 'صح / خطأ',
             [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تعليل',
             [QuestionType.ShortAnswer]: 'إجابة قصيرة',
@@ -332,6 +334,7 @@ const ExamFormModal: React.FC<ExamFormModalProps> = ({ isOpen, onClose, onSave, 
                     </div>
                     <div className="space-y-2">
                         <select value={q.type} onChange={e => handleTypeChange(qIndex, e.target.value as QuestionType)} className="p-2 bg-white dark:bg-slate-600 rounded-md w-full">
+                            {/* FIX: Explicitly cast `value` to ReactNode to solve type error. */}
                             {Object.entries(t.questionTypes).map(([key, value]) => (
                                 <option key={key} value={key}>{value as ReactNode}</option>
                             ))}

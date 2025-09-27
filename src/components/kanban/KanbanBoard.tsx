@@ -1,6 +1,6 @@
 import React from 'react';
-import { Candidate, CandidateStatus } from '../../types.ts';
-import CandidateCard from '../candidates/CandidateCard.tsx';
+import { Candidate, CandidateStatus } from '../../types';
+import CandidateCard from '../candidates/CandidateCard';
 
 interface KanbanStage {
     key: CandidateStatus;
@@ -11,9 +11,10 @@ interface KanbanBoardProps {
     candidates: Candidate[];
     stages: KanbanStage[];
     onStatusChange: (candidateId: string, newStatus: CandidateStatus) => void;
+    onAnalyzeCv: (candidate: Candidate) => void;
 }
 
-const KanbanBoard: React.FC<KanbanBoardProps> = ({ candidates, stages, onStatusChange }) => {
+const KanbanBoard: React.FC<KanbanBoardProps> = ({ candidates, stages, onStatusChange, onAnalyzeCv }) => {
     
     const handleDragStart = (e: React.DragEvent, candidateId: string) => {
         e.dataTransfer.setData('candidateId', candidateId);
@@ -53,7 +54,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ candidates, stages, onStatusC
                     onDragLeave={handleDragLeave}
                     className="kanban-column bg-slate-100 dark:bg-slate-900/50 rounded-xl p-4 w-80 flex-shrink-0 flex flex-col transition-colors"
                 >
-                    <h3 className="font-bold text-lg mb-4 px-2">{stage.title} ({candidates.filter(c => c.stage === stage.key).length})</h3>
+                    <h3 className="font-bold text-lg mb-4 px-2 text-slate-800 dark:text-slate-200">{stage.title} <span className="text-sm text-slate-500">({candidates.filter(c => c.stage === stage.key).length})</span></h3>
                     <div className="space-y-4 overflow-y-auto h-full pr-2">
                         {candidates
                             .filter(candidate => candidate.stage === stage.key)
@@ -62,6 +63,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ candidates, stages, onStatusC
                                     key={candidate.id} 
                                     candidate={candidate} 
                                     onDragStart={handleDragStart} 
+                                    onAnalyzeCv={() => onAnalyzeCv(candidate)}
                                 />
                             ))}
                     </div>

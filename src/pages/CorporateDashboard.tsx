@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import DashboardLayout from '../components/DashboardLayout.tsx';
 import useNavLinks from '../hooks/useNavLinks.ts';
-import StatCard from '../components/dashboard/StatCard.tsx';
-import RecentAssessmentsCard from '../components/dashboard/RecentAssessmentsCard.tsx';
 import AIInsightsCard from '../components/dashboard/AIInsightsCard.tsx';
+import HiringPipelineSummaryCard from '../components/dashboard/HiringPipelineSummaryCard.tsx';
 import { DocumentTextIcon, UsersIcon, CheckCircleIcon, ChartBarIcon } from '../components/icons.tsx';
-// Fix: Added imports for mockApi and types
-import { getDashboardStats, getRecentAssessments, getAIInsights } from '../services/mockApi.ts';
-import { DashboardStats, RecentAssessment, AIInsight, UserRole } from '../types.ts';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import { getDashboardStats, getCandidates, getAIInsights } from '../services/mockApi.ts';
+import { DashboardStats, Candidate, AIInsight, UserRole } from '../types.ts';
+import GenericDashboard from '../components/dashboard/GenericDashboard.tsx';
+import DashboardLayout from '../components/DashboardLayout.tsx';
+
+const statCardsConfig = [
+    { icon: DocumentTextIcon, key: 'stat1' as const, color: 'blue' as const },
+    { icon: UsersIcon, key: 'stat2' as const, color: 'purple' as const },
+    { icon: CheckCircleIcon, key: 'stat3' as const, color: 'green' as const },
+    { icon: ChartBarIcon, key: 'stat4' as const, color: 'yellow' as const },
+];
 
 const CorporateDashboard: React.FC = () => {
     const navLinks = useNavLinks();
     const [stats, setStats] = useState<DashboardStats | null>(null);
-    const [recentAssessments, setRecentAssessments] = useState<RecentAssessment[] | null>(null);
+    const [candidates, setCandidates] = useState<Candidate[] | null>(null);
     const [insights, setInsights] = useState<AIInsight[] | null>(null);
     const [loading, setLoading] = useState(true);
     
@@ -21,13 +26,13 @@ const CorporateDashboard: React.FC = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const [statsData, assessmentsData, insightsData] = await Promise.all([
+                const [statsData, candidatesData, insightsData] = await Promise.all([
                     getDashboardStats(UserRole.Corporate),
-                    getRecentAssessments(),
+                    getCandidates(),
                     getAIInsights(),
                 ]);
                 setStats(statsData);
-                setRecentAssessments(assessmentsData);
+                setCandidates(candidatesData);
                 setInsights(insightsData);
             } catch (error) {
                 console.error("Failed to load corporate dashboard data:", error);
@@ -38,38 +43,18 @@ const CorporateDashboard: React.FC = () => {
         fetchData();
     }, []);
 
-    if (loading) {
-        return (
-             <DashboardLayout navLinks={navLinks} pageTitle="Corporate Dashboard">
-                <div className="flex justify-center items-center h-full">
-                    <LoadingSpinner />
-                </div>
-            </DashboardLayout>
-        );
-    }
-
-
     return (
-        <DashboardLayout
-            navLinks={navLinks}
-            pageTitle="Corporate Dashboard"
-        >
-            {stats && (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <StatCard icon={DocumentTextIcon} title={stats.stat1.title} value={stats.stat1.value} trend={stats.stat1.trend} color="blue" />
-                    <StatCard icon={UsersIcon} title={stats.stat2.title} value={stats.stat2.value} trend={stats.stat2.trend} color="purple" />
-                    <StatCard icon={CheckCircleIcon} title={stats.stat3.title} value={stats.stat3.value} trend={stats.stat3.trend} color="green" />
-                    <StatCard icon={ChartBarIcon} title={stats.stat4.title} value={stats.stat4.value} trend={stats.stat4.trend} color="yellow" />
+        <DashboardLayout navLinks={navLinks} pageTitle="Corporate Dashboard">
+           <GenericDashboard loading={loading} stats={stats} statCardsConfig={statCardsConfig}>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2">
+                        {insights && <AIInsightsCard insights={insights} />}
+                    </div>
+                    <div>
+                         {candidates && <HiringPipelineSummaryCard candidates={candidates} />}
+                    </div>
                 </div>
-            )}
-             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                    {insights && <AIInsightsCard insights={insights} />}
-                </div>
-                <div>
-                     {recentAssessments && <RecentAssessmentsCard assessments={recentAssessments} />}
-                </div>
-            </div>
+           </GenericDashboard>
         </DashboardLayout>
     );
 };

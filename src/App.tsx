@@ -1,62 +1,58 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-// Fix: Corrected react-router-dom import syntax.
-import { HashRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
-import { AuthProvider, useAuth } from './contexts/AuthContext.tsx';
-import { DarkModeProvider } from './contexts/DarkModeContext.tsx';
-import { NotificationProvider } from './contexts/NotificationContext.tsx';
-// Fix: Added import for UserRole.
-import { UserRole } from './types.ts';
-import ProtectedRoute from './components/auth/ProtectedRoute.tsx';
+import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { DarkModeProvider } from './contexts/DarkModeContext';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { UserRole } from './types';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 // Page Imports
-import LandingPage from './pages/LandingPage.tsx';
-import DevRoleSwitcher from './components/DevRoleSwitcher.tsx';
-import ProductsPage from './pages/ProductsPage.tsx';
-import IndustriesPage from './pages/IndustriesPage.tsx';
-import WhyEvaluifyPage from './pages/WhyEvaluifyPage.tsx';
-import IntegrationsPage from './pages/IntegrationsPage.tsx';
-import CustomersPage from './pages/CustomersPage.tsx';
-import PricingPage from './pages/PricingPage.tsx';
-import AboutUsPage from './pages/AboutUsPage.tsx';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage.tsx';
-import TermsOfServicePage from './pages/TermsOfServicePage.tsx';
+import LandingPage from './pages/LandingPage';
+import DevRoleSwitcher from './components/DevRoleSwitcher';
+import ProductsPage from './pages/ProductsPage';
+import IndustriesPage from './pages/IndustriesPage';
+import WhyEvaluifyPage from './pages/WhyEvaluifyPage';
+import IntegrationsPage from './pages/IntegrationsPage';
+import CustomersPage from './pages/CustomersPage';
+import PricingPage from './pages/PricingPage';
+import AboutUsPage from './pages/AboutUsPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
 
 
 // Dashboard Imports
-import TeacherDashboard from './pages/TeacherDashboard.tsx';
-import CorporateDashboard from './pages/CorporateDashboard.tsx';
-import TrainingCompanyDashboard from './pages/TrainingCompanyDashboard.tsx';
-import AdminDashboard from './pages/AdminDashboard.tsx';
-import ExamineeDashboard from './pages/ExamineeDashboard.tsx';
-import ExamTaker from './pages/ExamTaker.tsx';
+import TeacherDashboard from './pages/TeacherDashboard';
+import CorporateDashboard from './pages/CorporateDashboard';
+import TrainingCompanyDashboard from './pages/TrainingCompanyDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import ExamineeDashboard from './pages/ExamineeDashboard';
+import ExamTaker from './pages/ExamTaker';
 
-// Teacher-specific pages that are not duplicated
-import TeacherAssessmentsPage from './pages/TeacherAssessmentsPage.tsx';
-// import TeacherInterviewsPage from './pages/TeacherInterviewsPage'; // Replaced by shared page
-import LiveInterviewPage from './pages/LiveInterviewPage.tsx'; // New import
-import TeacherCandidatesPage from './pages/TeacherCandidatesPage.tsx';
-import TeacherAIToolsPage from './pages/TeacherAIToolsPage.tsx';
-import TeacherReportsPage from './pages/TeacherReportsPage.tsx';
-import TestBuilderPage from './pages/TestBuilderPage.tsx';
+// Role-specific (non-shared) pages
+import LiveInterviewPage from './pages/LiveInterviewPage';
+import TeacherAIToolsPage from './pages/TeacherAIToolsPage';
+import TeacherReportsPage from './pages/TeacherReportsPage';
+import TestBuilderPage from './pages/TestBuilderPage';
 
 // Examinee pages
-import ExamineeResultsPage from './pages/ExamineeResultsPage.tsx';
-import ExamineeExamReviewPage from './pages/ExamineeExamReviewPage.tsx';
+import ExamineeResultsPage from './pages/ExamineeResultsPage';
+import ExamineeExamReviewPage from './pages/ExamineeExamReviewPage';
 
 // Admin pages
-import AdminUserManagementPage from './pages/AdminUserManagementPage.tsx';
-import AdminExamManagementPage from './pages/AdminExamManagementPage.tsx';
-import AdminCategoryManagementPage from './pages/AdminCategoryManagementPage.tsx';
-import AdminSettingsPage from './pages/AdminSettingsPage.tsx';
+import AdminUserManagementPage from './pages/AdminUserManagementPage';
+import AdminExamManagementPage from './pages/AdminExamManagementPage';
+import AdminCategoryManagementPage from './pages/AdminCategoryManagementPage';
+import AdminSettingsPage from './pages/AdminSettingsPage';
 
 // --- REFACTORED SHARED PAGES ---
-import ExamResultsPage from './pages/shared/ExamResultsPage.tsx';
-import ExamineeResultPage from './pages/shared/ExamineeResultPage.tsx';
-import ProctoringReportPage from './pages/shared/ProctoringReportPage.tsx';
-import QuestionBankPage from './pages/shared/QuestionBankPage.tsx';
-import AnalyticsPage from './pages/shared/AnalyticsPage.tsx';
-// FIX: Correctly import InterviewsPage from its new shared location.
-import InterviewsPage from './pages/shared/InterviewsPage.tsx';
+import ExamResultsPage from './pages/shared/ExamResultsPage';
+import ExamineeResultPage from './pages/shared/ExamineeResultPage';
+import ProctoringReportPage from './pages/shared/ProctoringReportPage';
+import QuestionBankPage from './pages/shared/QuestionBankPage';
+import AnalyticsPage from './pages/shared/AnalyticsPage';
+import InterviewsPage from './pages/shared/InterviewsPage';
+import AssessmentsPage from './pages/shared/AssessmentsPage';
+import CandidatesPage from './pages/shared/CandidatesPage';
 
 
 // Theme and Language Context
@@ -79,12 +75,13 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const ThemeAndLanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [theme, setTheme] = useState<Theme>({ platformName: 'evaluify', primaryColor: '#10b981' });
-    const [lang, setLang] = useState<Language>('en');
+    const [lang, setLang] = useState<Language>('ar');
     
     const toggleLang = () => setLang(prev => (prev === 'en' ? 'ar' : 'en'));
 
     useEffect(() => {
         document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     }, [lang]);
 
     return (
@@ -122,6 +119,33 @@ const DashboardRedirector: React.FC = () => {
         default: return <Navigate to="/" replace />;
     }
 };
+
+const AssessmentsRouter: React.FC = () => {
+    const { userRole } = useAuth();
+    switch (userRole) {
+        case UserRole.Teacher:
+            return <AssessmentsPage pageTitle="My Assessments" description="Manage all your created assessments and view their status." ownerId="teacher-1" />;
+        case UserRole.Corporate:
+            return <AssessmentsPage pageTitle="Candidate Assessments" description="Manage assessments for your hiring pipelines." ownerId="corp-1" />;
+        case UserRole.TrainingCompany:
+            return <AssessmentsPage pageTitle="Course Assessments" description="Manage assessments and final exams for your training courses." ownerId="training-1" />;
+        default:
+            return <Navigate to="/" replace />;
+    }
+}
+
+const CandidatesRouter: React.FC = () => {
+    const { userRole } = useAuth();
+    // Candidates page is mostly for Teacher/Corporate roles
+    switch (userRole) {
+        case UserRole.Teacher:
+            return <CandidatesPage pageTitle="Student Candidates" />;
+        case UserRole.Corporate:
+            return <CandidatesPage pageTitle="Hiring Candidates" />;
+        default:
+            return <Navigate to="/" replace />;
+    }
+}
 
 const QuestionBankRouter: React.FC = () => {
     const { userRole } = useAuth();
@@ -166,8 +190,7 @@ const InterviewsRouter: React.FC = () => {
 
 
 const AppRoutes: React.FC = () => {
-    const { isAuthenticated, logout } = useAuth();
-    const { lang } = useLanguage();
+    const { isAuthenticated } = useAuth();
 
     if (!isAuthenticated) {
         return (
@@ -193,7 +216,6 @@ const AppRoutes: React.FC = () => {
             
             {/* Teacher Only Routes */}
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Teacher]} />}>
-                <Route path="/candidates" element={<TeacherCandidatesPage />} />
                 <Route path="/test-builder" element={<TestBuilderPage />} />
                 <Route path="/ai-tools" element={<TeacherAIToolsPage />} />
                 <Route path="/reports" element={<TeacherReportsPage />} />
@@ -201,13 +223,14 @@ const AppRoutes: React.FC = () => {
 
             {/* Shared Interview Routes (Teacher, Corporate) */}
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Teacher, UserRole.Corporate]} />}>
+                <Route path="/candidates" element={<CandidatesRouter />} />
                 <Route path="/interviews" element={<InterviewsRouter />} />
                 <Route path="/interviews/:interviewId" element={<LiveInterviewPage />} />
             </Route>
             
             {/* Shared Routes (Teacher, Corp, Training) */}
             <Route element={<ProtectedRoute allowedRoles={[UserRole.Teacher, UserRole.Corporate, UserRole.TrainingCompany]} />}>
-                <Route path="/assessments" element={<TeacherAssessmentsPage />} />
+                <Route path="/assessments" element={<AssessmentsRouter />} />
                 <Route path="/results" element={<ExamResultsPage />} />
                 <Route path="/results/:resultId" element={<ExamineeResultPage />} />
                 <Route path="/results/:resultId/proctoring" element={<ProctoringReportPage />} />
@@ -238,9 +261,8 @@ const AppRoutes: React.FC = () => {
 }
 
 const App: React.FC = () => {
-    const { lang } = useLanguage();
     return (
-        <div dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+        <div>
            <AppRoutes />
         </div>
     );

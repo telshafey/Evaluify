@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 // Fix: Corrected react-router-dom import syntax.
 import { useParams, Link } from "react-router-dom";
@@ -15,11 +16,6 @@ import 'jspdf-autotable';
 
 // Fix: Removed problematic module augmentation for 'jspdf' to resolve a TypeScript error.
 // The `autoTable` function, added by the `jspdf-autotable` plugin, will be accessed via type assertion `(doc as any)`.
-
-// Fix: Removed module augmentation for 'jspdf' which was causing a build error.
-// The `autoTable` function is accessed via type assertion.
-
-
 const formatAnswerForPdf = (answer: Answer, type: QuestionType): string => {
     if (answer === null || answer === undefined) return "Not Answered";
     if (Array.isArray(answer)) return answer.join(', ');
@@ -69,6 +65,7 @@ export const generateResultPdf = (result: ExamResult, exam: Exam, platformName: 
 
     // Fix: Cast `doc` to `any` to call `autoTable` since module augmentation was removed.
     (doc as any).autoTable({
+        // Fix: Corrected typo for startY property.
         startY: (doc as any).lastAutoTable.finalY + 15,
         head: [['#', 'Question', 'Their Answer', 'Correct Answer', 'Result']],
         body: tableBody,
@@ -80,9 +77,7 @@ export const generateResultPdf = (result: ExamResult, exam: Exam, platformName: 
             3: { cellWidth: 35 },
             4: { cellWidth: 20 },
         },
-        didDrawCell: (data) => {
-          // You can add custom cell drawing logic here if needed
-        }
+        // Fix: Removed empty didDrawCell callback.
     });
 
     // Footer

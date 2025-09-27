@@ -194,6 +194,7 @@ const AdminUserManagementPage: React.FC = () => {
                                                             onChange={e => setSelectedRole(e.target.value as UserRole)}
                                                             className="p-1 bg-slate-100 dark:bg-slate-600 rounded-md"
                                                         >
+                                                            {/* FIX: Cast role to string for key/value and to UserRole for indexing translations to resolve type errors. */}
                                                             {Object.values(UserRole).map(role => (
                                                                 <option key={role as string} value={role as string}>{t.roleBadges[role as UserRole]}</option>
                                                             ))}
@@ -204,7 +205,7 @@ const AdminUserManagementPage: React.FC = () => {
                                                         </span>
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-4">{new Date(user.registeredAt).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US')}</td>
+                                                <td className="px-6 py-4">{new Date(user.registeredAt).toLocaleDateString()}</td>
                                                 <td className="px-6 py-4 flex items-center gap-2">
                                                     {editingUserId === user.id ? (
                                                         <>

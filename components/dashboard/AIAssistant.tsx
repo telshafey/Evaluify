@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect, FormEvent } from 'react';
 // Fix: Corrected import for @google/genai to use GoogleGenAI as per guidelines.
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { SparklesIcon, PaperAirplaneIcon, XCircleIcon, SpinnerIcon } from '../icons';
 import { useLanguage } from '../../App';
 
@@ -30,8 +30,8 @@ const AIAssistant: React.FC = () => {
     const t = translations[lang];
     const messagesEndRef = useRef<HTMLDivElement>(null);
     
-    // FIX: Initialize GoogleGenAI with apiKey in an object
-    const ai = new GoogleGenAI({apiKey: process.env.API_KEY as string});
+    // FIX: Initialize GoogleGenAI with apiKey in an object from process.env
+    const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SmartReport } from '../types.ts';
 import { SparklesIcon, XCircleIcon, SpinnerIcon, CheckCircleIcon, LightbulbIcon, ChartBarIcon } from './icons.tsx';

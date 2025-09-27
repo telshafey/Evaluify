@@ -1,11 +1,12 @@
-import { useAuth } from '../contexts/AuthContext.tsx';
-import { UserRole } from '../types.ts';
-import { useLanguage } from '../App.tsx';
+import React from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { UserRole } from '../types';
+import { useLanguage } from '../App';
 import { 
     ChartBarIcon, BookOpenIcon, UsersIcon, CheckCircleIcon,
     DocumentTextIcon, BuildingIcon, BriefcaseIcon, SettingsIcon, WrenchIcon,
     VideoCameraIcon, UserGroupIcon, DocumentReportIcon, SparklesIcon,
-} from '../components/icons.tsx';
+} from '../components/icons';
 
 interface NavLink {
     path: string;
@@ -84,6 +85,7 @@ const useNavLinks = (): NavLink[] => {
         { path: '/', icon: ChartBarIcon, label: t.dashboard },
         { path: '/assessments', icon: DocumentTextIcon, label: t.assessments },
         { path: '/interviews', icon: VideoCameraIcon, label: t.interviews },
+        { path: '/candidates', icon: UserGroupIcon, label: t.candidates },
         { path: '/results', icon: CheckCircleIcon, label: t.results },
         { path: '/question-bank', icon: BriefcaseIcon, label: t.companyQBank },
         { path: '/analytics', icon: ChartBarIcon, label: t.analytics },

@@ -1,1 +1,1 @@
-// This file is unused and not linked in the application routing, and has been marked for deletion.
+// This file is obsolete and has been removed.

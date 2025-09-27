@@ -2,7 +2,6 @@ import {
     UserRole, 
     DashboardStats, 
     RecentAssessment, 
-    PerformanceData, 
     AIInsight, 
     Exam, 
     Question, 
@@ -20,8 +19,10 @@ import {
     Interview,
     AnalyticsData,
     TrueFalseJustificationAnswer,
-    SmartReport
-} from '../types.ts';
+    SmartReport,
+    PerformanceBySubject,
+    CourseCompletion
+} from '../types';
 
 // --- MOCK DATABASE ---
 
@@ -71,17 +72,16 @@ let mockPlatformSettings: PlatformSettings = {
 
 let mockCandidates: Candidate[] = [
   { id: 'cand1', name: 'John Doe', role: 'Frontend Developer', stage: CandidateStatus.Applied, lastActivity: '2 days ago' },
-  { id: 'cand2', name: 'Jane Smith', role: 'Backend Developer', stage: CandidateStatus.Assessment, lastActivity: '1 day ago' },
-  { id: 'cand3', name: 'Peter Jones', role: 'UI/UX Designer', stage: CandidateStatus.Interview, lastActivity: '5 hours ago' },
+  { id: 'cand2', name: 'Jane Smith', role: 'Backend Developer', stage: CandidateStatus.Assessment, lastActivity: '1 day ago', matchScore: 92 },
+  { id: 'cand3', name: 'Peter Jones', role: 'UI/UX Designer', stage: CandidateStatus.Interview, lastActivity: '5 hours ago', matchScore: 78 },
   { id: 'cand4', name: 'Mary Johnson', role: 'Product Manager', stage: CandidateStatus.Offer, lastActivity: '3 days ago' },
-  { id: 'cand5', name: 'David Chen', role: 'DevOps Engineer', stage: CandidateStatus.Hired, lastActivity: '1 week ago' },
+  { id: 'cand5', name: 'David Chen', role: 'DevOps Engineer', stage: CandidateStatus.Hired, lastActivity: '1 week ago', matchScore: 95 },
   { id: 'cand6', name: 'Sarah Lee', role: 'Frontend Developer', stage: CandidateStatus.Screening, lastActivity: 'yesterday' },
 ];
 
 let mockInterviews: Interview[] = [
     { id: 'int1', candidateName: 'Jane Smith', role: 'Backend Developer', date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), interviewerName: 'Ahmad M.', status: 'Scheduled' },
     { id: 'int2', candidateName: 'Peter Jones', role: 'UI/UX Designer', date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), interviewerName: 'Ahmad M.', status: 'Completed' },
-    // Fix: Changed 'name' to 'candidateName' to match the Interview type.
     { id: 'int3', candidateName: 'John Doe', role: 'Frontend Developer', date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), interviewerName: 'Ahmad M.', status: 'Scheduled' },
 ];
 
@@ -134,15 +134,6 @@ export const getRecentAssessments = async (): Promise<RecentAssessment[]> => {
         { name: 'Jane Smith', test: 'JavaScript Algorithms', score: 92, avatar: 'JS', avatarColor: 'bg-purple-500' },
         { name: 'Peter Jones', test: 'CSS Grid & Flexbox', score: 78, avatar: 'PJ', avatarColor: 'bg-green-500' },
         { name: 'Mary Johnson', test: 'React Basics', score: 95, avatar: 'MJ', avatarColor: 'bg-yellow-500' },
-    ];
-};
-
-export const getPerformanceByType = async (): Promise<PerformanceData[]> => {
-    await delay(700);
-    return [
-        { title: 'Multiple Choice', percentage: 85, color: '#3b82f6' },
-        { title: 'Short Answer', percentage: 72, color: '#8b5cf6' },
-        { title: 'Essay', percentage: 65, color: '#10b981' },
     ];
 };
 
@@ -200,14 +191,14 @@ export const getExamineeDashboardData = async (userId: string) => {
             return (!from || from <= now) && (!until || until >= now);
         }).map(({questions, ...rest}) => rest),
         upcomingExams: mockExams.filter(e => e.availableFrom && new Date(e.availableFrom) > now).map(({questions, ...rest}) => rest),
-        completedResults: mockExamResults.filter(r => r.userId === userId || userId === 'current-user-id').slice(0, 5),
+        completedResults: mockExamResults.filter(r => r.userId === userId || r.userId === 'current-user-id').slice(0, 5),
     };
 };
 
 export const getExamineeResults = async (userId: string): Promise<ExamResult[]> => {
     await delay(500);
     if (userId === 'all') return mockExamResults;
-    return mockExamResults.filter(r => r.userId === userId);
+    return mockExamResults.filter(r => r.userId === userId || r.userId === 'current-user-id');
 };
 
 export const getExamResultDetails = async (resultId: string): Promise<{ result: ExamResult; exam: Exam } | null> => {
@@ -261,7 +252,7 @@ export const getAllExams = async (): Promise<Exam[]> => {
 export const getQuestionBank = async (filters: { ownerId?: string, status?: QuestionStatus, searchTerm?: string, questionType?: QuestionType | '' }): Promise<Question[]> => {
     await delay(500);
     return mockQuestions.filter(q => 
-        (!filters.ownerId || q.ownerId === filters.ownerId || filters.ownerId === 'marketplace') &&
+        (!filters.ownerId || q.ownerId === filters.ownerId || filters.ownerId === 'marketplace' || filters.ownerId === 'user-specific') && // user-specific for generic access
         (!filters.status || q.status === filters.status) &&
         (!filters.searchTerm || q.text.toLowerCase().includes(filters.searchTerm.toLowerCase())) &&
         (!filters.questionType || q.type === filters.questionType)
@@ -408,13 +399,13 @@ export const generateFullExamWithAI = async (params: { topic: string, difficulty
     };
 };
 
-export const analyzeCvWithAI = async (_cvText: string, _jobDescription: string): Promise<CvAnalysisResult> => {
+export const analyzeCvWithAI = async (cvText: string, jobDescription: string): Promise<CvAnalysisResult> => {
     await delay(2500);
     // Simulate some basic analysis
     const score = Math.floor(60 + Math.random() * 40);
     return {
         matchScore: score,
-        summary: `The candidate appears to be a ${score > 80 ? 'strong' : 'moderate'} fit for the role based on their experience with keywords found in the job description.`,
+        summary: `The candidate appears to be a ${score > 80 ? 'strong' : 'moderate'} fit for the role based on their experience with keywords found in the job description like "${jobDescription.split(' ')[0]}".`,
         strengths: ["Experience with React and TypeScript.", "Strong problem-solving skills mentioned.", "Team leadership experience."],
         weaknesses: ["Lacks experience with GraphQL.", "No mention of cloud-based services like AWS or Azure."],
         suggestedQuestions: [
@@ -425,7 +416,7 @@ export const analyzeCvWithAI = async (_cvText: string, _jobDescription: string):
     };
 };
 
-export const generateSmartReportWithAI = async (_ownerId: string): Promise<SmartReport> => {
+export const generateSmartReportWithAI = async (ownerId: string): Promise<SmartReport> => {
     await delay(2500);
     // This simulates analyzing all data for a given owner (e.g., teacher-1)
     // In a real app, this would be a complex backend process feeding data to Gemini
@@ -453,8 +444,20 @@ export const generateSmartReportWithAI = async (_ownerId: string): Promise<Smart
 // Candidate/Interview APIs
 export const getCandidates = async (): Promise<Candidate[]> => {
     await delay(800);
-    return mockCandidates;
+    return JSON.parse(JSON.stringify(mockCandidates));
 };
+
+export const addCandidate = async (candidateData: Omit<Candidate, 'id' | 'stage' | 'lastActivity' | 'matchScore'>): Promise<Candidate> => {
+    await delay(300);
+    const newCandidate: Candidate = {
+        ...candidateData,
+        id: `cand-${Date.now()}`,
+        stage: CandidateStatus.Applied,
+        lastActivity: 'Just now'
+    };
+    mockCandidates.push(newCandidate);
+    return newCandidate;
+}
 
 export const updateCandidateStatus = async (candidateId: string, newStatus: CandidateStatus): Promise<Candidate> => {
     await delay(400);
@@ -485,6 +488,10 @@ export const getInterviewDetails = async (interviewId: string): Promise<Intervie
     await delay(400);
     return mockInterviews.find(i => i.id === interviewId) || null;
 };
+export const getInitialInterviewQuestion = async (role: string): Promise<string> => {
+    await delay(300);
+    return `Tell me about your experience as a ${role}.`;
+};
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
     await delay(1200);
@@ -503,4 +510,20 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
             scores: [92, 81, 68]
         }
     };
+};
+export const getPerformanceBySubject = async (): Promise<PerformanceBySubject[]> => {
+    await delay(700);
+    return [
+        { subject: 'React Hooks', averageScore: 92, color: '#3b82f6' },
+        { subject: 'JavaScript Algorithms', averageScore: 75, color: '#8b5cf6' },
+        { subject: 'CSS Fundamentals', averageScore: 88, color: '#10b981' },
+    ];
+};
+export const getCourseCompletionData = async (): Promise<CourseCompletion[]> => {
+    await delay(700);
+    return [
+        { title: 'React for Beginners', percentage: 95, color: '#3b82f6' },
+        { title: 'Advanced TypeScript', percentage: 82, color: '#8b5cf6' },
+        { title: 'Project Management 101', percentage: 76, color: '#10b981' },
+    ];
 };

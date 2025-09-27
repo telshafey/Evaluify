@@ -109,7 +109,13 @@ export interface RecentAssessment {
     avatarColor: string;
 }
 
-export interface PerformanceData {
+export interface PerformanceBySubject {
+    subject: string;
+    averageScore: number;
+    color: string;
+}
+
+export interface CourseCompletion {
     title: string;
     percentage: number;
     color: string;
@@ -151,7 +157,7 @@ export interface Candidate {
     role: string;
     stage: CandidateStatus;
     lastActivity: string;
-    avatarUrl?: string;
+    matchScore?: number;
 }
 
 export interface Interview {

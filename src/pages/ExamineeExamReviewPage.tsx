@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Fix: Corrected react-router-dom import syntax.
 import { useParams, Link } from "react-router-dom";
 import { getExamResultDetails } from '../services/mockApi.ts';
-import { Exam, ExamResult, QuestionType, Answer, TrueFalseJustificationAnswer } from '../types.ts';
+import { Exam, ExamResult, Answer, QuestionType, TrueFalseJustificationAnswer } from '../types.ts';
 import LoadingSpinner from '../components/LoadingSpinner.tsx';
 import { CheckCircleIcon, XCircleIcon, DownloadIcon } from '../components/icons.tsx';
 import { useLanguage, useTheme } from '../App.tsx';
@@ -29,10 +29,10 @@ const translations = {
         notFound: "نتيجة الاختبار غير موجودة.",
         yourAnswer: "إجابتك",
         correctAnswer: "الإجابة الصحيحة",
-        notAnswered: "لم تتم الإجابة",
+        notAnswered: "لم تُجب",
         correct: "صحيحة",
         incorrect: "غير صحيحة",
-        justification: "التبرير:",
+        justification: "التعليل:",
         downloadPdf: "تحميل PDF",
     }
 }
@@ -97,20 +97,20 @@ const ExamineeExamReviewPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-100 dark:bg-slate-900 p-4 sm:p-8">
+        <div className="min-h-screen bg-slate-100 dark:bg-slate-900 p-8">
             <div className="max-w-4xl mx-auto">
-                <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-                     <Link to="/examinee/results" className="text-primary-500 hover:underline">&larr; {t.backToResults}</Link>
+                <div className="mb-6 flex justify-between items-center">
+                     <Link to="/examinee/results" className="text-blue-500 hover:underline">&larr; {t.backToResults}</Link>
                      <button
                         onClick={() => generateResultPdf(result, exam, theme.platformName)}
-                        className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded-lg flex items-center w-full sm:w-auto justify-center"
+                        className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded-lg flex items-center"
                      >
                         <DownloadIcon className="w-5 h-5 mr-2" />
                         {t.downloadPdf}
                      </button>
                 </div>
-                <div className="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-lg shadow-lg">
-                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t.title}: {exam.title}</h1>
+                <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
+                    <h1 className="text-3xl font-bold mb-2">{t.title}: {exam.title}</h1>
                     <p className="text-slate-600 dark:text-slate-400 mb-6">Score: {result.score} / {result.totalPoints}</p>
 
                     <div className="space-y-6">
@@ -118,10 +118,10 @@ const ExamineeExamReviewPage = () => {
                             const userAnswer = result.answers[q.id] ?? null;
                             const correct = isCorrect(userAnswer, q.correctAnswer);
                             return (
-                                <div key={q.id} className="p-4 sm:p-6 border border-slate-200 dark:border-slate-700 rounded-lg">
+                                <div key={q.id} className="p-6 border border-slate-200 dark:border-slate-700 rounded-lg">
                                     <div className="flex justify-between items-start">
-                                        <p className="font-semibold text-lg flex-1 pr-4">{index + 1}. {q.text}</p>
-                                        <span className={`flex items-center text-sm font-bold flex-shrink-0 ${correct ? 'text-green-500' : 'text-red-500'}`}>
+                                        <p className="font-semibold text-lg text-slate-800 dark:text-slate-200">{index + 1}. {q.text}</p>
+                                        <span className={`flex items-center text-sm font-bold ${correct ? 'text-green-500' : 'text-red-500'}`}>
                                             {correct ? <CheckCircleIcon className="w-5 h-5 mr-1" /> : <XCircleIcon className="w-5 h-5 mr-1" />}
                                             {correct ? t.correct : t.incorrect}
                                         </span>
@@ -129,11 +129,11 @@ const ExamineeExamReviewPage = () => {
 
                                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className={`p-4 rounded-lg ${correct ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
-                                            <h4 className="font-bold mb-2">{t.yourAnswer}</h4>
+                                            <h4 className="font-bold mb-2 text-slate-800 dark:text-slate-200">{t.yourAnswer}</h4>
                                             <AnswerDisplay answer={userAnswer} type={q.type} lang={lang} />
                                         </div>
                                         <div className="p-4 bg-slate-100 dark:bg-slate-700 rounded-lg">
-                                            <h4 className="font-bold mb-2">{t.correctAnswer}</h4>
+                                            <h4 className="font-bold mb-2 text-slate-800 dark:text-slate-200">{t.correctAnswer}</h4>
                                             <AnswerDisplay answer={q.correctAnswer} type={q.type} lang={lang} />
                                         </div>
                                     </div>

@@ -115,6 +115,13 @@ export interface PerformanceData {
     color: string;
 }
 
+// Fix: Added missing PerformanceBySubject type definition.
+export interface PerformanceBySubject {
+    subject: string;
+    averageScore: number;
+    color: string;
+}
+
 export interface AIInsight {
     icon: 'SparklesIcon' | 'ChartBarIcon' | 'LightbulbIcon';
     color: 'blue' | 'green' | 'purple';

@@ -1,7 +1,8 @@
-import React from 'react';
-import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
+import React, { useRef } from 'react';
+import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, InboxIcon, EyeIcon, TagIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
 import { useLanguage, useTheme } from '../App';
 import SitePageLayout from '../components/SitePageLayout';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
 const getTranslations = (platformName: string) => ({
     en: {
@@ -47,46 +48,46 @@ const getTranslations = (platformName: string) => ({
         finalCtaDesc: "Join the growing number of institutions transforming their evaluation process.",
     },
     ar: {
-        heroTitle: "نحو تعريف جديد لنزاهة التقييم",
-        heroSubtitle: `تجمع منصة ${platformName} بين أحدث تقنيات الذكاء الاصطناعي والتصميم الذي يركز على المستخدم لتقديم تجربة تقييم آمنة وعادلة وتقدم رؤى قيّمة عبر الإنترنت.`,
+        heroTitle: "مفهوم جديد لنزاهة التقييمات",
+        heroSubtitle: `تدمج منصة ${platformName} بين أحدث تقنيات الذكاء الاصطناعي والتصميم المرتكز على المستخدم لتقديم تجربة تقييمات إلكترونية آمنة وعادلة وثرية بالرؤى.`,
         getStarted: "ابدأ مجانًا",
         requestDemo: "اطلب عرضًا توضيحيًا",
-        trustedBy: "موثوق بها من قبل مؤسسات رائدة",
+        trustedBy: "تحظى بثقة كبرى المؤسسات",
 
-        featuresTitle: "مجموعة أدوات للتقييم الحديث",
-        featuresSubtitle: "نهجنا متعدد المستويات يضمن أن كل تقييم يتميز بالعدالة، الأمان، ويقدم رؤى قيّمة.",
+        featuresTitle: "مجموعة أدوات متكاملة للتقييم العصري",
+        featuresSubtitle: "يضمن نهجنا متعدد المستويات أن يكون كل تقييم عادلاً وآمناً وذا رؤى قيمة.",
         
         smartProctoring: "المراقبة الذكية بالذكاء الاصطناعي",
-        smartProctoringDesc: "تحليل مدعوم من Gemini للسلوك البصري والصوتي والرقمي لضمان نزاهة الاختبار.",
-        dynamicQuestions: "توليد الأسئلة الديناميكي",
-        dynamicQuestionsDesc: "أنشئ اختبارات فريدة لكل طالب في الوقت الفعلي للقضاء على مشاركة الإجابات.",
+        smartProctoringDesc: "تحليل مدعوم بنماذج Gemini للسلوكيات المرئية والصوتية والرقمية لضمان نزاهة الاختبارات.",
+        dynamicQuestions: "توليد ديناميكي للأسئلة",
+        dynamicQuestionsDesc: "أنشئ اختبارات فريدة لكل طالب في الوقت الفعلي للحد من مشاركة الإجابات.",
         secureBrowser: "متصفح الاختبار الآمن",
-        secureBrowserDesc: "تأمين بيئة الاختبار على أجهزة الكمبيوتر المكتبية والمحمولة للاختبارات عالية الأهمية.",
+        secureBrowserDesc: "تأمين بيئة الاختبار على أجهزة الكمبيوتر والهواتف المحمولة للاختبارات عالية الأهمية.",
         adaptiveTesting: "الاختبار التكيفي",
         adaptiveTestingDesc: "يقوم الذكاء الاصطناعي بتكييف صعوبة الأسئلة لكل طالب لتقييم أكثر دقة وكفاءة.",
-        speechAnalysis: "تحليل متقدم للكلام",
-        speechAnalysisDesc: "قم بتقييم الكفاءة اللغوية ومهارات العرض من خلال تحليل الصوت المعتمد على الذكاء الاصطناعي.",
-        personalizedGuides: "خطط دراسية مخصصة",
-        personalizedGuidesDesc: "يقوم الذكاء الاصطناعي بإنشاء أدلة دراسية مخصصة بناءً على الأداء لمساعدة المتعلمين على التحسن.",
+        speechAnalysis: "تحليل متقدم للنطق",
+        speechAnalysisDesc: "قيّم الكفاءة اللغوية ومهارات العرض والتقديم عبر تحليل صوتي مدعوم بالذكاء الاصطناعي.",
+        personalizedGuides: "خطط مراجعة مخصصة",
+        personalizedGuidesDesc: "ينشئ الذكاء الاصطناعي خطط مراجعة مخصصة بناءً على الأداء لمساعدة المتعلمين على تحسين مستواهم.",
 
         howItWorksTitle: "خطوات بسيطة لتقييم آمن",
         step1Title: "أنشئ أو ولّد",
         step1Desc: "أنشئ التقييمات يدويًا، أو استورد من بنك الأسئلة، أو دع الذكاء الاصطناعي يولد اختبارًا كاملاً في دقائق.",
-        step2Title: "ادعُ وراقب",
-        step2Desc: "ادعُ المرشحين بأمان وراقب الاختبارات من خلال المراقبة متعددة المستويات بالذكاء الاصطناعي.",
-        step3Title: "حلّل واتخذ إجراءً",
+        step2Title: "أرسل وراقب",
+        step2Desc: "ادعُ المرشحين بأمان وراقب الاختبارات من خلال المراقبة متعددة الطبقات بالذكاء الاصطناعي.",
+        step3Title: "حلّل واتخذ قرارًا",
         step3Desc: "احصل على نتائج فورية وتحليلات أداء عميقة ورؤى قابلة للتنفيذ مدعومة بالذكاء الاصطناعي.",
 
-        testimonialsTitle: "ماذا يقول مستخدمونا",
-        testimonial1: `"لقد أحدثت منصة ${platformName} تحولاً في طريقة إجرائنا للامتحانات النهائية. المراقبة بالذكاء الاصطناعي موثوقة بشكل لا يصدق، ونزاهتنا الأكاديمية لم تكن أقوى من أي وقت مضى."`,
+        testimonialsTitle: "ماذا يقول عملاؤنا",
+        testimonial1: `لقد غيرت منصة ${platformName} طريقة إجرائنا للامتحانات النهائية. المراقبة بالذكاء الاصطناعي موثوقة بشكل لا يصدق، ونزاهتنا الأكاديمية لم تكن بهذه القوة من قبل.`,
         testimonial1Name: "د. علياء الشمري",
         testimonial1Role: "عميدة كلية الهندسة، جامعة التكنولوجيا",
-        testimonial2: `"الكفاءة لا مثيل لها. لقد قللنا وقت إنشاء التقييم بنسبة 70٪ باستخدام أدوات التوليد بالذكاء الاصطناعي. إنها تغير قواعد اللعبة لبرامج التدريب في شركتنا."`,
+        testimonial2: `الكفاءة لا مثيل لها. لقد قللنا وقت إنشاء التقييم بنسبة 70٪ باستخدام أدوات التوليد بالذكاء الاصطناعي. إنها نقلة نوعية لبرامج التدريب في شركتنا.`,
         testimonial2Name: "خالد عبد الله",
         testimonial2Role: "رئيس قسم التدريب والتطوير، شركة إبداع",
         
         finalCtaTitle: "هل أنت مستعد للارتقاء بتقييماتك؟",
-        finalCtaDesc: "انضم إلى العدد المتزايد من المؤسسات التي تُحدِث تحولاً في عملية التقييم لديها.",
+        finalCtaDesc: "انضم إلى العدد المتزايد من المؤسسات التي تطور عمليات التقييم لديها.",
     }
 });
 
@@ -99,6 +100,17 @@ const FeatureCard: React.FC<{ icon: React.ElementType, title: string, children: 
         <p className="text-slate-600 dark:text-slate-300">{children}</p>
     </div>
 );
+
+const AnimatedSection: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const isVisible = useIntersectionObserver(ref, { threshold: 0.1 });
+
+    return (
+        <div ref={ref} className={`fade-in-on-scroll ${isVisible ? 'is-visible' : ''} ${className}`}>
+            {children}
+        </div>
+    );
+};
 
 
 const LandingPage: React.FC = () => {
@@ -145,67 +157,73 @@ const LandingPage: React.FC = () => {
 
             {/* Features Section */}
             <section id="features" className="py-20 bg-white dark:bg-slate-900">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.featuresTitle}</h2>
-                        <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{t.featuresSubtitle}</p>
+                <AnimatedSection>
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.featuresTitle}</h2>
+                            <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{t.featuresSubtitle}</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <FeatureCard icon={ShieldCheckIcon} title={t.smartProctoring}>{t.smartProctoringDesc}</FeatureCard>
+                            <FeatureCard icon={SparklesIcon} title={t.dynamicQuestions}>{t.dynamicQuestionsDesc}</FeatureCard>
+                            <FeatureCard icon={DesktopIcon} title={t.secureBrowser}>{t.secureBrowserDesc}</FeatureCard>
+                            <FeatureCard icon={Wand2Icon} title={t.adaptiveTesting}>{t.adaptiveTestingDesc}</FeatureCard>
+                            <FeatureCard icon={MicIcon} title={t.speechAnalysis}>{t.speechAnalysisDesc}</FeatureCard>
+                            <FeatureCard icon={LightbulbIcon} title={t.personalizedGuides}>{t.personalizedGuidesDesc}</FeatureCard>
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <FeatureCard icon={ShieldCheckIcon} title={t.smartProctoring}>{t.smartProctoringDesc}</FeatureCard>
-                        <FeatureCard icon={SparklesIcon} title={t.dynamicQuestions}>{t.dynamicQuestionsDesc}</FeatureCard>
-                        <FeatureCard icon={DesktopIcon} title={t.secureBrowser}>{t.secureBrowserDesc}</FeatureCard>
-                        <FeatureCard icon={Wand2Icon} title={t.adaptiveTesting}>{t.adaptiveTestingDesc}</FeatureCard>
-                        <FeatureCard icon={MicIcon} title={t.speechAnalysis}>{t.speechAnalysisDesc}</FeatureCard>
-                        <FeatureCard icon={LightbulbIcon} title={t.personalizedGuides}>{t.personalizedGuidesDesc}</FeatureCard>
-                    </div>
-                </div>
+                </AnimatedSection>
             </section>
 
              {/* How It Works Section */}
             <section id="how-it-works" className="py-20 bg-slate-50 dark:bg-slate-950">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.howItWorksTitle}</h2>
+                <AnimatedSection>
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.howItWorksTitle}</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                            <div className="p-6">
+                                <div className="text-4xl font-bold text-primary-400 mb-2">1</div>
+                                <h3 className="text-xl font-bold mb-2">{t.step1Title}</h3>
+                                <p className="text-slate-600 dark:text-slate-400">{t.step1Desc}</p>
+                            </div>
+                            <div className="p-6">
+                                <div className="text-4xl font-bold text-primary-400 mb-2">2</div>
+                                <h3 className="text-xl font-bold mb-2">{t.step2Title}</h3>
+                                <p className="text-slate-600 dark:text-slate-400">{t.step2Desc}</p>
+                            </div>
+                            <div className="p-6">
+                                <div className="text-4xl font-bold text-primary-400 mb-2">3</div>
+                                <h3 className="text-xl font-bold mb-2">{t.step3Title}</h3>
+                                <p className="text-slate-600 dark:text-slate-400">{t.step3Desc}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div className="p-6">
-                            <div className="text-4xl font-bold text-primary-400 mb-2">1</div>
-                            <h3 className="text-xl font-bold mb-2">{t.step1Title}</h3>
-                            <p className="text-slate-600 dark:text-slate-400">{t.step1Desc}</p>
-                        </div>
-                        <div className="p-6">
-                            <div className="text-4xl font-bold text-primary-400 mb-2">2</div>
-                            <h3 className="text-xl font-bold mb-2">{t.step2Title}</h3>
-                            <p className="text-slate-600 dark:text-slate-400">{t.step2Desc}</p>
-                        </div>
-                        <div className="p-6">
-                            <div className="text-4xl font-bold text-primary-400 mb-2">3</div>
-                            <h3 className="text-xl font-bold mb-2">{t.step3Title}</h3>
-                            <p className="text-slate-600 dark:text-slate-400">{t.step3Desc}</p>
-                        </div>
-                    </div>
-                </div>
+                </AnimatedSection>
             </section>
             
             {/* Testimonials Section */}
             <section className="py-20 bg-white dark:bg-slate-900">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.testimonialsTitle}</h2>
-                    </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
-                            <p className="text-slate-700 dark:text-slate-300 italic">{t.testimonial1}</p>
-                            <div className="mt-4 font-semibold">{t.testimonial1Name}</div>
-                            <div className="text-sm text-slate-500">{t.testimonial1Role}</div>
+                <AnimatedSection>
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                         <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50">{t.testimonialsTitle}</h2>
                         </div>
-                         <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
-                            <p className="text-slate-700 dark:text-slate-300 italic">{t.testimonial2}</p>
-                            <div className="mt-4 font-semibold">{t.testimonial2Name}</div>
-                            <div className="text-sm text-slate-500">{t.testimonial2Role}</div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                            <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
+                                <p className="text-slate-700 dark:text-slate-300 italic">"{t.testimonial1}"</p>
+                                <div className="mt-4 font-semibold">{t.testimonial1Name}</div>
+                                <div className="text-sm text-slate-500">{t.testimonial1Role}</div>
+                            </div>
+                             <div className="bg-slate-50 dark:bg-slate-950/50 p-8 rounded-xl">
+                                <p className="text-slate-700 dark:text-slate-300 italic">{t.testimonial2}</p>
+                                <div className="mt-4 font-semibold">{t.testimonial2Name}</div>
+                                <div className="text-sm text-slate-500">{t.testimonial2Role}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </AnimatedSection>
             </section>
             
             {/* Final CTA */}

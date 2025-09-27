@@ -1,8 +1,8 @@
 import React from 'react';
-import { PerformanceData } from '../../types.ts';
+import { CourseCompletion } from '../../types.ts';
 
 interface PerformanceByTypeCardProps {
-    performanceData: PerformanceData[];
+    performanceData: CourseCompletion[];
 }
 
 const PerformanceByTypeCard: React.FC<PerformanceByTypeCardProps> = ({ performanceData }) => {

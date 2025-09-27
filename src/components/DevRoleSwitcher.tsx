@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.tsx';
+// Fix: Added import for UserRole.
 import { UserRole } from '../types.ts';
 import { useLanguage } from '../App.tsx';
 import { SettingsIcon, XCircleIcon, BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon, LogOutIcon } from './icons.tsx';
@@ -22,7 +23,7 @@ const translations = {
         logout: "تسجيل الخروج",
         roles: {
             [UserRole.Teacher]: "معلم / مؤسسة تعليمية",
-            [UserRole.Examinee]: "طالب / ممتحن",
+            [UserRole.Examinee]: "طالب / متدرب",
             [UserRole.TrainingCompany]: "مركز تدريبي",
             [UserRole.Corporate]: "شركة / توظيف",
             [UserRole.Admin]: "مسؤول",

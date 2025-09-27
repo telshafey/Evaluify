@@ -1,3 +1,4 @@
+
 import React from 'react';
 import SitePageLayout from '../components/SitePageLayout.tsx';
 import { useLanguage } from '../App.tsx';

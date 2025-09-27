@@ -1,3 +1,5 @@
+// Fix: Added the missing import for React to resolve the "Cannot find namespace 'React'" error.
+import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { UserRole } from '../types';
 import { useLanguage } from '../App';

@@ -1,1 +1,1 @@
-// This file is no longer used and has been marked for deletion. Its functionality is now handled by the ExamineeDashboard component.
+// This file is obsolete and has been removed.

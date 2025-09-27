@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import DashboardLayout from '../../components/DashboardLayout.tsx';
 import useNavLinks from '../../hooks/useNavLinks.ts';
@@ -52,7 +53,7 @@ const QuestionBankPage: React.FC<QuestionBankPageProps> = ({ pageTitle, descript
     
     const handleSaveQuestion = async (questionData: Omit<Question, 'id'> | Question) => {
         try {
-            if ('id' in questionData) {
+            if ('id' in questionData && 'ownerId' in questionData) {
                 const updatedQuestion = await updateQuestionInBank(questionData as Question);
                 setQuestions(prev => prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
                 addNotification("Question updated successfully!", "success");

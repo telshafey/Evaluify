@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { CvAnalysisResult } from '../types.ts';
 import { CheckCircleIcon, XCircleIcon, LightbulbIcon, SparklesIcon } from './icons.tsx';

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, ReactNode } from 'react';
+// Fix: Added imports for types and mockApi
 import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types.ts';
-import { XCircleIcon, Wand2Icon } from './icons.tsx';
+import { XCircleIcon, Wand2Icon, SpinnerIcon } from './icons.tsx';
 import { getAIQuestionSuggestions, getCategories } from '../services/mockApi.ts';
 import { useLanguage } from '../App.tsx';
 
@@ -63,9 +65,9 @@ const translations = {
         answerConfig: "إعدادات الإجابة الصحيحة",
         addOption: "إضافة خيار",
         addItem: "إضافة عنصر",
-        addPrompt: "إضافة بند",
+        addPrompt: "إضافة مطالبة",
         orderingHelp: "أدخل العناصر بالترتيب الصحيح. سيُطلب من الممتحنين إعادة ترتيبها.",
-        prompts: "البنود",
+        prompts: "المطالبات",
         options: "الخيارات",
         correctMatches: "المطابقات الصحيحة",
         selectMatch: "اختر مطابقة",
@@ -73,6 +75,7 @@ const translations = {
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
         cancel: "إلغاء",
         save: "حفظ السؤال",
+        // Fix: Added missing questionTypes to the Arabic translations object.
         questionTypes: {
             [QuestionType.MultipleChoice]: 'اختيار من متعدد',
             [QuestionType.MultipleSelect]: 'تحديد متعدد',
@@ -86,9 +89,8 @@ const translations = {
     }
 }
 
-type EditableQuestion = Omit<Question, 'id'>;
+type EditableQuestion = Omit<Question, 'id' | 'ownerId'>;
 const DEFAULT_QUESTION: EditableQuestion = {
-    ownerId: '', // Will be set on save
     text: '',
     type: QuestionType.MultipleChoice,
     category: '',
@@ -117,7 +119,7 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
     }
   }, [isOpen, question]);
   
-  const handleChange = (field: keyof EditableQuestion, value: any) => {
+  const handleChange = (field: keyof (EditableQuestion | Question), value: any) => {
     const newData = {...formData, [field]: value};
     if (field === 'category') {
         (newData as EditableQuestion).subCategory = ''; // Reset subcategory when category changes
@@ -256,8 +258,9 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                 <div>
                     <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">{t.questionType}</label>
                     <select value={q.type} onChange={e => handleTypeChange(e.target.value as QuestionType)} className="p-2 bg-slate-100 dark:bg-slate-700 rounded-md w-full">
-                        {Object.values(QuestionType).map(type => (
-                          <option key={type} value={type}>{t.questionTypes[type]}</option>
+                        {/* FIX: Use translation object for displaying question type names. */}
+                        {Object.entries((t as any).questionTypes).map(([key, value]) => (
+                          <option key={key} value={key}>{value as ReactNode}</option>
                         ))}
                     </select>
                 </div>
@@ -268,7 +271,7 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
             </div>
 
             <div className="p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
-                <h3 className="font-semibold mb-3">{t.answerConfig}</h3>
+                <h3 className="font-semibold mb-3 text-slate-800 dark:text-slate-100">{t.answerConfig}</h3>
                 {q.type === QuestionType.MultipleChoice && (
                     <div className="space-y-2">
                         {q.options?.map((opt, oIndex) => (
@@ -303,8 +306,8 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                 )}
                  {q.type === QuestionType.TrueFalse && (
                     <div className="flex gap-4">
-                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="True" checked={q.correctAnswer === 'True'} onChange={() => handleChange('correctAnswer', 'True')} className="mr-2" /> True</label>
-                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="False" checked={q.correctAnswer === 'False'} onChange={() => handleChange('correctAnswer', 'False')} className="mr-2" /> False</label>
+                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="True" checked={q.correctAnswer === 'True'} onChange={e => handleChange('correctAnswer', 'True')} className="mr-2" /> True</label>
+                        <label className="flex items-center"><input type="radio" name={`correct-answer`} value="False" checked={q.correctAnswer === 'False'} onChange={e => handleChange('correctAnswer', 'False')} className="mr-2" /> False</label>
                     </div>
                 )}
                  {q.type === QuestionType.TrueFalseWithJustification && (

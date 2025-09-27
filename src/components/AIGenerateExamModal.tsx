@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
+// Fix: Added imports for mockApi and types
 import { generateFullExamWithAI } from '../services/mockApi.ts';
 import { Exam, ExamDifficulty } from '../types.ts';
-import { SparklesIcon } from './icons.tsx';
+import { SparklesIcon, SpinnerIcon } from './icons.tsx';
 import { useLanguage } from '../App.tsx';
 
 interface AIGenerateExamModalProps {
@@ -98,12 +100,12 @@ const AIGenerateExamModal: React.FC<AIGenerateExamModalProps> = ({ isOpen, onClo
             </select>
             <input type="number" min="1" max="15" placeholder="Count" value={count} onChange={e => setCount(parseInt(e.target.value))} className="p-2 bg-slate-100 dark:bg-slate-700 rounded-md w-full focus:ring-2 focus:ring-purple-500" required />
             <button type="submit" disabled={loading || !topic.trim()} className="md:col-span-2 w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50 flex justify-center items-center">
-                {loading ? '...' : t.generate}
+                {loading ? <SpinnerIcon className="w-5 h-5"/> : t.generate}
             </button>
         </form>
 
         <div className="flex-grow overflow-y-auto space-y-3 pr-2 border-t border-slate-200 dark:border-slate-600 pt-4">
-            {loading && <div className="text-center p-8">{t.generating}</div>}
+            {loading && <div className="text-center p-8"><SpinnerIcon className="w-8 h-8 mx-auto text-purple-500"/></div>}
             
             {generatedExam && (
                 <div className="p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">

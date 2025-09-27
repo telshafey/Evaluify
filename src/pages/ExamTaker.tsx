@@ -17,19 +17,17 @@ const translations = {
         next: "Next",
         previous: "Previous",
         submit: "Submit Exam",
-        justifyPlaceholder: "Justify your answer...",
     },
     ar: {
         loading: "جاري تحميل الاختبار...",
         notFound: "الاختبار غير موجود.",
-        submitConfirm: "هل أنت متأكد من رغبتك في إرسال الاختبار؟",
-        timeUp: "انتهى الوقت! سيتم إرسال اختبارك تلقائيًا.",
-        question: "سؤال",
+        submitConfirm: "هل أنت متأكد من رغبتك في تسليم الاختبار؟",
+        timeUp: "انتهى الوقت! سيتم تسليم اختبارك تلقائيًا.",
+        question: "السؤال",
         of: "من",
         next: "التالي",
         previous: "السابق",
-        submit: "إرسال الاختبار",
-        justifyPlaceholder: "برر إجابتك...",
+        submit: "تسليم الاختبار",
     }
 };
 
@@ -81,15 +79,16 @@ const ExamTaker: React.FC = () => {
     }, [examId, t.notFound]);
 
     useEffect(() => {
-        if (timeLeft <= 0 && exam && !loading) {
+        if (!exam || loading) return;
+
+        if (timeLeft <= 0) {
             alert(t.timeUp);
             handleSubmission();
             return;
         }
-        if (timeLeft > 0) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        }
+
+        const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+        return () => clearTimeout(timer);
     }, [timeLeft, exam, loading, handleSubmission, t.timeUp]);
 
     // Enhanced Proctoring Simulation
@@ -255,7 +254,7 @@ const ExamTaker: React.FC = () => {
                          <textarea
                             value={tfAnswer.justification}
                             onChange={(e) => handleAnswerChange(q.id, { ...tfAnswer, justification: e.target.value })}
-                            placeholder={t.justifyPlaceholder}
+                            placeholder="Justify your answer..."
                             rows={4}
                             className="w-full p-3 bg-slate-50 dark:bg-slate-700 border rounded-lg"
                         />

@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+
+import React, { useState, useEffect, useCallback, ReactNode } from 'react';
+// Fix: Added imports for types and mockApi
 import { getQuestionBank } from '../services/mockApi.ts';
 import { Question, QuestionStatus, QuestionType } from '../types.ts';
 import { useLanguage } from '../App.tsx';
@@ -49,7 +51,7 @@ const translations = {
         questions: "أسئلة",
         questionTypes: {
             [QuestionType.MultipleChoice]: 'اختيار من متعدد',
-            [QuestionType.MultipleSelect]: 'تحديد متعدد',
+            [QuestionType.MultipleSelect]: 'اختيار متعدد',
             [QuestionType.TrueFalse]: 'صح / خطأ',
             [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تبرير',
             [QuestionType.ShortAnswer]: 'إجابة قصيرة',
@@ -136,8 +138,9 @@ const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, onClose, 
                 className="p-2 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-2 focus:ring-blue-500"
             >
                 <option value="">{t.allTypes}</option>
+                {/* FIX: Cast value to ReactNode to resolve type error. */}
                 {Object.entries(t.questionTypes).map(([key, value]) => (
-                    <option key={key} value={key}>{value}</option>
+                    <option key={key} value={key}>{value as ReactNode}</option>
                 ))}
             </select>
              <select
@@ -146,8 +149,9 @@ const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, onClose, 
                 className="p-2 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md focus:ring-2 focus:ring-blue-500"
             >
                 <option value="">{t.allStatuses}</option>
+                {/* FIX: Cast value to ReactNode to resolve type error. */}
                 {Object.entries(t.questionStatuses).map(([key, value]) => (
-                    <option key={key} value={key}>{value}</option>
+                    <option key={key} value={key}>{value as ReactNode}</option>
                 ))}
             </select>
         </div>
@@ -175,7 +179,7 @@ const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, onClose, 
         <div className="flex justify-end gap-4 mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
             <button onClick={onClose} className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-800 dark:text-slate-200 font-bold py-2 px-6 rounded-lg">{t.cancel}</button>
             <button onClick={handleAddSelected} disabled={selectedQuestionIds.size === 0} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg disabled:opacity-50">
-                {t.add} {selectedQuestionIds.size > 0 ? `(${selectedQuestionIds.size})` : ''} {selectedQuestionIds.size > 0 ? t.questions : ''}
+                {t.add} {selectedQuestionIds.size > 0 ? `(${selectedQuestionIds.size}) ${t.questions}` : ''}
             </button>
         </div>
       </div>

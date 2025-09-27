@@ -1,1 +1,1 @@
-// This file is no longer used and has been marked for deletion. It was replaced by the WhyEvaluifyPage component.
+// This file is obsolete and has been removed.

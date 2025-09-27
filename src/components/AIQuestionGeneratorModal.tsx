@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
+// Fix: Added imports for mockApi and types
 import { generateQuestionsWithAI } from '../services/mockApi.ts';
 import { Question, QuestionType } from '../types.ts';
-import { SparklesIcon } from './icons.tsx';
+import { SparklesIcon, SpinnerIcon } from './icons.tsx';
 import { useLanguage } from '../App.tsx';
 
 interface AIQuestionGeneratorModalProps {
@@ -53,7 +55,7 @@ const translations = {
     }
 }
 
-export const AIQuestionGeneratorModal: React.FC<AIQuestionGeneratorModalProps> = ({ isOpen, onClose, onAddQuestions }) => {
+const AIQuestionGeneratorModal: React.FC<AIQuestionGeneratorModalProps> = ({ isOpen, onClose, onAddQuestions }) => {
   const [topic, setTopic] = useState('React Hooks');
   const [questionType, setQuestionType] = useState<QuestionType>(QuestionType.MultipleChoice);
   const [difficulty, setDifficulty] = useState<'Easy' | 'Medium' | 'Hard'>('Medium');
@@ -173,3 +175,5 @@ export const AIQuestionGeneratorModal: React.FC<AIQuestionGeneratorModalProps> =
     </div>
   );
 };
+
+export default AIQuestionGeneratorModal;

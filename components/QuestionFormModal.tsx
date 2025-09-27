@@ -39,6 +39,16 @@ const translations = {
         modelAnswerHelp: "Provide the model answer or grading criteria here...",
         cancel: "Cancel",
         save: "Save Question",
+        questionTypes: {
+            [QuestionType.MultipleChoice]: 'Multiple Choice',
+            [QuestionType.MultipleSelect]: 'Multiple Select',
+            [QuestionType.TrueFalse]: 'True/False',
+            [QuestionType.TrueFalseWithJustification]: 'True/False + Justification',
+            [QuestionType.ShortAnswer]: 'Short Answer',
+            [QuestionType.Essay]: 'Essay',
+            [QuestionType.Ordering]: 'Ordering',
+            [QuestionType.Matching]: 'Matching',
+        }
     },
     ar: {
         editTitle: "تعديل السؤال",
@@ -65,6 +75,17 @@ const translations = {
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
         cancel: "إلغاء",
         save: "حفظ السؤال",
+        // Fix: Added missing questionTypes to the Arabic translations object.
+        questionTypes: {
+            [QuestionType.MultipleChoice]: 'اختيار من متعدد',
+            [QuestionType.MultipleSelect]: 'تحديد متعدد',
+            [QuestionType.TrueFalse]: 'صح / خطأ',
+            [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تعليل',
+            [QuestionType.ShortAnswer]: 'إجابة قصيرة',
+            [QuestionType.Essay]: 'مقالي',
+            [QuestionType.Ordering]: 'ترتيب',
+            [QuestionType.Matching]: 'مطابقة',
+        }
     }
 }
 
@@ -238,9 +259,9 @@ const QuestionFormModal: React.FC<QuestionFormModalProps> = ({ isOpen, onClose, 
                 <div>
                     <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">{t.questionType}</label>
                     <select value={q.type} onChange={e => handleTypeChange(e.target.value as QuestionType)} className="p-2 bg-slate-100 dark:bg-slate-700 rounded-md w-full">
-                        {/* FIX: Cast `type` to string to resolve TypeScript error. */}
-                        {Object.values(QuestionType).map(type => (
-                          <option key={type as string} value={type as string}>{(type as string).replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</option>
+                        {/* FIX: Use translation object for displaying question type names. */}
+                        {Object.entries((t as any).questionTypes).map(([key, value]) => (
+                          <option key={key} value={key}>{value as ReactNode}</option>
                         ))}
                     </select>
                 </div>
