@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { SpinnerIcon } from './icons.tsx';
+import { SpinnerIcon } from './icons';
 
 const LoadingSpinner: React.FC = () => {
   return (

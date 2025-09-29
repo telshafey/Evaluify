@@ -1,9 +1,6 @@
-
-
-
-import React, { useState, useEffect } from 'react';
-// Fix: Corrected react-router-dom import syntax.
+import React from 'react';
 import { useParams, Link } from "react-router-dom";
+// FIX: Update import paths to remove .tsx extension and align with project structure.
 import DashboardLayout from '../../components/DashboardLayout';
 import useNavLinks from '../../hooks/useNavLinks';
 import { getExamResultDetails } from '../../services/mockApi';
@@ -44,10 +41,10 @@ const severityColors: Record<ProctoringEvent['severity'] & string, string> = {
 const ProctoringReportPage: React.FC = () => {
     const { resultId } = useParams<{ resultId: string }>();
     const navLinks = useNavLinks();
-    const [result, setResult] = useState<ExamResult | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [result, setResult] = React.useState<ExamResult | null>(null);
+    const [loading, setLoading] = React.useState(true);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const fetchDetails = async () => {
             if (!resultId) return;
             try {

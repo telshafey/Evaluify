@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { getExamineeResults } from '../services/mockApi.ts';
-import { ExamResult } from '../types.ts';
-import { EyeIcon } from '../components/icons.tsx';
-import { useLanguage } from '../App.tsx';
-import DashboardLayout from '../components/DashboardLayout.tsx';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import { getExamineeResults } from '../services/mockApi';
+import { ExamResult } from '../types';
+import { EyeIcon } from '../components/icons';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const translations = {
     en: {
@@ -26,14 +26,14 @@ const translations = {
     },
     ar: {
         title: "نتائجي",
-        description: "راجع أداءك في جميع التقييمات المكتملة.",
+        description: "استعرض أداءك في جميع التقييمات التي أكملتها.",
         loading: "جاري تحميل نتائجك...",
-        empty: "لم تقم بإكمال أي اختبارات بعد.",
+        empty: "لم تكمل أي اختبارات بعد.",
         table: {
             examTitle: "عنوان الاختبار",
-            score: "النتيجة",
+            score: "الدرجة",
             percentage: "النسبة المئوية",
-            dateSubmitted: "تاريخ الإرسال",
+            dateSubmitted: "تاريخ التسليم",
             actions: "الإجراءات",
         },
         viewDetails: "عرض التفاصيل",

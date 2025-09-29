@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect, ReactNode } from 'react';
 // Fix: Added imports for types and mockApi
 import { Question, QuestionType, TrueFalseJustificationAnswer } from '../types.ts';
 import { XCircleIcon, Wand2Icon, SpinnerIcon } from './icons.tsx';
 import { getAIQuestionSuggestions, getCategories } from '../services/mockApi.ts';
-import { useLanguage } from '../App.tsx';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
 
 interface QuestionFormModalProps {
   isOpen: boolean;
@@ -54,28 +54,27 @@ const translations = {
         editTitle: "تعديل السؤال",
         createTitle: "إنشاء سؤال جديد",
         questionText: "نص السؤال",
-        aiAssist: "أكمل بالذكاء الاصطناعي (15 حرفًا على الأقل)",
+        aiAssist: "أكمل بالـ AI (15 حرفًا على الأقل)",
         questionType: "نوع السؤال",
-        points: "النقاط",
+        points: "الدرجات",
         tags: "الوسوم (مفصولة بفاصلة)",
-        category: "الفئة",
-        subCategory: "الفئة الفرعية",
-        selectCategory: "اختر فئة",
-        selectSubCategory: "اختر فئة فرعية",
+        category: "التصنيف الرئيسي",
+        subCategory: "التصنيف الفرعي",
+        selectCategory: "اختر تصنيفًا رئيسيًا",
+        selectSubCategory: "اختر تصنيفًا فرعيًا",
         answerConfig: "إعدادات الإجابة الصحيحة",
         addOption: "إضافة خيار",
         addItem: "إضافة عنصر",
-        addPrompt: "إضافة مطالبة",
+        addPrompt: "إضافة مطابقة",
         orderingHelp: "أدخل العناصر بالترتيب الصحيح. سيُطلب من الممتحنين إعادة ترتيبها.",
-        prompts: "المطالبات",
+        prompts: "المطابقات",
         options: "الخيارات",
-        correctMatches: "المطابقات الصحيحة",
-        selectMatch: "اختر مطابقة",
+        correctMatches: "الإجابات الصحيحة",
+        selectMatch: "اختر الإجابة الصحيحة",
         modelJustification: "التعليل النموذجي",
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
         cancel: "إلغاء",
         save: "حفظ السؤال",
-        // Fix: Added missing questionTypes to the Arabic translations object.
         questionTypes: {
             [QuestionType.MultipleChoice]: 'اختيار من متعدد',
             [QuestionType.MultipleSelect]: 'تحديد متعدد',

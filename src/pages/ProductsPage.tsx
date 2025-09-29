@@ -1,8 +1,8 @@
-
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage } from '../App.tsx';
-import { ShieldCheckIcon, SparklesIcon, BookOpenIcon, ChartBarIcon } from '../components/icons.tsx';
+import SitePageLayout from '../components/SitePageLayout';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
+import { ShieldCheckIcon, SparklesIcon, BookOpenIcon, ChartBarIcon } from '../components/icons';
 
 const translations = {
     en: {
@@ -26,36 +26,36 @@ const translations = {
         analyticsFeatures: ["Candidate Performance Breakdown", "Question Difficulty & Discrimination Analysis", "Cohort Comparison", "Custom Report Generation"],
     },
     ar: {
-        title: "مجموعة منتجاتنا",
-        description: "استكشف الميزات والأدوات المبتكرة التي تجعل evaluify المنصة الرائدة للتقييمات الآمنة والفعالة عبر الإنترنت. تم تصميم مجموعة منتجاتنا لضمان النزاهة وتوفير الوقت وتقديم رؤى عميقة.",
+        title: "ميزات المنصة",
+        description: "استكشف الميزات والأدوات المبتكرة التي تجعل evaluify المنصة الرائدة للتقييمات الإلكترونية الآمنة والفعالة. تم تصميم منتجاتنا لضمان النزاهة، توفير الوقت، وتقديم رؤى تحليلية عميقة.",
         
-        proctoringTitle: "المراقبة الذكية بالذكاء الاصطناعي",
-        proctoringDesc: "حافظ على أعلى مستوى من النزاهة الأكاديمية من خلال نظام المراقبة بالذكاء الاصطناعي متعدد الوسائط. يراقب بذكاء الفيديو والصوت والنشاط على الشاشة للإبلاغ عن أي انتهاكات محتملة، مما يوفر تقرير نزاهة شامل لكل جلسة.",
-        proctoringFeatures: ["تتبع نظرة الرأس ووضعيته", "كشف الحالات الشاذة في الصوت", "مراقبة علامات التبويب والتطبيقات", "تقارير مفصلة عن الحوادث"],
+        proctoringTitle: "المراقبة الذكية بالـ AI",
+        proctoringDesc: "حافظ على أعلى مستوى من النزاهة الأكاديمية من خلال نظام المراقبة بالذكاء الاصطناعي متعدد الوسائط. يراقب بذكاء الفيديو والصوت والنشاط على الشاشة للإبلاغ عن أي انتهاكات محتملة، ويوفر تقرير نزاهة شامل لكل جلسة.",
+        proctoringFeatures: ["تتبع حركة العين واتجاه الرأس", "كشف الأصوات المشبوهة", "مراقبة المتصفح والتطبيقات", "تقارير مفصلة للحالات"],
         
-        generationTitle: "توليد الأسئلة الديناميكي",
+        generationTitle: "إنشاء الأسئلة الديناميكي",
         generationDesc: "استفد من قوة Gemini لمكافحة الغش وإنشاء تقييمات مخصصة في ثوانٍ. يمكن للذكاء الاصطناعي لدينا إنشاء أسئلة فريدة، أو اختبارات كاملة، أو صيغ مختلفة من الأسئلة الحالية، مما يضمن حصول كل مرشح على اختبار مختلف ولكنه بنفس القدر من الصعوبة.",
-        generationFeatures: ["توليد اختبار كامل من موضوع", "إنشاء صيغ مختلفة للأسئلة", "مطالبات مقال مقاومة للانتحال", "تسلسل الأسئلة التكيفي"],
+        generationFeatures: ["إنشاء اختبار كامل من موضوع معين", "إنشاء صيغ متعددة للسؤال الواحد", "أسئلة مقالية مقاومة للسرقة الفكرية", "تسلسل أسئلة تكيفي"],
 
         qBankTitle: "بنك الأسئلة المركزي",
         qBankDesc: "أنشئ وأدر وتعاون في بنك أسئلة قوي. صنف الأسئلة حسب الموضوع والصعوبة والنوع. شارك مع فريقك أو استفد من سوقنا المعتمد للحصول على محتوى عالي الجودة وجاهز للاستخدام.",
-        qBankFeatures: ["دعم أنواع متعددة من الأسئلة", "محتوى غني ووسائط", "تأليف تعاوني", "سجل الإصدارات والتحليلات"],
+        qBankFeatures: ["دعم أنواع متعددة من الأسئلة", "محتوى غني ووسائط متعددة", "تأليف تعاوني", "سجل الإصدارات والتحليلات"],
 
-        analyticsTitle: "تحليلات وتقارير قابلة للتنفيذ",
+        analyticsTitle: "تحليلات وتقارير فعّالة",
         analyticsDesc: "تجاوز الدرجات البسيطة. توفر لوحة التحكم التحليلية لدينا رؤى عميقة حول أداء المرشحين وفعالية الأسئلة والاتجاهات العامة. حدد فجوات المعرفة واتخذ قرارات تعتمد على البيانات لتحسين نتائج التعلم.",
-        analyticsFeatures: ["تفاصيل أداء المرشح", "تحليل صعوبة الأسئلة والتمييز", "مقارنة المجموعات", "إنشاء تقارير مخصصة"],
+        analyticsFeatures: ["تحليل أداء المرشحين", "تحليل صعوبة الأسئلة وتمييزها", "مقارنة بين المجموعات", "إنشاء تقارير مخصصة"],
     }
 };
 
+// FIX: Reconstructed the broken FeatureSection component and its type definition.
 const FeatureSection = ({ title, description, features, icon: Icon, imageSide = 'right' }: { title: string, description: string, features: string[], icon: React.ElementType, imageSide?: 'left' | 'right' }) => (
     <div className={`container mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center`}>
-        <div className={`md:order-${imageSide === 'left' ? 1 : 2}`}>
+        <div className={`md:order-${imageSide === 'left' ? 2 : 1}`}>
             <div className="p-8 bg-slate-100 dark:bg-slate-800/50 rounded-2xl flex items-center justify-center aspect-square">
-                {/* Placeholder for an actual image or illustration */}
                 <Icon className="w-32 h-32 text-primary-400" />
             </div>
         </div>
-        <div className={`md:order-${imageSide === 'left' ? 2 : 1}`}>
+        <div className={`md:order-${imageSide === 'left' ? 1 : 2}`}>
             <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100">{title}</h2>
             <p className="mt-4 text-slate-600 dark:text-slate-300">{description}</p>
             <ul className="mt-6 space-y-2">

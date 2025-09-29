@@ -1,5 +1,6 @@
 import React from 'react';
-import { SpinnerIcon } from './icons.tsx';
+// FIX: Update import paths to remove .tsx extension and align with project structure.
+import { SpinnerIcon } from './icons';
 
 const FullPageSpinner: React.FC = () => (
   <div className="flex items-center justify-center h-screen w-screen bg-slate-100 dark:bg-slate-900">

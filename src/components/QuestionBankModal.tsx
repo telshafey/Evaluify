@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect, useCallback, ReactNode } from 'react';
 // Fix: Added imports for types and mockApi
 import { getQuestionBank } from '../services/mockApi.ts';
 import { Question, QuestionStatus, QuestionType } from '../types.ts';
-import { useLanguage } from '../App.tsx';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
 
 interface QuestionBankModalProps {
   isOpen: boolean;
@@ -41,9 +41,9 @@ const translations = {
     },
     ar: {
         title: "إضافة أسئلة من البنك",
-        searchPlaceholder: "ابحث عن أسئلة...",
-        allTypes: "كل الأنواع",
-        allStatuses: "كل الحالات",
+        searchPlaceholder: "ابحث في الأسئلة...",
+        allTypes: "جميع الأنواع",
+        allStatuses: "جميع الحالات",
         loading: "جاري التحميل...",
         noQuestions: "لم يتم العثور على أسئلة.",
         cancel: "إلغاء",
@@ -51,9 +51,9 @@ const translations = {
         questions: "أسئلة",
         questionTypes: {
             [QuestionType.MultipleChoice]: 'اختيار من متعدد',
-            [QuestionType.MultipleSelect]: 'اختيار متعدد',
+            [QuestionType.MultipleSelect]: 'تحديد متعدد',
             [QuestionType.TrueFalse]: 'صح / خطأ',
-            [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تبرير',
+            [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تعليل',
             [QuestionType.ShortAnswer]: 'إجابة قصيرة',
             [QuestionType.Essay]: 'مقالي',
             [QuestionType.Ordering]: 'ترتيب',

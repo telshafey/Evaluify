@@ -1,10 +1,10 @@
-
 import React from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { NavLink } from "react-router-dom";
-import { useTheme, useLanguage } from '../App.tsx';
-import { useDarkMode } from '../contexts/DarkModeContext.tsx';
-import { BookOpenIcon, SunIcon, MoonIcon, ShoppingCartIcon } from './icons.tsx';
+// FIX: Update import path for useTheme and useLanguage
+import { useTheme, useLanguage } from '../contexts/AuthContext';
+// FIX: Removed .tsx extension to fix module resolution error.
+import { useDarkMode } from '../contexts/DarkModeContext';
+import { BookOpenIcon, SunIcon, MoonIcon, ShoppingCartIcon } from './icons';
 
 interface SitePageLayoutProps {
     children: React.ReactNode;
@@ -31,17 +31,17 @@ const translations = {
     ar: {
         products: "المنتجات",
         industries: "القطاعات",
-        whyEvaluify: "لماذا evaluify؟",
-        integrations: "التكاملات التقنية",
+        whyEvaluify: `لماذا ${"evaluify"}؟`,
+        integrations: "التكاملات",
         customers: "العملاء",
         pricing: "الأسعار",
         aboutUs: "عن المنصة",
         footerRights: "جميع الحقوق محفوظة.",
-        footerProject: "مشروع يعرض القدرات الحديثة في تطوير تطبيقات الويب.",
+        footerProject: "مشروع يوضح الإمكانيات المتقدمة لتطوير تطبيقات الويب.",
         langSwitch: "English",
         company: "الشركة",
         product: "المنتج",
-        legal: "قانوني",
+        legal: "الشؤون القانونية",
         privacy: "سياسة الخصوصية",
         terms: "شروط الخدمة",
     }

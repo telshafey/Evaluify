@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
-// Fix: Added imports for mockApi and types
-import { generateFullExamWithAI } from '../services/mockApi.ts';
-import { Exam, ExamDifficulty } from '../types.ts';
-import { SparklesIcon, SpinnerIcon } from './icons.tsx';
-import { useLanguage } from '../App.tsx';
+// FIX: Update import paths for mockApi and types to align with the correct project structure.
+import { generateFullExamWithAI } from '../services/mockApi';
+import { Exam, ExamDifficulty } from '../types';
+import { SparklesIcon, SpinnerIcon } from './icons';
+// FIX: Update import path for useLanguage hook to use the centralized AuthContext.
+import { useLanguage } from '../contexts/AuthContext';
 
 interface AIGenerateExamModalProps {
   isOpen: boolean;
@@ -25,10 +25,10 @@ const translations = {
         hard: "Hard",
     },
     ar: {
-        title: "مولّد الاختبارات بالذكاء الاصطناعي",
+        title: "إنشاء اختبار بالـ AI",
         topicPlaceholder: "الموضوع (مثال: أساسيات React)",
-        generate: "توليد الاختبار",
-        generating: "جاري التوليد...",
+        generate: "إنشاء الاختبار",
+        generating: "جاري الإنشاء...",
         cancel: "إلغاء",
         save: "حفظ الاختبار",
         easy: "سهل",

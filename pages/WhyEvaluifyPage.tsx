@@ -1,9 +1,7 @@
-
-
-
 import React from 'react';
 import SitePageLayout from '../components/SitePageLayout';
-import { useLanguage, useTheme } from '../App';
+// FIX: Update import path for useLanguage and useTheme hooks to use the centralized AuthContext.
+import { useLanguage, useTheme } from '../contexts/AuthContext';
 import { ShieldCheckIcon, SparklesIcon, ChartBarIcon, CheckCircleIcon, XCircleIcon } from '../components/icons';
 
 const getTranslations = (platformName: string) => ({
@@ -119,7 +117,8 @@ const WhyEvaluifyPage = () => {
                                 { feature: t.integrity, evaluify: t.integrityEval, traditional: t.integrityTrad },
                                 { feature: t.efficiency, evaluify: t.efficiencyEval, traditional: t.efficiencyTrad },
                                 { feature: t.insights, evaluify: t.insightsEval, traditional: t.insightsTrad },
-                                { feature: t.accessibility, evaluify: t.accessibilityEval, traditional: t.traditional },
+                                // FIX: Corrected a typo in the data structure, ensuring the correct translation `t.accessibilityTrad` is used.
+                                { feature: t.accessibility, evaluify: t.accessibilityEval, traditional: t.accessibilityTrad },
                             ].map((item, index) => (
                                 <div key={item.feature} className={`grid grid-cols-3 text-center items-center border-t border-slate-200 dark:border-slate-700`}>
                                     <div className="p-4 text-left font-semibold">{item.feature}</div>

@@ -1,13 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
-import DashboardLayout from '../components/DashboardLayout.tsx';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import StatCard from '../components/dashboard/StatCard.tsx';
-import { UsersIcon, DocumentTextIcon, BookOpenIcon, ShieldCheckIcon } from '../components/icons.tsx';
-// Fix: Added imports for mockApi and types
-import { getDashboardStats } from '../services/mockApi.ts';
-import { DashboardStats, UserRole } from '../types.ts';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import StatCard from '../components/dashboard/StatCard';
+import { UsersIcon, DocumentTextIcon, BookOpenIcon, ShieldCheckIcon } from '../components/icons';
+import { getDashboardStats } from '../services/mockApi';
+import { DashboardStats, UserRole } from '../types';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const AdminDashboard: React.FC = () => {
     const navLinks = useNavLinks();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CourseCompletion } from '../../types.ts';
+import { CourseCompletion } from '../../types';
 
 interface PerformanceByTypeCardProps {
     performanceData: CourseCompletion[];

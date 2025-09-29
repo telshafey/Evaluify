@@ -1,8 +1,8 @@
-
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage, useTheme } from '../App.tsx';
-import { ShieldCheckIcon, SparklesIcon, ChartBarIcon, CheckCircleIcon, XCircleIcon } from '../components/icons.tsx';
+import SitePageLayout from '../components/SitePageLayout';
+// FIX: Update import path for useLanguage and useTheme hooks to use the centralized AuthContext.
+import { useLanguage, useTheme } from '../contexts/AuthContext';
+import { ShieldCheckIcon, SparklesIcon, ChartBarIcon, CheckCircleIcon, XCircleIcon } from '../components/icons';
 
 const getTranslations = (platformName: string) => ({
     en: {
@@ -36,34 +36,34 @@ const getTranslations = (platformName: string) => ({
         accessibilityTrad: "Physical location required",
     },
     ar: {
-        title: `ميزة ${platformName}`,
-        description: `تعرف على ما يميز ${platformName}. إن التزامنا بالنزاهة والتصميم الذي يركز على المستخدم والتكامل القوي للذكاء الاصطناعي يجعلنا الشريك المثالي للمؤسسات التي تقدر التقييمات العادلة والموثوقة وذات الرؤى العميقة.`,
+        title: `ميزات ${platformName}`,
+        description: `اكتشف ما يميز ${platformName}. التزامنا بالنزاهة، التصميم الموجه للمستخدم، والتكامل القوي مع الذكاء الاصطناعي يجعلنا الشريك المثالي للمؤسسات التي تقدر التقييمات العادلة، الموثوقة، والثرية بالبيانات.`,
         
-        integrityTitle: "نزاهة لا تقبل المساومة",
-        integrityDesc: `نحن نؤمن بأن الثقة هي أساس أي تقييم صحيح. تم بناء منصتنا من الألف إلى الياء لحماية نزاهة اختباراتك من خلال نهج أمني متعدد الطبقات قوي وسهل الاستخدام.`,
+        integrityTitle: "نزاهة لا تهاون فيها",
+        integrityDesc: `نؤمن بأن الثقة هي أساس أي تقييم صحيح. تم بناء منصتنا من الألف إلى الياء لحماية نزاهة اختباراتك بنهج أمني متعدد الطبقات، يجمع بين القوة وسهولة الاستخدام.`,
         
-        aiTitle: "مدعوم من Gemini",
-        aiDesc: `نحن نستفيد من نماذج Gemini الحديثة من Google لتوفير ميزات ذكية تتجاوز المراقبة البسيطة. من إنشاء أسئلة مقاومة للغش إلى تقديم رؤى أداء عميقة، الذكاء الاصطناعي هو جوهر ما يجعل ${platformName} ذكيًا.`,
+        aiTitle: "مدعومة بتقنية Gemini",
+        aiDesc: `نستفيد من نماذج Gemini المتطورة من Google لتقديم ميزات ذكية تتجاوز المراقبة التقليدية. من إنشاء أسئلة مانعة للغش إلى تقديم رؤى أداء عميقة، الذكاء الاصطناعي هو جوهر ذكاء ${platformName}.`,
         
         insightsTitle: "رؤى قائمة على البيانات",
-        insightsDesc: `تجاوز الدرجات والنسب المئوية. نحن نوفر لك تحليلات قابلة للتنفيذ تساعدك على فهم أداء المتعلم وتحديد فجوات المعرفة وتحسين مناهجك. اتخذ قرارات مستنيرة مدعومة بالبيانات.`,
+        insightsDesc: `تجاوز مجرد الدرجات والنسب المئوية. نوفر لك تحليلات قابلة للتنفيذ تساعدك على فهم أداء المتعلمين، تحديد الفجوات المعرفية، وتحسين مناهجك. اتخذ قرارات مستنيرة مدعومة بالبيانات.`,
         
         comparisonTitle: "النهج الحديث للتقييم",
         feature: "الميزة",
         evaluify: platformName,
         traditional: "الطرق التقليدية",
         integrity: "النزاهة",
-        integrityEval: "مراقبة بالذكاء الاصطناعي، أمان متعدد الطبقات",
-        integrityTrad: "مراقبة يدوية، قوانين شرف",
+        integrityEval: "مراقبة بالـ AI، أمان متعدد الطبقات",
+        integrityTrad: "مراقبة يدوية، تعهدات شرفية",
         efficiency: "الكفاءة",
-        efficiencyEval: "تصحيح آلي وتوليد بالذكاء الاصطناعي",
-        efficiencyTrad: "إنشاء يدوي يستغرق وقتًا طويلاً",
-        insights: "الرؤى",
-        insightsEval: "تحليلات عميقة، تتبع الأداء",
-        insightsTrad: "درجات أساسية، بيانات محدودة",
-        accessibility: "إمكانية الوصول",
+        efficiencyEval: "تصحيح آلي وإنشاء بالـ AI",
+        efficiencyTrad: "إنشاء يدوي مستهلك للوقت",
+        insights: "التحليلات",
+        insightsEval: "تحليلات عميقة وتتبع للأداء",
+        insightsTrad: "درجات أساسية وبيانات محدودة",
+        accessibility: "سهولة الوصول",
         accessibilityEval: "وصول آمن عبر الإنترنت من أي مكان",
-        accessibilityTrad: "يتطلب موقعًا فعليًا",
+        accessibilityTrad: "يتطلب التواجد في مكان محدد",
     }
 });
 
@@ -117,6 +117,7 @@ const WhyEvaluifyPage = () => {
                                 { feature: t.integrity, evaluify: t.integrityEval, traditional: t.integrityTrad },
                                 { feature: t.efficiency, evaluify: t.efficiencyEval, traditional: t.efficiencyTrad },
                                 { feature: t.insights, evaluify: t.insightsEval, traditional: t.insightsTrad },
+                                // FIX: Corrected a typo in the data structure, ensuring the correct translation `t.accessibilityTrad` is used.
                                 { feature: t.accessibility, evaluify: t.accessibilityEval, traditional: t.accessibilityTrad },
                             ].map((item, index) => (
                                 <div key={item.feature} className={`grid grid-cols-3 text-center items-center border-t border-slate-200 dark:border-slate-700`}>

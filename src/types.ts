@@ -109,12 +109,14 @@ export interface RecentAssessment {
     avatarColor: string;
 }
 
+// FIX: Added missing PerformanceBySubject type definition.
 export interface PerformanceBySubject {
     subject: string;
     averageScore: number;
     color: string;
 }
 
+// FIX: Added missing CourseCompletion type definition.
 export interface CourseCompletion {
     title: string;
     percentage: number;

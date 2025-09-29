@@ -1,8 +1,7 @@
-
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage } from '../App.tsx';
-import { BookOpenIcon, BriefcaseIcon, CheckCircleIcon } from '../components/icons.tsx';
+import SitePageLayout from '../components/SitePageLayout';
+import { useLanguage } from '../contexts/AuthContext';
+import { BookOpenIcon, BriefcaseIcon, CheckCircleIcon } from '../components/icons';
 
 const translations = {
     en: {
@@ -20,16 +19,16 @@ const translations = {
     },
     ar: {
         title: "حلول لكل قطاع",
-        description: "توفر evaluify حلول تقييم مخصصة لمجموعة واسعة من القطاعات. اكتشف كيف يمكن تخصيص منصتنا لتناسب التحديات الفريدة لقطاعك.",
+        description: "توفر evaluify حلول تقييم مخصصة لمجموعة واسعة من القطاعات. اكتشف كيف يمكن تكييف منصتنا لتناسب التحديات الفريدة لقطاعك.",
         
         educationTitle: "التعليم العالي",
-        educationDesc: "اضمن النزاهة الأكاديمية للاختبارات عن بعد والواجبات واختبارات القبول من خلال المراقبة القوية بالذكاء الاصطناعي وكشف الانتحال.",
+        educationDesc: "ضمان النزاهة الأكاديمية للاختبارات عن بعد، والواجبات، واختبارات القبول من خلال المراقبة الذكية وكشف الانتحال.",
 
-        corporateTitle: "التوظيف في الشركات",
-        corporateDesc: "قم بتبسيط عملية التوظيف الخاصة بك من خلال تقييمات المهارات الفنية والشخصية الموحدة. حدد أفضل المرشحين بشكل أسرع وقلل من التحيز في التوظيف.",
+        corporateTitle: "التوظيف المؤسسي",
+        corporateDesc: "تبسيط عملية التوظيف من خلال تقييمات موحدة للمهارات التقنية والشخصية. تحديد أفضل المرشحين بشكل أسرع وتقليل التحيز.",
 
-        trainingTitle: "التدريب والشهادات",
-        trainingDesc: "تحقق من صحة التعلم ومنح الشهادات بثقة. قم بإنشاء اختبارات شاملة لبرامج التطوير المهني والتدريب.",
+        trainingTitle: "التدريب وإصدار الشهادات",
+        trainingDesc: "التحقق من مخرجات التعلم ومنح الشهادات بثقة. إنشاء اختبارات شاملة لبرامج التطوير المهني والتدريب.",
     }
 };
 

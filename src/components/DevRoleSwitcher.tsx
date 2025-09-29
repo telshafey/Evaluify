@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext.tsx';
-// Fix: Added import for UserRole.
-import { UserRole } from '../types.ts';
-import { useLanguage } from '../App.tsx';
-import { SettingsIcon, XCircleIcon, BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon, LogOutIcon } from './icons.tsx';
+import { useAuth } from '../contexts/AuthContext';
+import { UserRole } from '../types';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
+import { SettingsIcon, XCircleIcon, BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon, LogOutIcon } from './icons';
 
 // Translations
 const translations = {

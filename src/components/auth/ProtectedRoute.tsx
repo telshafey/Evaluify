@@ -1,12 +1,7 @@
-
 import React from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { Navigate, Outlet } from "react-router-dom";
-// Fix: Add .tsx extension to local component/context imports
-import { useAuth } from '../../contexts/AuthContext.tsx';
-// Fix: Added import for UserRole.
-// Fix: Add .ts extension to local type import
-import { UserRole } from '../../types.ts';
+import { useAuth } from '../../contexts/AuthContext';
+import { UserRole } from '../../types';
 
 interface ProtectedRouteProps {
   allowedRoles: UserRole[];

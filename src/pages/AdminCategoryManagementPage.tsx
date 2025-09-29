@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
-import DashboardLayout from '../../components/DashboardLayout';
-import useNavLinks from '../../hooks/useNavLinks';
-import { getCategories, addCategory, deleteCategory, addSubCategory, deleteSubCategory } from '../../services/mockApi';
-import { useNotification } from '../../contexts/NotificationContext';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { PlusCircleIcon, TrashIcon } from '../../components/icons';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import { getCategories, addCategory, deleteCategory, addSubCategory, deleteSubCategory } from '../services/mockApi';
+import { useNotification } from '../contexts/NotificationContext';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { PlusCircleIcon, TrashIcon } from '../components/icons';
 
 const AdminCategoryManagementPage: React.FC = () => {
     const navLinks = useNavLinks();
@@ -88,15 +87,15 @@ const AdminCategoryManagementPage: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="pl-4 space-y-1">
-                                    {/* Fix: Ensure subCategories is an array before mapping */}
+                                    {/* FIX: Ensure subCategories is an array before mapping */}
                                     {Array.isArray(subCategories) && subCategories.map(sub => (
                                         <div key={sub} className="flex justify-between items-center p-2 bg-white dark:bg-slate-600 rounded">
                                             <span>{sub}</span>
                                             <button onClick={() => handleDeleteSubCategory(category, sub)} className="p-1 text-red-500 hover:text-red-700"><TrashIcon className="w-4 h-4"/></button>
                                         </div>
                                     ))}
-                                    {/* Fix: Ensure subCategories is an array before checking length */}
-                                    {Array.isArray(subCategories) && subCategories.length === 0 && <p className="text-sm text-slate-500 italic">No sub-categories yet.</p>}
+                                    {/* FIX: Ensure subCategories is an array before checking length */}
+                                    {(!Array.isArray(subCategories) || subCategories.length === 0) && <p className="text-sm text-slate-500 italic">No sub-categories yet.</p>}
                                 </div>
                             </div>
                         ))}

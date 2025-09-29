@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from "react-router-dom";
-import DashboardLayout from '../../components/DashboardLayout.tsx';
-import useNavLinks from '../../hooks/useNavLinks.ts';
-import { getExamResultDetails } from '../../services/mockApi.ts';
-import { ExamResult, Exam, QuestionType, Answer, TrueFalseJustificationAnswer } from '../../types.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import { ShieldCheckIcon, CheckCircleIcon, XCircleIcon, DownloadIcon } from '../../components/icons.tsx';
-import { useTheme } from '../../App.tsx';
+import DashboardLayout from '../../components/DashboardLayout';
+import useNavLinks from '../../hooks/useNavLinks';
+import { getExamResultDetails } from '../../services/mockApi';
+import { ExamResult, Exam, QuestionType, Answer, TrueFalseJustificationAnswer } from '../../types';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { ShieldCheckIcon, CheckCircleIcon, XCircleIcon, DownloadIcon } from '../../components/icons';
+import { useTheme } from '../../contexts/AuthContext';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 

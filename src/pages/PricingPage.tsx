@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage, useTheme } from '../App.tsx';
-import { CheckCircleIcon } from '../components/icons.tsx';
+import SitePageLayout from '../components/SitePageLayout';
+import { useLanguage, useTheme } from '../contexts/AuthContext';
+import { CheckCircleIcon } from '../components/icons';
 
 const getTranslations = (platformName: string) => ({
     en: {
@@ -44,41 +43,41 @@ const getTranslations = (platformName: string) => ({
         ]
     },
     ar: {
-        title: "خطط مرنة لكل فريق",
+        title: "خطط أسعار مرنة تناسب الجميع",
         subtitle: `اختر الخطة الأنسب لاحتياجاتك. سواء كنت مدربًا فرديًا أو مؤسسة كبيرة، لدى ${platformName} الحل الأمثل لك.`,
-        monthly: "شهرياً",
-        annually: "سنوياً",
-        save20: "وفر 20%",
+        monthly: "شهري",
+        annually: "سنوي",
+        save20: "خصم 20%",
 
         instructorPlan: {
-            title: "مدرب",
+            title: "خطة المدرب",
             price: { monthly: 29, annually: 23 },
-            per: "/ شهر",
-            desc: "مثالية للمعلمين والمدربين الأفراد.",
-            features: ["حتى 50 تقييمًا شهريًا", "حتى 30 ممتحنًا لكل تقييم", "بنك الأسئلة القياسي", "مراقبة أساسية بالذكاء الاصطناعي", "دعم عبر البريد الإلكتروني"],
+            per: "/ شهريًا",
+            desc: "للأكاديميين والمدربين الأفراد.",
+            features: ["حتى 50 تقييمًا شهريًا", "حتى 30 ممتحنًا لكل تقييم", "بنك الأسئلة القياسي", "مراقبة أساسية بالـ AI", "دعم عبر البريد الإلكتروني"],
             button: "ابدأ الآن"
         },
         businessPlan: {
-            title: "أعمال",
+            title: "خطة الأعمال",
             price: { monthly: 99, annually: 79 },
-            per: "/ شهر",
-            desc: "مصممة للشركات الصغيرة والمتوسطة ومراكز التدريب.",
-            features: ["حتى 200 تقييم شهريًا", "حتى 100 ممتحن لكل تقييم", "الوصول إلى المتجر", "مراقبة متقدمة بالذكاء الاصطناعي", "دعم ذو أولوية"],
+            per: "/ شهريًا",
+            desc: "للشركات الصغيرة والمتوسطة ومراكز التدريب.",
+            features: ["حتى 200 تقييم شهريًا", "حتى 100 ممتحن لكل تقييم", "الوصول إلى متجر الأسئلة", "مراقبة متقدمة بالـ AI", "دعم ذو أولوية"],
             button: "اختر خطة الأعمال",
             popular: "الأكثر شيوعًا"
         },
         enterprisePlan: {
-            title: "مؤسسة",
+            title: "خطة المؤسسات",
             price: "مخصص",
-            desc: "حلول مخصصة للمؤسسات الكبيرة والمؤسسات التعليمية.",
-            features: ["تقييمات وممتحنين غير محدودين", "علامة تجارية مخصصة", "تكامل مع أنظمة LMS/ATS", "مدير حساب مخصص", "الوصول إلى API"],
+            desc: "حلول متكاملة للمؤسسات الكبيرة والجهات التعليمية.",
+            features: ["تقييمات وممتحنون بلا حدود", "علامة تجارية مخصصة", "تكامل مع أنظمة LMS/ATS", "مدير حساب مخصص", "وصول لواجهة الـ API"],
             button: "اتصل بالمبيعات"
         },
-        faqTitle: "أسئلة شائعة",
+        faqTitle: "الأسئلة الشائعة",
         faqs: [
             { q: "هل يمكنني تغيير خطتي لاحقًا؟", a: "نعم، يمكنك الترقية أو التخفيض أو إلغاء خطتك في أي وقت من إعدادات حسابك." },
-            { q: "هل هناك نسخة تجريبية مجانية متاحة؟", a: "نحن نقدم نسخة تجريبية مجانية لمدة 14 يومًا على خطط المدرب والأعمال. لا يلزم وجود بطاقة ائتمان للبدء." },
-            { q: "ماذا يحدث إذا تجاوزت حدود خطتي؟", a: "سنقوم بإعلامك عندما تقترب من حدودك. يمكنك اختيار ترقية خطتك أو شراء إضافات للشهر الحالي." }
+            { q: "هل تتوفر فترة تجريبية مجانية؟", a: "نعم، نقدم فترة تجريبية مجانية لمدة 14 يومًا على خطط المدرب والأعمال. لا نطلب بطاقة ائتمان للبدء." },
+            { q: "ماذا يحدث إذا تجاوزت حدود باقتي؟", a: "سنقوم بإشعارك عند اقترابك من حدود الباقة. يمكنك اختيار الترقية أو شراء باقات إضافية للشهر الحالي." }
         ]
     }
 });
@@ -140,7 +139,7 @@ const PricingPage = () => {
                 <div className="mt-8 flex justify-center items-center gap-4">
                     <span className={`font-semibold ${billing === 'monthly' ? 'text-primary-500' : ''}`}>{t.monthly}</span>
                     <button onClick={() => setBilling(b => b === 'monthly' ? 'annually' : 'monthly')} className="relative w-14 h-8 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center px-1">
-                        <div className="w-6 h-6 bg-white dark:bg-slate-900 rounded-full shadow-md transform transition-transform" style={{ transform: billing === 'annually' ? 'translateX(24px)' : 'translateX(0)' }}></div>
+                        <div className="pricing-toggle-bg w-6 h-6 bg-white dark:bg-slate-900 rounded-full shadow-md transform" style={{ transform: billing === 'annually' ? 'translateX(24px)' : 'translateX(0)' }}></div>
                     </button>
                     <span className={`font-semibold ${billing === 'annually' ? 'text-primary-500' : ''}`}>{t.annually} <span className="text-xs bg-primary-100 dark:bg-primary-500/20 text-primary-700 dark:text-primary-300 rounded-full px-2 py-0.5">{t.save20}</span></span>
                 </div>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import AIInsightsCard from '../components/dashboard/AIInsightsCard.tsx';
-import HiringPipelineSummaryCard from '../components/dashboard/HiringPipelineSummaryCard.tsx';
-import { DocumentTextIcon, UsersIcon, CheckCircleIcon, ChartBarIcon } from '../components/icons.tsx';
-import { getDashboardStats, getCandidates, getAIInsights } from '../services/mockApi.ts';
-import { DashboardStats, Candidate, AIInsight, UserRole } from '../types.ts';
-import GenericDashboard from '../components/dashboard/GenericDashboard.tsx';
-import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks';
+import AIInsightsCard from '../components/dashboard/AIInsightsCard';
+import HiringPipelineSummaryCard from '../components/dashboard/HiringPipelineSummaryCard';
+import { DocumentTextIcon, UsersIcon, CheckCircleIcon, ChartBarIcon } from '../components/icons';
+import { getDashboardStats, getCandidates, getAIInsights } from '../services/mockApi';
+import { DashboardStats, Candidate, AIInsight, UserRole } from '../types';
+import GenericDashboard from '../components/dashboard/GenericDashboard';
+import DashboardLayout from '../components/DashboardLayout';
 
 const statCardsConfig = [
     { icon: DocumentTextIcon, key: 'stat1' as const, color: 'blue' as const },

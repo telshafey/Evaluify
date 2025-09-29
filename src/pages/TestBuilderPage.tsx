@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DashboardLayout from '../components/DashboardLayout.tsx';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import { Question, QuestionType, ExamDifficulty } from '../types.ts';
-import { SparklesIcon, TrashIcon, EyeIcon, SpinnerIcon } from '../components/icons.tsx';
-import AIQuestionGeneratorModal from '../components/AIQuestionGeneratorModal.tsx';
-import { useNotification } from '../contexts/NotificationContext.tsx';
-import { useLanguage } from '../App.tsx';
-import { addAssessment } from '../services/mockApi.ts';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import { Question, QuestionType, ExamDifficulty } from '../types';
+import { SparklesIcon, TrashIcon, EyeIcon, SpinnerIcon } from '../components/icons';
+import AIQuestionGeneratorModal from '../components/AIQuestionGeneratorModal';
+import { useNotification } from '../contexts/NotificationContext';
+import { useLanguage } from '../contexts/AuthContext';
+import { addAssessment } from '../services/mockApi';
 
 const translations = {
     en: {
@@ -37,26 +37,26 @@ const translations = {
         }
     },
     ar: {
-        pageTitle: "منشئ الاختبارات",
+        pageTitle: "إنشاء الاختبارات",
         testName: "اسم الاختبار",
         description: "الوصف",
         duration: "المدة (بالدقائق)",
-        difficulty: "الصعوبة",
+        difficulty: "مستوى الصعوبة",
         questions: "الأسئلة",
         addQuestion: "إضافة سؤال",
         saveTest: "حفظ الاختبار",
         savingTest: "جاري الحفظ...",
         previewTest: "معاينة",
-        aiGenerate: "توليد أسئلة بالذكاء الاصطناعي ✨",
+        aiGenerate: "إنشاء أسئلة بالـ AI ✨",
         testSaved: "تم حفظ الاختبار بنجاح!",
-        saveError: "يرجى تقديم اسم للاختبار وإضافة سؤال واحد على الأقل.",
+        saveError: "يرجى إدخال اسم للاختبار وإضافة سؤال واحد على الأقل.",
         saveFailed: "فشل حفظ الاختبار. يرجى المحاولة مرة أخرى.",
-        noQuestions: "لم تتم إضافة أي أسئلة بعد. ابدأ بإضافة سؤال يدويًا أو باستخدام مولد الذكاء الاصطناعي.",
+        noQuestions: "لم تتم إضافة أي أسئلة بعد. ابدأ بإضافة سؤال يدويًا أو استخدم مولّد الذكاء الاصطناعي.",
         questionPlaceholder: "أدخل نص السؤال...",
-        descriptionPlaceholder: "أدخل وصفاً موجزاً للاختبار...",
-        points: "النقاط",
+        descriptionPlaceholder: "أدخل وصفًا موجزًا للاختبار...",
+        points: "الدرجات",
         questionTypes: {
-            mcq: "اختيار من متعدد",
+            mcq: "اختيار متعدد",
             short: "إجابة قصيرة",
             essay: "مقالي",
             tf: "صح/خطأ"

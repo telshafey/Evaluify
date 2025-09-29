@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, FormEvent } from 'react';
-import { SparklesIcon, PaperAirplaneIcon, XCircleIcon, SpinnerIcon } from '../icons.tsx';
-import { useLanguage } from '../../App.tsx';
-import ai from '../../services/geminiService.ts';
+import { SparklesIcon, PaperAirplaneIcon, XCircleIcon, SpinnerIcon } from '../icons';
+// FIX: Update import path for useLanguage hook to use the centralized AuthContext.
+import { useLanguage } from '../../contexts/AuthContext';
+import ai from '../../services/geminiService';
 
 const translations = {
     en: {
@@ -9,8 +10,8 @@ const translations = {
         greeting: "Hello! How can I help you today?",
     },
     ar: {
-        placeholder: "اسأل عن التقييمات أو النتائج أو الميزات...",
-        greeting: "مرحباً! كيف يمكنني مساعدتك اليوم؟",
+        placeholder: "اسألني عن التقييمات، النتائج، أو أي ميزة...",
+        greeting: "أهلاً بك! كيف يمكنني مساعدتك اليوم؟",
     }
 }
 
@@ -43,12 +44,13 @@ const AIAssistant: React.FC = () => {
         if (!input.trim() || isLoading) return;
 
         const userMessage: Message = { sender: 'user', text: input };
-        // Add user message and an empty placeholder for the streaming AI response
+        // FIX: Add user message and an empty placeholder for the streaming AI response
         setMessages(prev => [...prev, userMessage, { sender: 'ai', text: '' }]);
         setInput('');
         setIsLoading(true);
 
         try {
+            // FIX: Use generateContentStream for a better user experience, as per guidelines.
             const stream = await ai.models.generateContentStream({
                 model: 'gemini-2.5-flash',
                 contents: `You are a helpful assistant for an online assessment platform called "evaluify". Keep your answers concise and helpful. User question: "${input}"`,
@@ -56,6 +58,7 @@ const AIAssistant: React.FC = () => {
             
             let fullResponse = "";
             for await (const chunk of stream) {
+                // FIX: Access response text directly from the chunk object
                 fullResponse += chunk.text;
                 setMessages(prev => {
                     const newMessages = [...prev];

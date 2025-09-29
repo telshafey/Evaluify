@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+// FIX: Update import paths to remove .tsx extension and align with project structure.
 import DashboardLayout from '../../components/DashboardLayout';
 import useNavLinks from '../../hooks/useNavLinks';
 import { getQuestionBank, addQuestionToBank, updateQuestionInBank, deleteQuestionFromBank } from '../../services/mockApi'; 
@@ -52,7 +53,7 @@ const QuestionBankPage: React.FC<QuestionBankPageProps> = ({ pageTitle, descript
     
     const handleSaveQuestion = async (questionData: Omit<Question, 'id'> | Question) => {
         try {
-            if ('id' in questionData) {
+            if ('id' in questionData && 'ownerId' in questionData) {
                 const updatedQuestion = await updateQuestionInBank(questionData as Question);
                 setQuestions(prev => prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
                 addNotification("Question updated successfully!", "success");

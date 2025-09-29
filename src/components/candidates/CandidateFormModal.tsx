@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
-import { Candidate } from '../../types.ts';
+// FIX: Update import path for types to remove .ts extension.
+import { Candidate } from '../../types';
 
 interface CandidateFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (candidate: Omit<Candidate, 'id' | 'stage' | 'lastActivity'>) => void;
+  onSave: (candidate: Omit<Candidate, 'id' | 'stage' | 'lastActivity' | 'matchScore'>) => void;
 }
 
 const CandidateFormModal: React.FC<CandidateFormModalProps> = ({ isOpen, onClose, onSave }) => {

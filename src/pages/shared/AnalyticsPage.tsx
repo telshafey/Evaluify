@@ -4,8 +4,9 @@ import useNavLinks from '../../hooks/useNavLinks';
 import { getAnalyticsData } from '../../services/mockApi';
 import { AnalyticsData } from '../../types';
 import LoadingSpinner from '../../components/LoadingSpinner';
+// Fix: Added .tsx extension to fix module resolution error.
 import { useDarkMode } from '../../contexts/DarkModeContext';
-import { useTheme } from '../../App';
+import { useTheme } from '../../contexts/AuthContext';
 
 // Since Chart.js is loaded from a CDN, we need to declare it to TypeScript
 declare var Chart: any;
@@ -95,6 +96,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ pageTitle, description })
         // Pass/Fail Rate Chart (Doughnut)
         if (passFailChartRef.current) {
             const options = getChartOptions('Overall Pass/Fail Rate');
+            // FIX: Corrected the syntax for the `delete` operator to properly remove the 'scales' property from the chart options object, resolving the 'operand must be a property reference' error.
             delete (options as any).scales; // Doughnut chart doesn't need scales
              chartInstances.current.passFail = new Chart(passFailChartRef.current, {
                 type: 'doughnut',

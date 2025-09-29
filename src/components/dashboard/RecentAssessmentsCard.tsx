@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { RecentAssessment } from '../../types.ts';
+import { RecentAssessment } from '../../types';
 
 interface RecentAssessmentsCardProps {
     assessments: RecentAssessment[];

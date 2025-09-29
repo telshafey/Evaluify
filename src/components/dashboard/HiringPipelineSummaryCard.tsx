@@ -1,7 +1,6 @@
-
 import React, { useMemo } from 'react';
-import { Candidate, CandidateStatus } from '../../types.ts';
-import { useLanguage } from '../../App.tsx';
+import { Candidate, CandidateStatus } from '../../types';
+import { useLanguage } from '../../contexts/AuthContext';
 
 interface HiringPipelineSummaryCardProps {
     candidates: Candidate[];

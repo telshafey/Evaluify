@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { UserRole } from '../types';
-import { useLanguage } from '../App';
+// FIX: Update import path for useLanguage hook to use the centralized AuthContext.
+import { useLanguage } from '../contexts/AuthContext';
 import { 
     ChartBarIcon, BookOpenIcon, UsersIcon, CheckCircleIcon,
     DocumentTextIcon, BuildingIcon, BriefcaseIcon, SettingsIcon, WrenchIcon,
@@ -39,26 +40,26 @@ const navTranslations = {
         myResults: 'My Results',
     },
     ar: {
-        dashboard: 'لوحة التحكم',
+        dashboard: 'اللوحة الرئيسية',
         assessments: 'التقييمات',
         interviews: 'المقابلات',
         candidates: 'المرشحون',
-        testBuilder: 'منشئ الاختبارات',
+        testBuilder: 'إنشاء الاختبارات',
         aiTools: 'أدوات الذكاء الاصطناعي',
         reports: 'التقارير',
         questionBank: 'بنك الأسئلة',
         analytics: 'التحليلات',
         results: 'النتائج',
         companyQBank: 'بنك أسئلة الشركة',
-        courses: 'الدورات',
+        courses: 'المسارات التدريبية',
         traineeResults: 'نتائج المتدربين',
         curriculumQBank: 'بنك أسئلة المناهج',
         userManagement: 'إدارة المستخدمين',
         examManagement: 'إدارة الاختبارات',
         masterQBank: 'بنك الأسئلة الرئيسي',
-        categories: 'الفئات',
+        categories: 'التصنيفات',
         settings: 'الإعدادات',
-        examineeDashboard: 'لوحة التحكم',
+        examineeDashboard: 'اللوحة الرئيسية',
         myResults: 'نتائجي',
     }
 };

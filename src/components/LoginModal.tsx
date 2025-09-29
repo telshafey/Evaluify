@@ -1,7 +1,8 @@
 import React from 'react';
-import { UserRole } from '../types.ts';
-import { BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon } from './icons.tsx';
-import { useTheme, useLanguage } from '../App.tsx';
+import { UserRole } from '../types';
+import { BookOpenIcon, UsersIcon, BuildingIcon, BriefcaseIcon, ShieldCheckIcon } from './icons';
+// FIX: Update import path for useTheme and useLanguage
+import { useTheme, useLanguage } from '../contexts/AuthContext';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -31,24 +32,24 @@ const getTranslations = (platformName: string) => ({
         adminDesc: "Manage the entire platform.",
     },
     ar: {
-        title: "اختر دورك لتسجيل الدخول",
-        forOrganizations: "للمنظمات والمؤسسات",
+        title: "اختر مساحة العمل الخاصة بك",
+        forOrganizations: "للمؤسسات والشركات",
         forIndividuals: "للأفراد",
         
-        school: "مدرسة / جامعة",
-        schoolDesc: "إدارة المقررات الدراسية وتتبع أداء الطلاب.",
-        corporate: "شركة / أعمال",
-        corporateDesc: "تقييم المرشحين للوظائف وتطوير فرق العمل.",
+        school: "مؤسسة تعليمية",
+        schoolDesc: "إدارة المقررات الدراسية وتتبع تقدم الطلاب.",
+        corporate: "شركة",
+        corporateDesc: "تقييم المرشحين وتطوير فرق العمل.",
         trainingCenter: "مركز تدريب",
-        trainingCenterDesc: "إدارة المناهج التدريبية وتقييم المتدربين.",
+        trainingCenterDesc: "إدارة المناهج وتقييم المتدربين.",
         
-        instructor: "مدرب / معلم",
-        instructorDesc: "إنشاء الاختبارات وتقييم أداء المتعلمين.",
-        student: `طالب / متدرب`,
-        studentDesc: "إجراء التقييمات والحصول على الشهادات.",
+        instructor: "معلم / مدرب",
+        instructorDesc: "إنشاء الاختبارات وتقييم المتعلمين.",
+        student: `طالب / ممتحن`,
+        studentDesc: "أداء التقييمات والحصول على الشهادات.",
         
-        adminLogin: "دخول المسؤول",
-        adminDesc: "إدارة المنصة بأكملها.",
+        adminLogin: "دخول مدير النظام",
+        adminDesc: "إدارة المنصة بالكامل.",
     }
 });
 

@@ -1,6 +1,6 @@
-
 import React from 'react';
-import { CourseCompletion } from '../../types.ts';
+// FIX: Update import path for types to remove .ts extension.
+import { CourseCompletion } from '../../types';
 
 interface CourseCompletionRateCardProps {
     data: CourseCompletion[];

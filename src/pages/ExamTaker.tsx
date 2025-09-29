@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getExamDetails, submitExam } from '../services/mockApi.ts';
-import { Exam, Question, StudentAnswer, ProctoringEvent, Answer, QuestionType, TrueFalseJustificationAnswer } from '../types.ts';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
-import { ClockIcon } from '../components/icons.tsx';
-import { useLanguage } from '../App.tsx';
+import { getExamDetails, submitExam } from '../services/mockApi';
+import { Exam, Question, StudentAnswer, ProctoringEvent, Answer, QuestionType, TrueFalseJustificationAnswer } from '../types';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { ClockIcon } from '../components/icons';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
 
 const translations = {
     en: {

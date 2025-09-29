@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react';
 // Fix: Corrected react-router-dom import syntax.
 import { Link } from "react-router-dom";
-import DashboardLayout from '../../components/DashboardLayout.tsx';
-import useNavLinks from '../../hooks/useNavLinks.ts';
-import { getExamineeResults } from '../../services/mockApi.ts'; // Assuming this can be adapted or a new function is made
-import { ExamResult } from '../../types.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import { EyeIcon } from '../../components/icons.tsx';
+// FIX: Update import paths to remove .tsx extension and align with project structure.
+import DashboardLayout from '../../components/DashboardLayout';
+import useNavLinks from '../../hooks/useNavLinks';
+import { getExamineeResults } from '../../services/mockApi'; // Assuming this can be adapted or a new function is made
+import { ExamResult } from '../../types';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { EyeIcon } from '../../components/icons';
 
 const ExamResultsPage: React.FC = () => {
     const navLinks = useNavLinks();

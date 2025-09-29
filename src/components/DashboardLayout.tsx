@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { LogOutIcon, SunIcon, MoonIcon } from './icons.tsx';
-import { useAuth } from '../contexts/AuthContext.tsx';
-import { useLanguage, useTheme } from '../App.tsx';
-import { useDarkMode } from '../contexts/DarkModeContext.tsx';
-import AIAssistant from './dashboard/AIAssistant.tsx';
-import { UserRole } from '../types.ts';
+import { LogOutIcon, SunIcon, MoonIcon } from './icons';
+// FIX: Update import path for AuthContext hooks
+import { useAuth, useLanguage, useTheme } from '../contexts/AuthContext';
+// FIX: Remove .tsx extension and fix path for DarkModeContext hook
+import { useDarkMode } from '../contexts/DarkModeContext';
+import AIAssistant from './dashboard/AIAssistant';
+import { UserRole } from '../types';
 
 interface NavLink {
   path: string;
@@ -33,7 +34,7 @@ const roleDisplayName: Record<UserRole, string> = {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ navLinks, pageTitle, children, sidebarHeader, headerActions }) => {
   const location = useLocation();
-  const { logout, userRole } = useAuth();
+  const { logout, user } = useAuth();
   const { lang, toggleLang } = useLanguage();
   const { theme } = useTheme();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -92,8 +93,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ navLinks, pageTitle, 
                   <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
                       <span className="text-2xl">👨‍💼</span>
                   </div>
-                  <h4 className="font-bold">Ahmad M.</h4>
-                  <p className="text-sm opacity-75">{userRole ? roleDisplayName[userRole] : ''}</p>
+                  <h4 className="font-bold">{user?.name || 'User'}</h4>
+                  <p className="text-sm opacity-75">{user?.role ? roleDisplayName[user.role] : ''}</p>
                    <button onClick={logout} className="mt-3 bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-30 transition-colors w-full">
                         {logoutText}
                     </button>

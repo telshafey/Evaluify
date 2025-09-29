@@ -1,12 +1,14 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+// FIX: Import contexts and providers from AuthContext to break circular dependency
+import { AuthProvider, useAuth, ThemeAndLanguageProvider, useLanguage } from './contexts/AuthContext';
 import { DarkModeProvider } from './contexts/DarkModeContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { UserRole } from './types';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 // Page Imports
+// FIX: Update import paths for pages which are now in the src/pages directory.
 import LandingPage from './pages/LandingPage';
 import DevRoleSwitcher from './components/DevRoleSwitcher';
 import ProductsPage from './pages/ProductsPage';
@@ -53,57 +55,6 @@ import AnalyticsPage from './pages/shared/AnalyticsPage';
 import InterviewsPage from './pages/shared/InterviewsPage';
 import AssessmentsPage from './pages/shared/AssessmentsPage';
 import CandidatesPage from './pages/shared/CandidatesPage';
-
-
-// Theme and Language Context
-export type Language = 'en' | 'ar';
-interface Theme {
-    platformName: string;
-    primaryColor: string;
-}
-interface ThemeContextType {
-    theme: Theme;
-    setTheme: (theme: Theme) => void;
-}
-interface LanguageContextType {
-    lang: Language;
-    toggleLang: () => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-const ThemeAndLanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [theme, setTheme] = useState<Theme>({ platformName: 'evaluify', primaryColor: '#10b981' });
-    const [lang, setLang] = useState<Language>('ar');
-    
-    const toggleLang = () => setLang(prev => (prev === 'en' ? 'ar' : 'en'));
-
-    useEffect(() => {
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    }, [lang]);
-
-    return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
-            <LanguageContext.Provider value={{ lang, toggleLang }}>
-                {children}
-            </LanguageContext.Provider>
-        </ThemeContext.Provider>
-    );
-};
-
-export const useTheme = () => {
-    const context = useContext(ThemeContext);
-    if (!context) throw new Error('useTheme must be used within a ThemeProvider');
-    return context;
-};
-
-export const useLanguage = () => {
-    const context = useContext(LanguageContext);
-    if (!context) throw new Error('useLanguage must be used within a LanguageProvider');
-    return context;
-};
 
 
 // --- ROUTING LOGIC COMPONENTS ---
@@ -261,8 +212,9 @@ const AppRoutes: React.FC = () => {
 }
 
 const App: React.FC = () => {
+    const { lang } = useLanguage();
     return (
-        <div>
+        <div dir={lang === 'ar' ? 'rtl' : 'ltr'}>
            <AppRoutes />
         </div>
     );

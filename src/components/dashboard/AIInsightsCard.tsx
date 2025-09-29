@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { AIInsight } from '../../types.ts';
-import { SparklesIcon, ChartBarIcon, LightbulbIcon } from '../icons.tsx';
+import { AIInsight } from '../../types';
+import { SparklesIcon, ChartBarIcon, LightbulbIcon } from '../icons';
 
 const iconMap: { [key: string]: React.FC<{ className?: string }> } = {
     SparklesIcon: SparklesIcon,

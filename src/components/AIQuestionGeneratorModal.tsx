@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 // Fix: Added imports for mockApi and types
 import { generateQuestionsWithAI } from '../services/mockApi.ts';
 import { Question, QuestionType } from '../types.ts';
 import { SparklesIcon, SpinnerIcon } from './icons.tsx';
-import { useLanguage } from '../App.tsx';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
 
 interface AIQuestionGeneratorModalProps {
   isOpen: boolean;
@@ -34,13 +34,13 @@ const translations = {
         }
     },
     ar: {
-        title: "مولّد الأسئلة بالذكاء الاصطناعي",
+        title: "مولّد الأسئلة بالـ AI",
         topicPlaceholder: "الموضوع (مثال: React Hooks)",
-        generate: "توليد الأسئلة",
-        generating: "جاري التوليد...",
-        selectPrompt: "اختر الأسئلة التي تريد إضافتها:",
+        generate: "إنشاء الأسئلة",
+        generating: "جاري الإنشاء...",
+        selectPrompt: "حدد الأسئلة التي تريد إضافتها:",
         correctAnswer: "الإجابة الصحيحة:",
-        emptyState: "أدخل موضوعاً لتوليد أسئلة عنه باستخدام الذكاء الاصطناعي.",
+        emptyState: "أدخل موضوعًا لإنشاء أسئلة عنه باستخدام الذكاء الاصطناعي.",
         cancel: "إلغاء",
         addSelected: "إضافة الأسئلة المحددة",
         easy: "سهل",

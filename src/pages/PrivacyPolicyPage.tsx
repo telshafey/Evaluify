@@ -1,7 +1,7 @@
-
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage } from '../App.tsx';
+// FIX: Update import path for useLanguage hook to use the centralized AuthContext.
+import { useLanguage } from '../contexts/AuthContext';
+import LegalPageLayout from '../components/LegalPageLayout';
 
 const translations = {
     en: {
@@ -36,7 +36,7 @@ const translations = {
         sections: [
             {
                 title: "1. مقدمة",
-                content: "مرحبًا بك في evaluify. نحن ملتزمون بحماية خصوصيتك. تشرح سياسة الخصوصية هذه كيف نجمع معلوماتك ونستخدمها ونكشف عنها ونحميها عند استخدامك لمنصتنا."
+                content: "أهلاً بك في evaluify. نحن نلتزم بحماية خصوصيتك. توضح سياسة الخصوصية هذه كيفية جمعنا واستخدامنا وكشفنا وحمايتنا لمعلوماتك عند استخدامك لمنصتنا."
             },
             {
                 title: "2. المعلومات التي نجمعها",
@@ -47,33 +47,16 @@ const translations = {
                 content: "نستخدم المعلومات التي نجمعها من أجل: توفير منصتنا وتشغيلها وصيانتها؛ تحسين خدماتنا وتخصيصها وتوسيعها؛ فهم وتحليل كيفية استخدامك لمنصتنا؛ تطوير منتجات وخدمات وميزات جديدة؛ التواصل معك لخدمة العملاء والأغراض الترويجية؛ ولأغراض أمنية، مثل كشف الاحتيال والمراقبة."
             },
             {
-                title: "4. أمن البيانات",
-                content: "نحن نستخدم تدابير أمنية إدارية وتقنية ومادية للمساعدة في حماية معلوماتك الشخصية. بينما اتخذنا خطوات معقولة لتأمين المعلومات الشخصية التي تقدمها لنا، يرجى العلم أنه على الرغم من جهودنا، لا توجد تدابير أمنية مثالية أو لا يمكن اختراقها."
+                title: "4. أمان البيانات",
+                content: "نستخدم تدابير أمنية إدارية وتقنية ومادية للمساعدة في حماية معلوماتك الشخصية. على الرغم من أننا اتخذنا خطوات معقولة لتأمين المعلومات الشخصية التي تقدمها لنا، يرجى العلم أنه على الرغم من جهودنا، لا توجد تدابير أمنية مثالية أو منيعة تمامًا."
             },
             {
                 title: "5. اتصل بنا",
-                content: "إذا كانت لديك أسئلة أو تعليقات حول سياسة الخصوصية هذه، فيرجى الاتصال بنا على: privacy@evaluify.com"
+                content: "إذا كانت لديك أسئلة أو تعليقات حول سياسة الخصوصية هذه، فيرجى التواصل معنا عبر: privacy@evaluify.com"
             }
         ]
     }
 };
-
-const LegalPageLayout: React.FC<{ title: string, lastUpdated: string, children: React.ReactNode }> = ({ title, lastUpdated, children }) => (
-    <SitePageLayout>
-        <main className="bg-white dark:bg-slate-900">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <header className="mb-12">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-slate-100">{title}</h1>
-                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{lastUpdated}</p>
-                </header>
-                <article className="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
-                    {children}
-                </article>
-            </div>
-        </main>
-    </SitePageLayout>
-);
-
 
 const PrivacyPolicyPage = () => {
     const { lang } = useLanguage();

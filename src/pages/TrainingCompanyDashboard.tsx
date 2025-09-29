@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import AIInsightsCard from '../components/dashboard/AIInsightsCard.tsx';
-import CourseCompletionRateCard from '../components/dashboard/CourseCompletionRateCard.tsx';
-import { DocumentTextIcon, UsersIcon, CheckCircleIcon, BookOpenIcon } from '../components/icons.tsx';
-import { getDashboardStats, getCourseCompletionData, getAIInsights } from '../services/mockApi.ts';
-import { DashboardStats, CourseCompletion, AIInsight, UserRole } from '../types.ts';
-import GenericDashboard from '../components/dashboard/GenericDashboard.tsx';
-import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks';
+import AIInsightsCard from '../components/dashboard/AIInsightsCard';
+import CourseCompletionRateCard from '../components/dashboard/CourseCompletionRateCard';
+import { DocumentTextIcon, UsersIcon, CheckCircleIcon, BookOpenIcon } from '../components/icons';
+import { getDashboardStats, getCourseCompletionData, getAIInsights } from '../services/mockApi';
+import { DashboardStats, CourseCompletion, AIInsight, UserRole } from '../types';
+import GenericDashboard from '../components/dashboard/GenericDashboard';
+import DashboardLayout from '../components/DashboardLayout';
 
 const statCardsConfig = [
     { icon: BookOpenIcon, key: 'stat1' as const, color: 'blue' as const },

@@ -1,9 +1,9 @@
-
 import React, { useState, ChangeEvent } from 'react';
-import { Candidate, CvAnalysisResult } from '../types.ts';
-import { analyzeCvWithAI } from '../services/mockApi.ts';
-import { useNotification } from '../contexts/NotificationContext.tsx';
-import { XCircleIcon, SparklesIcon, SpinnerIcon } from './icons.tsx';
+// FIX: Update import paths to remove .ts extension and align with project structure.
+import { Candidate, CvAnalysisResult } from '../types';
+import { analyzeCvWithAI } from '../services/mockApi';
+import { useNotification } from '../contexts/NotificationContext';
+import { XCircleIcon, SparklesIcon, SpinnerIcon } from './icons';
 
 interface CvAnalyzerModalProps {
     isOpen: boolean;

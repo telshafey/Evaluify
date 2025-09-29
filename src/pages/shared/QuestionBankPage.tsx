@@ -1,14 +1,15 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import DashboardLayout from '../../components/DashboardLayout.tsx';
-import useNavLinks from '../../hooks/useNavLinks.ts';
-import { getQuestionBank, addQuestionToBank, updateQuestionInBank, deleteQuestionFromBank } from '../../services/mockApi.ts'; 
-import { Question } from '../../types.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import { PlusCircleIcon, PencilIcon, TrashIcon, BookOpenIcon } from '../../components/icons.tsx';
-import EmptyState from '../../components/EmptyState.tsx';
-import QuestionFormModal from '../../components/QuestionFormModal.tsx';
-import { useNotification } from '../../contexts/NotificationContext.tsx';
+// FIX: Update import paths to remove .tsx extension and align with project structure.
+import DashboardLayout from '../../components/DashboardLayout';
+import useNavLinks from '../../hooks/useNavLinks';
+import { getQuestionBank, addQuestionToBank, updateQuestionInBank, deleteQuestionFromBank } from '../../services/mockApi'; 
+import { Question } from '../../types';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { PlusCircleIcon, PencilIcon, TrashIcon, BookOpenIcon } from '../../components/icons';
+import EmptyState from '../../components/EmptyState';
+import QuestionFormModal from '../../components/QuestionFormModal';
+import { useNotification } from '../../contexts/NotificationContext';
 
 interface QuestionBankPageProps {
     pageTitle: string;

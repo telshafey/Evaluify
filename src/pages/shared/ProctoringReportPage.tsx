@@ -1,14 +1,12 @@
-
-import React, { useState, useEffect } from 'react';
-// Fix: Corrected react-router-dom import syntax.
+import React from 'react';
 import { useParams, Link } from "react-router-dom";
-// Fix: Add .tsx extension to local component imports
-import DashboardLayout from '../../components/DashboardLayout.tsx';
-import useNavLinks from '../../hooks/useNavLinks.ts';
-import { getExamResultDetails } from '../../services/mockApi.ts';
-import { ExamResult, ProctoringEvent } from '../../types.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import { ShieldCheckIcon, ClockIcon } from '../../components/icons.tsx';
+// FIX: Update import paths to remove .tsx extension and align with project structure.
+import DashboardLayout from '../../components/DashboardLayout';
+import useNavLinks from '../../hooks/useNavLinks';
+import { getExamResultDetails } from '../../services/mockApi';
+import { ExamResult, ProctoringEvent } from '../../types';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { ShieldCheckIcon, ClockIcon } from '../../components/icons';
 
 const eventDetails: Record<ProctoringEvent['type'], { title: string; description: string; icon: string; }> = {
     tab_switch: {
@@ -43,10 +41,10 @@ const severityColors: Record<ProctoringEvent['severity'] & string, string> = {
 const ProctoringReportPage: React.FC = () => {
     const { resultId } = useParams<{ resultId: string }>();
     const navLinks = useNavLinks();
-    const [result, setResult] = useState<ExamResult | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [result, setResult] = React.useState<ExamResult | null>(null);
+    const [loading, setLoading] = React.useState(true);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const fetchDetails = async () => {
             if (!resultId) return;
             try {

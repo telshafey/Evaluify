@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// Fix: Corrected react-router-dom import syntax.
 import { useParams, Link } from "react-router-dom";
-import { getExamResultDetails } from '../services/mockApi.ts';
-import { Exam, ExamResult, Answer, QuestionType, TrueFalseJustificationAnswer } from '../types.ts';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
-import { CheckCircleIcon, XCircleIcon, DownloadIcon } from '../components/icons.tsx';
-import { useLanguage, useTheme } from '../App.tsx';
-import { generateResultPdf } from './shared/ExamineeResultPage.tsx';
+import { getExamResultDetails } from '../services/mockApi';
+import { Exam, ExamResult, Answer, QuestionType, TrueFalseJustificationAnswer } from '../types';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { CheckCircleIcon, XCircleIcon, DownloadIcon } from '../components/icons';
+// FIX: Update import path for useLanguage and useTheme
+import { useLanguage, useTheme } from '../contexts/AuthContext';
+import { generateResultPdf } from './shared/ExamineeResultPage';
 
 const translations = {
     en: {
@@ -24,12 +24,12 @@ const translations = {
     },
     ar: {
         title: "مراجعة اختبارك",
-        backToResults: "العودة إلى نتائجي",
+        backToResults: "العودة إلى النتائج",
         loading: "جاري تحميل المراجعة...",
         notFound: "نتيجة الاختبار غير موجودة.",
         yourAnswer: "إجابتك",
         correctAnswer: "الإجابة الصحيحة",
-        notAnswered: "لم تُجب",
+        notAnswered: "لم تتم الإجابة",
         correct: "صحيحة",
         incorrect: "غير صحيحة",
         justification: "التعليل:",

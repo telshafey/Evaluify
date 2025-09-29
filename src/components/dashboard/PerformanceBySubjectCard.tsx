@@ -1,6 +1,6 @@
-
 import React from 'react';
-import { PerformanceBySubject } from '../../types.ts';
+// FIX: Update import path for types to remove .ts extension.
+import { PerformanceBySubject } from '../../types';
 
 interface PerformanceBySubjectCardProps {
     performanceData: PerformanceBySubject[];

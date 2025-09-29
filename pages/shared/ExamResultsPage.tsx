@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // Fix: Corrected react-router-dom import syntax.
 import { Link } from "react-router-dom";
+// FIX: Update import paths to remove .tsx extension and align with project structure.
 import DashboardLayout from '../../components/DashboardLayout';
 import useNavLinks from '../../hooks/useNavLinks';
 import { getExamineeResults } from '../../services/mockApi'; // Assuming this can be adapted or a new function is made

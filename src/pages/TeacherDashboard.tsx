@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import RecentAssessmentsCard from '../components/dashboard/RecentAssessmentsCard.tsx';
-import AIInsightsCard from '../components/dashboard/AIInsightsCard.tsx';
-import PerformanceBySubjectCard from '../components/dashboard/PerformanceBySubjectCard.tsx';
-import { BookOpenIcon, UsersIcon, CheckCircleIcon, ChartBarIcon } from '../components/icons.tsx';
-import { getDashboardStats, getRecentAssessments, getPerformanceBySubject, getAIInsights } from '../services/mockApi.ts';
-import { DashboardStats, RecentAssessment, PerformanceBySubject, AIInsight, UserRole } from '../types.ts';
-import GenericDashboard from '../components/dashboard/GenericDashboard.tsx';
-import DashboardLayout from '../components/DashboardLayout.tsx';
+import useNavLinks from '../hooks/useNavLinks';
+import RecentAssessmentsCard from '../components/dashboard/RecentAssessmentsCard';
+import AIInsightsCard from '../components/dashboard/AIInsightsCard';
+import PerformanceBySubjectCard from '../components/dashboard/PerformanceBySubjectCard';
+import { BookOpenIcon, UsersIcon, CheckCircleIcon, ChartBarIcon } from '../components/icons';
+import { getDashboardStats, getRecentAssessments, getPerformanceBySubject, getAIInsights } from '../services/mockApi';
+import { DashboardStats, RecentAssessment, PerformanceBySubject, AIInsight, UserRole } from '../types';
+import GenericDashboard from '../components/dashboard/GenericDashboard';
+import DashboardLayout from '../components/DashboardLayout';
 
 const statCardsConfig = [
     { icon: BookOpenIcon, key: 'stat1' as const, color: 'blue' as const },

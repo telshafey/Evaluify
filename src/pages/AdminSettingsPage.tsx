@@ -1,12 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
-import DashboardLayout from '../components/DashboardLayout.tsx';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import { PlatformSettings } from '../types.ts';
-import { getPlatformSettings, savePlatformSettings } from '../services/mockApi.ts';
-import { useNotification } from '../contexts/NotificationContext.tsx';
-import { useTheme } from '../App.tsx';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import { PlatformSettings } from '../types';
+import { getPlatformSettings, savePlatformSettings } from '../services/mockApi';
+import { useNotification } from '../contexts/NotificationContext';
+// FIX: Update import path for useTheme hook to use the centralized AuthContext.
+import { useTheme } from '../contexts/AuthContext';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const AdminSettingsPage: React.FC = () => {
     const navLinks = useNavLinks();

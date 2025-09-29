@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, ReactNode } from 'react';
 // Fix: Added imports for types and mockApi
 import { Exam, Question, QuestionType, ExamDifficulty } from '../types';
@@ -6,7 +5,8 @@ import { PlusCircleIcon, TrashIcon, XCircleIcon, SparklesIcon, Wand2Icon, Spinne
 import QuestionBankModal from './QuestionBankModal';
 import AIQuestionGeneratorModal from './AIQuestionGeneratorModal';
 import { getAIQuestionSuggestions } from '../services/mockApi';
-import { useLanguage } from '../App';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
 
 interface ExamFormModalProps {
   isOpen: boolean;
@@ -74,28 +74,28 @@ const translations = {
         hard: "صعب",
         questions: "الأسئلة",
         question: "سؤال",
-        points: "النقاط",
+        points: "الدرجات",
         tags: "الوسوم (مفصولة بفاصلة)",
         addOption: "إضافة خيار",
         addItem: "إضافة عنصر",
-        prompts: "المطالبات",
+        prompts: "المطابقات",
         options: "الخيارات",
-        correctMatches: "المطابقات الصحيحة",
-        addPrompt: "إضافة مطالبة",
+        correctMatches: "الإجابات الصحيحة",
+        addPrompt: "إضافة مطابقة",
         orderingHelp: "أدخل العناصر بالترتيب الصحيح. سيُطلب من الممتحنين إعادة ترتيبها.",
         modelAnswerHelp: "أدخل الإجابة النموذجية أو معايير التصحيح هنا...",
-        justifyHelp: "برر إجابتك...",
-        modelJustification: "التبرير النموذجي",
+        justifyHelp: "علل إجابتك...",
+        modelJustification: "التعليل النموذجي",
         addManually: "إضافة يدوية",
         addFromBank: "إضافة من البنك",
-        aiGenerate: "توليد بالذكاء الاصطناعي ✨",
+        aiGenerate: "إنشاء بالـ AI ✨",
         cancel: "إلغاء",
         saveExam: "حفظ الاختبار",
-        alertRequired: "يجب إدخال عنوان للاختبار وسؤال واحد على الأقل.",
-        aiAssistTitle: "أكمل بالذكاء الاصطناعي (15 حرفًا على الأقل)",
+        alertRequired: "عنوان الاختبار وسؤال واحد على الأقل مطلوبان.",
+        aiAssistTitle: "أكمل بالـ AI (15 حرفًا على الأقل)",
         questionTypes: {
-            [QuestionType.MultipleChoice]: 'اختيار من متعدد (إجابة واحدة صحيحة)',
-            [QuestionType.MultipleSelect]: 'اختيار من متعدد (عدة إجابات صحيحة)',
+            [QuestionType.MultipleChoice]: 'اختيار من متعدد (إجابة واحدة)',
+            [QuestionType.MultipleSelect]: 'تحديد متعدد',
             [QuestionType.TrueFalse]: 'صح / خطأ',
             [QuestionType.TrueFalseWithJustification]: 'صح / خطأ مع تعليل',
             [QuestionType.ShortAnswer]: 'إجابة قصيرة',

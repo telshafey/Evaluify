@@ -1,6 +1,5 @@
-
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
-import { CheckCircleIcon, XCircleIcon } from '../components/icons.tsx';
+import { CheckCircleIcon, XCircleIcon } from '../components/icons';
 
 type NotificationType = 'success' | 'error';
 

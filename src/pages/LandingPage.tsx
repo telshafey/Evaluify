@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { SparklesIcon, DesktopIcon, MicIcon, LightbulbIcon, InboxIcon, EyeIcon, TagIcon, ShieldCheckIcon, Wand2Icon } from '../components/icons';
-import { useLanguage, useTheme } from '../App';
+// FIX: Update import path for useLanguage and useTheme hooks to use the centralized AuthContext.
+import { useLanguage, useTheme } from '../contexts/AuthContext';
 import SitePageLayout from '../components/SitePageLayout';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
@@ -48,43 +49,43 @@ const getTranslations = (platformName: string) => ({
         finalCtaDesc: "Join the growing number of institutions transforming their evaluation process.",
     },
     ar: {
-        heroTitle: "مفهوم جديد لنزاهة التقييمات",
-        heroSubtitle: `تدمج منصة ${platformName} بين أحدث تقنيات الذكاء الاصطناعي والتصميم المرتكز على المستخدم لتقديم تجربة تقييمات إلكترونية آمنة وعادلة وثرية بالرؤى.`,
+        heroTitle: "إعادة تعريف نزاهة التقييمات",
+        heroSubtitle: `تدمج منصة ${platformName} بين أحدث تقنيات الذكاء الاصطناعي والتصميم الذي يركز على المستخدم لتقديم تجربة تقييمات إلكترونية آمنة، عادلة، وثرية بالرؤى.`,
         getStarted: "ابدأ مجانًا",
-        requestDemo: "اطلب عرضًا توضيحيًا",
-        trustedBy: "تحظى بثقة كبرى المؤسسات",
+        requestDemo: "اطلب عرضًا تجريبيًا",
+        trustedBy: "موثوق بها من قبل المؤسسات الرائدة",
 
-        featuresTitle: "مجموعة أدوات متكاملة للتقييم العصري",
-        featuresSubtitle: "يضمن نهجنا متعدد المستويات أن يكون كل تقييم عادلاً وآمناً وذا رؤى قيمة.",
+        featuresTitle: "مجموعة أدوات للتقييم الحديث",
+        featuresSubtitle: "نهجنا متعدد الطبقات يضمن أن كل تقييم يتسم بالعدالة والأمان والرؤى القيمة.",
         
-        smartProctoring: "المراقبة الذكية بالذكاء الاصطناعي",
-        smartProctoringDesc: "تحليل مدعوم بنماذج Gemini للسلوكيات المرئية والصوتية والرقمية لضمان نزاهة الاختبارات.",
-        dynamicQuestions: "توليد ديناميكي للأسئلة",
-        dynamicQuestionsDesc: "أنشئ اختبارات فريدة لكل طالب في الوقت الفعلي للحد من مشاركة الإجابات.",
+        smartProctoring: "المراقبة الذكية بالـ AI",
+        smartProctoringDesc: "تحليل مدعوم بـ Gemini للسلوك البصري والصوتي والرقمي لضمان نزاهة الاختبار.",
+        dynamicQuestions: "إنشاء أسئلة ديناميكي",
+        dynamicQuestionsDesc: "إنشاء اختبارات فريدة لكل طالب في الوقت الفعلي للقضاء على مشاركة الإجابات.",
         secureBrowser: "متصفح الاختبار الآمن",
         secureBrowserDesc: "تأمين بيئة الاختبار على أجهزة الكمبيوتر والهواتف المحمولة للاختبارات عالية الأهمية.",
         adaptiveTesting: "الاختبار التكيفي",
         adaptiveTestingDesc: "يقوم الذكاء الاصطناعي بتكييف صعوبة الأسئلة لكل طالب لتقييم أكثر دقة وكفاءة.",
-        speechAnalysis: "تحليل متقدم للنطق",
-        speechAnalysisDesc: "قيّم الكفاءة اللغوية ومهارات العرض والتقديم عبر تحليل صوتي مدعوم بالذكاء الاصطناعي.",
-        personalizedGuides: "خطط مراجعة مخصصة",
-        personalizedGuidesDesc: "ينشئ الذكاء الاصطناعي خطط مراجعة مخصصة بناءً على الأداء لمساعدة المتعلمين على تحسين مستواهم.",
+        speechAnalysis: "تحليل متقدم للكلام",
+        speechAnalysisDesc: "تقييم الكفاءة اللغوية ومهارات العرض من خلال تحليل صوتي مدعوم بالـ AI.",
+        personalizedGuides: "خطط دراسية مخصصة",
+        personalizedGuidesDesc: "يُنشئ الـ AI خططًا دراسية مخصصة بناءً على الأداء لمساعدة المتعلمين على التحسن.",
 
         howItWorksTitle: "خطوات بسيطة لتقييم آمن",
-        step1Title: "أنشئ أو ولّد",
-        step1Desc: "أنشئ التقييمات يدويًا، أو استورد من بنك الأسئلة، أو دع الذكاء الاصطناعي يولد اختبارًا كاملاً في دقائق.",
-        step2Title: "أرسل وراقب",
-        step2Desc: "ادعُ المرشحين بأمان وراقب الاختبارات من خلال المراقبة متعددة الطبقات بالذكاء الاصطناعي.",
-        step3Title: "حلّل واتخذ قرارًا",
-        step3Desc: "احصل على نتائج فورية وتحليلات أداء عميقة ورؤى قابلة للتنفيذ مدعومة بالذكاء الاصطناعي.",
+        step1Title: "أنشئ أو استورد",
+        step1Desc: "أنشئ التقييمات يدويًا، استوردها من بنك الأسئلة، أو دع الـ AI يُنشئ اختبارًا كاملاً في دقائق.",
+        step2Title: "ادعُ وراقب",
+        step2Desc: "ادعُ المرشحين بأمان وراقب الاختبارات من خلال المراقبة الذكية متعددة الطبقات.",
+        step3Title: "حلّل النتائج",
+        step3Desc: "احصل على نتائج فورية، تحليلات أداء عميقة، ورؤى قابلة للتنفيذ مدعومة بالـ AI.",
 
-        testimonialsTitle: "ماذا يقول عملاؤنا",
+        testimonialsTitle: "آراء عملائنا",
         testimonial1: `لقد غيرت منصة ${platformName} طريقة إجرائنا للامتحانات النهائية. المراقبة بالذكاء الاصطناعي موثوقة بشكل لا يصدق، ونزاهتنا الأكاديمية لم تكن بهذه القوة من قبل.`,
-        testimonial1Name: "د. علياء الشمري",
+        testimonial1Name: "د. علياء منصور",
         testimonial1Role: "عميدة كلية الهندسة، جامعة التكنولوجيا",
-        testimonial2: `الكفاءة لا مثيل لها. لقد قللنا وقت إنشاء التقييم بنسبة 70٪ باستخدام أدوات التوليد بالذكاء الاصطناعي. إنها نقلة نوعية لبرامج التدريب في شركتنا.`,
-        testimonial2Name: "خالد عبد الله",
-        testimonial2Role: "رئيس قسم التدريب والتطوير، شركة إبداع",
+        testimonial2: `الكفاءة لا مثيل لها. لقد قللنا وقت إنشاء التقييم بنسبة 70٪ باستخدام أدوات الإنشاء بالذكاء الاصطناعي. إنها نقلة نوعية لبرامج التدريب في شركتنا.`,
+        testimonial2Name: "أحمد القحطاني",
+        testimonial2Role: "مدير التدريب والتطوير، Innovate Corp",
         
         finalCtaTitle: "هل أنت مستعد للارتقاء بتقييماتك؟",
         finalCtaDesc: "انضم إلى العدد المتزايد من المؤسسات التي تطور عمليات التقييم لديها.",

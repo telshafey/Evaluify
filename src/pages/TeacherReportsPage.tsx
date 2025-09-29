@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
-import DashboardLayout from '../components/DashboardLayout.tsx';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import { ChartBarIcon, UsersIcon, VideoCameraIcon, SparklesIcon, DocumentReportIcon } from '../components/icons.tsx';
-import { useNotification } from '../contexts/NotificationContext.tsx';
-import { generateSmartReportWithAI } from '../services/mockApi.ts';
-import { SmartReport } from '../types.ts';
-import SmartReportModal from '../components/SmartReportModal.tsx';
+// FIX: Update import paths to remove .tsx extension and align with project structure.
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+import { ChartBarIcon, UsersIcon, VideoCameraIcon, SparklesIcon, DocumentReportIcon } from '../components/icons';
+import { useNotification } from '../contexts/NotificationContext';
+import { generateSmartReportWithAI } from '../services/mockApi';
+import { SmartReport } from '../types';
+import SmartReportModal from '../components/SmartReportModal';
 
 interface ReportTypeCardProps {
     icon: React.FC<{ className?: string }>;

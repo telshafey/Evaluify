@@ -1,7 +1,7 @@
-
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage } from '../App.tsx';
+// FIX: Update import path for useLanguage hook to use the centralized AuthContext.
+import { useLanguage } from '../contexts/AuthContext';
+import LegalPageLayout from '../components/LegalPageLayout';
 
 const translations = {
     en: {
@@ -36,6 +36,7 @@ const translations = {
         sections: [
             {
                 title: "1. قبول الشروط",
+                // FIX: Added missing content value to resolve syntax error.
                 content: "من خلال الوصول إلى منصة evaluify أو استخدامها، فإنك توافق على الالتزام بشروط الخدمة هذه. إذا كنت لا توافق على أي جزء من الشروط، فلا يجوز لك الوصول إلى الخدمة."
             },
             {

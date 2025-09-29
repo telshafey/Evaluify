@@ -1,7 +1,6 @@
-
 import React from 'react';
-import SitePageLayout from '../components/SitePageLayout.tsx';
-import { useLanguage } from '../App.tsx';
+import SitePageLayout from '../components/SitePageLayout';
+import { useLanguage } from '../contexts/AuthContext';
 
 const translations = {
     en: {
@@ -19,15 +18,15 @@ const translations = {
     },
     ar: {
         title: "عن المنصة",
-        description: "نحن فريق من التربويين والتقنيين وخبراء الذكاء الاصطناعي، شغوفون بإحداث ثورة في عالم التقييم.",
+        description: "نحن فريق من التربويين والتقنيين وخبراء الذكاء الاصطناعي، يجمعنا شغف إحداث ثورة في عالم التقييم.",
         missionTitle: "مهمتنا",
-        missionText: "توفير أدوات ليست متقدمة تقنيًا فحسب، بل سليمة من الناحية التربوية أيضًا، مما يعزز بيئة من العدالة والنزاهة الأكاديمية والتعلم مدى الحياة.",
+        missionText: "توفير أدوات ليست متقدمة تقنيًا فحسب، بل سليمة تربويًا أيضًا، مما يعزز بيئة من العدالة والنزاهة الأكاديمية والتعلم مدى الحياة.",
         teamTitle: "تعرف على الفريق",
         team: [
             { name: "د. إيمان رضا", role: "المؤسس المشارك والرئيس التنفيذي" },
-            { name: "يوسف منصور", role: "المؤسس المشارك ورئيس قسم التكنولوجيا" },
+            { name: "يوسف منصور", role: "المؤسس المشارك والمدير التقني" },
             { name: "فاطمة علي", role: "رئيسة قسم التربية" },
-            { name: "علي حسن", role: "مهندس الذكاء الاصطناعي الرئيسي" },
+            { name: "علي حسن", role: "كبير مهندسي الذكاء الاصطناعي" },
         ]
     }
 };

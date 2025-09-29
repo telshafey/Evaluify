@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import { getExamineeDashboardData } from '../services/mockApi.ts';
-import { Exam, ExamResult } from '../types.ts';
-import { BookOpenIcon, ClockIcon, CalendarIcon } from '../components/icons.tsx';
-import LoadingSpinner from '../components/LoadingSpinner.tsx';
-import DashboardLayout from '../components/DashboardLayout.tsx';
-import useNavLinks from '../hooks/useNavLinks.ts';
-import { useLanguage } from '../App.tsx';
-import EmptyState from '../components/EmptyState.tsx';
+import { getExamineeDashboardData } from '../services/mockApi';
+import { Exam, ExamResult } from '../types';
+import { BookOpenIcon, ClockIcon, CalendarIcon } from '../components/icons';
+import LoadingSpinner from '../components/LoadingSpinner';
+import DashboardLayout from '../components/DashboardLayout';
+import useNavLinks from '../hooks/useNavLinks';
+// FIX: Update import path for useLanguage
+import { useLanguage } from '../contexts/AuthContext';
+import EmptyState from '../components/EmptyState';
 
 const translations = {
     en: {
@@ -23,12 +24,12 @@ const translations = {
         availableFrom: "Available from",
     },
     ar: {
-        dashboardTitle: "لوحة التحكم",
+        dashboardTitle: "لوحة تحكم الطالب",
         availableExams: "الاختبارات المتاحة",
         upcomingExams: "الاختبارات القادمة",
         recentResults: "النتائج الأخيرة",
-        noAvailableExams: "ليس لديك أي اختبارات متاحة حاليًا.",
-        noUpcomingExams: "ليس لديك أي اختبارات مجدولة قادمة.",
+        noAvailableExams: "لا توجد اختبارات متاحة لك حاليًا.",
+        noUpcomingExams: "لا توجد اختبارات مجدولة قادمة.",
         noResults: "لم تكمل أي اختبارات بعد.",
         startExam: "ابدأ الاختبار",
         review: "مراجعة النتيجة",

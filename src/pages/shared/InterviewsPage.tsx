@@ -1,15 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import DashboardLayout from '../../components/DashboardLayout.tsx';
-import useNavLinks from '../../hooks/useNavLinks.ts';
-import { Interview } from '../../types.ts';
-import { getInterviews, addInterview } from '../../services/mockApi.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import { PlusCircleIcon, VideoCameraIcon } from '../../components/icons.tsx';
-import InterviewFormModal from '../../components/InterviewFormModal.tsx';
-import { useNotification } from '../../contexts/NotificationContext.tsx';
-import { useLanguage } from '../../App.tsx';
+import DashboardLayout from '../../components/DashboardLayout';
+import useNavLinks from '../../hooks/useNavLinks';
+import { Interview } from '../../types';
+import { getInterviews, addInterview } from '../../services/mockApi';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { PlusCircleIcon, VideoCameraIcon } from '../../components/icons';
+import InterviewFormModal from '../../components/InterviewFormModal';
+import { useNotification } from '../../contexts/NotificationContext';
+// FIX: Update import path for useLanguage hook to use the centralized AuthContext.
+import { useLanguage } from '../../contexts/AuthContext';
 
 interface InterviewsPageProps {
     pageTitle: string;
@@ -38,9 +38,9 @@ const translations = {
     ar: {
         addInterview: "جدولة مقابلة",
         candidate: "المرشح",
-        role: "الدور الوظيفي",
+        role: "الوظيفة",
         date: "التاريخ",
-        interviewer: "المحاور",
+        interviewer: "المحاوِر",
         status: "الحالة",
         actions: "الإجراءات",
         start: "بدء المقابلة",
